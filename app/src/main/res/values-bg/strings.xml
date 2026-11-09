@@ -677,15 +677,12 @@
    <string name="accent">Акцент</string>
    <string name="discarded_books">Изхвърлени книги</string>
    <string name="show_print_edition_page_numbers_epub3">Показване на номерата на страниците на печатното издание (epub3)</string>
-   <string name="ad_privacy_settings">Настройки за поверителност на рекламите</string>
    <string name="allow_other_music_to_play">Позволяват възпроизвеждането на друга музика</string>
    <string name="enable_image_scale">Активирайте мащаба на изображението</string>
    <string name="open_books_on_page_1">Отворени книги на страница 1</string>
    <string name="foreground">Преден план</string>
    <string name="warning_this_document_has_unsaved_changes">Предупреждение: този документ има незапазени промени</string>
    <string name="bold_headings">Удебелени заглавия</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Гледайте това кратко видео, за да изключите всички реклами за 1 час</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Гледайте това кратко видео, за да изключите всички реклами за 3 часа</string>
    <string name="the_book_is_complete">Книгата е завършена.</string>
    <string name="time">Време</string>
    <string name="date_added">Дата на добавяне</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Цвят на текста и фона</string>
    <string name="library_folders">Папки на библиотеката</string>
    <string name="folder_no_access">Няма достъп · докоснете, за да разрешите отново</string>
-   <string name="watch">Гледай</string>
    <string name="librerax_not_installed">LibreraX не е инсталиран. Изтеглете и го инсталирайте, след това отворете книгата отново.</string>
    <string name="remove_library_folder">Премахване на тази папка от библиотеката? Файловете в нея няма да бъдат изтрити.</string>
    <string name="epub_engine">Двигател за EPUB</string>

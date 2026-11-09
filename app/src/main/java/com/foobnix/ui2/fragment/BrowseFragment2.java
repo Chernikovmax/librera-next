@@ -1531,7 +1531,6 @@ import java.util.Map;
 
     private void popupMenu(final ImageView onGridList) {
         MyPopupMenu p = new MyPopupMenu(getActivity(), onGridList);
-        PopupHelper.addPROIcon(p, getActivity());
 
         List<Integer> names = Arrays.asList(R.string.list, R.string.compact, R.string.grid, R.string.cover);
         final List<Integer> icons = Arrays.asList(R.drawable.my_glyphicons_114_paragraph_justify,

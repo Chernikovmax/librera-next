@@ -84,7 +84,7 @@ import com.foobnix.tts.TTSControlsView;
 import com.foobnix.tts.TTSEngine;
 import com.foobnix.tts.TTSService;
 import com.foobnix.tts.TtsStatus;
-import com.foobnix.ui2.AdsFragmentActivity;
+import com.foobnix.ui2.ReaderFragmentActivity;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.MainTabs2;
 
@@ -196,9 +196,8 @@ public class DocumentWrapperUI {
             dc.onZoomDec();
         }
     };
-    AdsFragmentActivity a;
+    ReaderFragmentActivity a;
     String bookTitle;
-    View showRewardVideo;
     TextView toastBrightnessText, floatingBookmarkTextView, pagesCountIndicator, currentSeek, maxSeek,
             currentTime, bookName, nextTypeBootom, batteryLevel, lirbiLogo, reverseKeysIndicator, onSaveAnnotation;
     public View.OnClickListener onModeChangeClick = new View.OnClickListener() {
@@ -264,7 +263,6 @@ public class DocumentWrapperUI {
         public boolean onLongClick(final View v) {
             Vibro.vibrate();
             CloseAppDialog.showOnLongClickDialog(a, v, getController());
-            hideAds();
             return true;
         }
     };
@@ -993,7 +991,7 @@ public class DocumentWrapperUI {
         }
     };
 
-    public void initUI(final AdsFragmentActivity a) {
+    public void initUI(final ReaderFragmentActivity a) {
         this.a = a;
         quickBookmark = a.getString(R.string.fast_bookmark);
 
@@ -1279,7 +1277,6 @@ public class DocumentWrapperUI {
         bookmarks.setOnClickListener(onBookmarks);
         bookmarks.setOnLongClickListener(onBookmarksLong);
 
-        showRewardVideo = ViewBinder.initRewardButton(a, R.id.showRewardVideo);
 
         toastBrightnessText = (TextView) a.findViewById(R.id.toastBrightnessText);
         toastBrightnessText.setVisibility(View.GONE);
@@ -1808,7 +1805,6 @@ public class DocumentWrapperUI {
         }
 
         initToolBarPlusMinus();
-        ViewBinder.hideShowRewardButton(a, showRewardVideo);
 
         if (AppState.get().isAutoScroll) {
             autoScroll.setImageResource(R.drawable.glyphicons_174_pause);
@@ -1892,8 +1888,6 @@ public class DocumentWrapperUI {
     public void hide() {
         menuLayout.setVisibility(View.GONE);
         bottomBar.setVisibility(View.GONE);
-        //adFrame.setVisibility(View.GONE);
-        // adFrame.setClickable(false);
         imageMenuArrow.setImageResource(android.R.drawable.arrow_down_float);
 
         // speedSeekBar.setVisibility(View.GONE);
@@ -1926,9 +1920,6 @@ public class DocumentWrapperUI {
 
         bottomBar.setVisibility(View.VISIBLE);
         seekLine.setVisibility(AppState.get().isShowBottomSeekBar ? View.VISIBLE : View.GONE);
-        //adFrame.setVisibility(View.VISIBLE);
-        // adFrame.setClickable(true);
-        // adFrame.setTag(null);
 
         imageMenuArrow.setImageResource(android.R.drawable.arrow_up_float);
 
@@ -1975,11 +1966,6 @@ public class DocumentWrapperUI {
 
     private boolean closeDialogs() {
         return dc.closeDialogs();
-    }
-
-    public void hideAds() {
-        // adFrame.setTag("");
-        //  adFrame.setVisibility(View.GONE);
     }
 
     public void nextChose(boolean animate) {
@@ -2312,7 +2298,6 @@ public class DocumentWrapperUI {
                 }
             });
             Keyboards.hideNavigation(a);
-            hideAds();
         }
     };
 

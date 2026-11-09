@@ -32,7 +32,6 @@ room = "2.8.5"
 rtfparserkit = "1.16.0"
 runner = "1.7.0"
 staxApi = "1.0-2"
-userMessagingPlatform = "4.0.0"
 
 xmlutil = "1.0.2.1"
 
@@ -98,7 +97,6 @@ google-api-client-android = { module = "com.google.api-client:google-api-client-
 google-api-services-drive = { module = "com.google.apis:google-api-services-drive", version = "v3-rev20260712-2.0.0" }
 google-http-client-gson = { module = "com.google.http-client:google-http-client-gson", version = "2.1.1" }
 google-oauth-client-jetty = { module = "com.google.oauth-client:google-oauth-client-jetty", version = "1.39.0" }
-play-services-ads = { module = "com.google.android.gms:play-services-ads", version = "25.5.0" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version = "22.0.0" }
 # The "Sign in with Google" sheet the Drive sync picks its account from: Credential Manager,
 # with Google's own credential type and the Play services provider behind it.
@@ -128,7 +126,6 @@ review = { module = "com.google.android.play:review", version.ref = "review" }
 rtfparserkit = { module = "com.github.joniles:rtfparserkit", version.ref = "rtfparserkit" }
 runner = { module = "androidx.test:runner", version.ref = "runner" }
 stax-api = { module = "javax.xml.stream:stax-api", version.ref = "staxApi" }
-user-messaging-platform = { module = "com.google.android.ump:user-messaging-platform", version.ref = "userMessagingPlatform" }
 work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 xmlutil-serialization = { module = "io.github.pdvrieze.xmlutil:serialization", version.ref = "xmlutil" }

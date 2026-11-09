@@ -3,12 +3,12 @@ package org.emdev.ui;
 import android.content.Intent;
 import android.view.View;
 
-import com.foobnix.ui2.AdsFragmentActivity;
+import com.foobnix.ui2.ReaderFragmentActivity;
 
 import org.emdev.ui.actions.ActionController;
 import org.emdev.ui.actions.ActionEx;
 
-public abstract class AbstractActionActivity<A extends AdsFragmentActivity, C extends ActionController<A>> extends AdsFragmentActivity {
+public abstract class AbstractActionActivity<A extends ReaderFragmentActivity, C extends ActionController<A>> extends ReaderFragmentActivity {
 
     public static final String MENU_ITEM_SOURCE = "source";
     public static final String ACTIVITY_RESULT_DATA = "activityResultData";

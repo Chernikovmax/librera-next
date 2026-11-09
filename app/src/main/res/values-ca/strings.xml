@@ -677,15 +677,12 @@
    <string name="accent">Accent</string>
    <string name="discarded_books">Llibres descartats</string>
    <string name="show_print_edition_page_numbers_epub3">Mostra els números de pàgina de l\'edició impresa (Epub3)</string>
-   <string name="ad_privacy_settings">Configuració de privadesa dels anuncis</string>
    <string name="allow_other_music_to_play">Permetre que es reprodueixi una altra música</string>
    <string name="enable_image_scale">Habilitar l\'escala d\'imatge</string>
    <string name="open_books_on_page_1">Llibres oberts a la pàgina 1</string>
    <string name="foreground">Primer pla</string>
    <string name="warning_this_document_has_unsaved_changes">Avís: aquest document té canvis no desats</string>
    <string name="bold_headings">Encapçalaments en negreta</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Mira aquest vídeo curt per desactivar tots els anuncis durant 1 hora</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Mireu aquest vídeo curt per desactivar tots els anuncis durant 3 hores</string>
    <string name="the_book_is_complete">El llibre està complet.</string>
    <string name="time">Temps</string>
    <string name="date_added">Data afegida</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Text i color de fons</string>
    <string name="library_folders">Carpetes de la biblioteca</string>
    <string name="folder_no_access">Sense accés · toca per tornar-lo a permetre</string>
-   <string name="watch">Mira</string>
    <string name="librerax_not_installed">LibreraX no està instal·lat. Baixeu-lo i instal·leu-lo i torneu a obrir el llibre.</string>
    <string name="remove_library_folder">Voleu treure aquesta carpeta de la biblioteca? Els fitxers que conté no se suprimiran.</string>
    <string name="epub_engine">Motor d\'EPUB</string>

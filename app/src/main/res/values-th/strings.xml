@@ -677,15 +677,12 @@
    <string name="accent">สำเนียง</string>
    <string name="discarded_books">หนังสือที่ถูกทิ้ง</string>
    <string name="show_print_edition_page_numbers_epub3">แสดงหมายเลขหน้าฉบับพิมพ์ (epub3)</string>
-   <string name="ad_privacy_settings">การตั้งค่าความเป็นส่วนตัวของโฆษณา</string>
    <string name="allow_other_music_to_play">อนุญาตให้เล่นเพลงอื่นได้</string>
    <string name="enable_image_scale">เปิดใช้งานขนาดภาพ</string>
    <string name="open_books_on_page_1">เปิดหนังสือในหน้า 1</string>
    <string name="foreground">พื้นหน้า</string>
    <string name="warning_this_document_has_unsaved_changes">คำเตือน: เอกสารนี้มีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก</string>
    <string name="bold_headings">หัวข้อตัวหนา</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">ดูวิดีโอสั้นนี้เพื่อปิดโฆษณาทั้งหมดเป็นเวลา 1 ชั่วโมง</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">ดูวิดีโอสั้นนี้เพื่อปิดโฆษณาทั้งหมดเป็นเวลา 3 ชั่วโมง</string>
    <string name="the_book_is_complete">หนังสือเล่มนี้เขียนเสร็จสมบูรณ์แล้ว</string>
    <string name="time">เวลา</string>
    <string name="date_added">วันที่เพิ่ม</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">สีข้อความและสีพื้นหลัง</string>
    <string name="library_folders">โฟลเดอร์ห้องสมุด</string>
    <string name="folder_no_access">ไม่มีสิทธิ์เข้าถึง · แตะเพื่ออนุญาตอีกครั้ง</string>
-   <string name="watch">ดู</string>
    <string name="librerax_not_installed">ยังไม่ได้ติดตั้ง LibreraX ดาวน์โหลดและติดตั้ง แล้วเปิดหนังสืออีกครั้ง</string>
    <string name="remove_library_folder">นำโฟลเดอร์นี้ออกจากห้องสมุดหรือไม่ ไฟล์ในโฟลเดอร์จะไม่ถูกลบ</string>
    <string name="epub_engine">เอนจิน EPUB</string>

@@ -677,15 +677,12 @@
    <string name="accent">Accent</string>
    <string name="discarded_books">Kasserade böcker</string>
    <string name="show_print_edition_page_numbers_epub3">Visa sidnummer i den tryckta utgåvan (epub3)</string>
-   <string name="ad_privacy_settings">Annonssekretessinställningar</string>
    <string name="allow_other_music_to_play">Låta annan musik spelas</string>
    <string name="enable_image_scale">Aktivera bildskala</string>
    <string name="open_books_on_page_1">Öppna böcker på sidan 1</string>
    <string name="foreground">Förgrund</string>
    <string name="warning_this_document_has_unsaved_changes">Varning: det här dokumentet har osparade ändringar</string>
    <string name="bold_headings">Fetstilta rubriker</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Titta på den här korta videon för att stänga av alla annonser i 1 timme</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Titta på den här korta videon för att stänga av all reklam i tre timmar</string>
    <string name="the_book_is_complete">Boken är komplett.</string>
    <string name="time">Tid</string>
    <string name="date_added">Datum tillagt</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Text- och bakgrundsfärg</string>
    <string name="library_folders">Bibliotekets mappar</string>
    <string name="folder_no_access">Ingen åtkomst · tryck för att tillåta igen</string>
-   <string name="watch">Titta</string>
    <string name="librerax_not_installed">LibreraX är inte installerat. Ladda ner och installera det och öppna sedan boken igen.</string>
    <string name="remove_library_folder">Ta bort den här mappen från biblioteket? Filerna i den raderas inte.</string>
    <string name="epub_engine">EPUB-motor</string>

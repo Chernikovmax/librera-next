@@ -677,15 +677,12 @@
    <string name="accent">உச்சரிப்பு</string>
    <string name="discarded_books">நிராகரிக்கப்பட்ட புத்தகங்கள்</string>
    <string name="show_print_edition_page_numbers_epub3">அச்சு பதிப்பு பக்க எண்களைக் காட்டு (epub3)</string>
-   <string name="ad_privacy_settings">விளம்பர தனியுரிமை அமைப்புகள்</string>
    <string name="allow_other_music_to_play">மற்ற இசையை இயக்க அனுமதிக்கவும்</string>
    <string name="enable_image_scale">பட அளவை இயக்கு</string>
    <string name="open_books_on_page_1">பக்கம் 1 இல் புத்தகங்களைத் திறக்கவும்</string>
    <string name="foreground">முன்புறம்</string>
    <string name="warning_this_document_has_unsaved_changes">எச்சரிக்கை: இந்த ஆவணத்தில் சேமிக்கப்படாத மாற்றங்கள் உள்ளன.</string>
    <string name="bold_headings">தடித்த தலைப்புகள்</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">1 மணி நேரத்திற்கு அனைத்து விளம்பரங்களையும் அணைக்க இந்த சிறிய வீடியோவைப் பாருங்கள்.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">3 மணி நேரம் அனைத்து விளம்பரங்களையும் அணைக்க இந்த சிறிய வீடியோவைப் பாருங்கள்.</string>
    <string name="the_book_is_complete">புத்தகம் முடிந்தது.</string>
    <string name="time">நேரம்</string>
    <string name="date_added">சேர்க்கப்பட்ட தேதி</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">உரை மற்றும் பின்னணி நிறம்</string>
    <string name="library_folders">நூலக கோப்புறைகள்</string>
    <string name="folder_no_access">அணுகல் இல்லை · மீண்டும் அனுமதிக்க தட்டவும்</string>
-   <string name="watch">பார்க்க</string>
    <string name="librerax_not_installed">LibreraX நிறுவப்படவில்லை. அதைப் பதிவிறக்கி நிறுவி, பின்னர் புத்தகத்தை மீண்டும் திறக்கவும்.</string>
    <string name="remove_library_folder">இந்தக் கோப்புறையை நூலகத்திலிருந்து அகற்றவா? அதிலுள்ள கோப்புகள் நீக்கப்படாது.</string>
    <string name="epub_engine">EPUB இயந்திரம்</string>

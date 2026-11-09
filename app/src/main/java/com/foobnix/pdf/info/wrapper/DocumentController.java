@@ -598,10 +598,9 @@ public abstract class DocumentController {
 
     /**
      * The room at the edges of the screen the page keeps clear of: the bars while they are
-     * up, and - up to Android 14 - the camera's cut-out, the way each mode's cut-out setting
-     * boxed it off there: full screen and normal screen stay clear of it, the notched mode runs
-     * round it. From Android 15 on the page runs the full height of the screen in every mode,
-     * camera and all, as the system itself has it there.
+     * up, and the camera cut-out except in the mode that explicitly allows content around it.
+     * Cut-out insets remain relevant on Android 15 and later even though edge-to-edge is
+     * enforced there; using the inset type also lets Android account for the current rotation.
      */
     public static Insets keptClearOf(Activity a, WindowInsetsCompat windowInsets) {
         if (windowInsets == null) {
@@ -614,7 +613,7 @@ public abstract class DocumentController {
         if (mode != AppState.FULL_SCREEN_NORMAL && isReader(a) && !a.isInMultiWindowMode()) {
             bars = Insets.NONE;
         }
-        if (Build.VERSION.SDK_INT >= 35 || mode == AppState.FULL_SCREEN_FULLSCREEN_CUTOUT) {
+        if (mode == AppState.FULL_SCREEN_FULLSCREEN_CUTOUT) {
             return bars;
         }
         return Insets.max(bars, windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout()));

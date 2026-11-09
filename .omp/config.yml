@@ -1,0 +1,30 @@
+# Project-local model routing; credentials remain in the user's local OMP profile.
+# The work is primarily Android UI/UX redesign; keep all roles on the Codex plan.
+enabledModels:
+  - openai-codex/gpt-6-luna
+modelProviderOrder:
+  - openai-codex
+modelRoleStorage: project
+modelRoles:
+  default: openai-codex/gpt-6-luna:low
+  smol: openai-codex/gpt-6-luna:low
+  tiny: openai-codex/gpt-6-luna:low
+  task: openai-codex/gpt-6-luna:low
+  widget: openai-codex/gpt-6-luna:low
+  commit: openai-codex/gpt-6-luna:low
+  advisor: openai-codex/gpt-6-luna:low
+  review: openai-codex/gpt-6-luna:low
+  # Reasoning-heavy role, used sparingly for navigation / architecture decisions.
+  plan: openai-codex/gpt-6-luna:medium
+  slow: openai-codex/gpt-6-luna:medium
+  # UI work can require inspecting screenshots and design references.
+  vision: openai-codex/gpt-6-luna:low
+defaultThinkingLevel: low
+extendedContext: false
+compaction:
+  enabled: true
+  thresholdTokens: 48000
+  keepRecentTokens: 8000
+retry:
+  modelFallback: false
+  usageAwareFallback: false

@@ -677,15 +677,12 @@
    <string name="accent">Aksent</string>
    <string name="discarded_books">Kasserte bøker</string>
    <string name="show_print_edition_page_numbers_epub3">Vis sidenummer for trykte utgaver (epub3)</string>
-   <string name="ad_privacy_settings">Personvern for annonser</string>
    <string name="allow_other_music_to_play">La annen musikk spilles</string>
    <string name="enable_image_scale">Aktiver bildeskala</string>
    <string name="open_books_on_page_1">Åpne bøker på side 1</string>
    <string name="foreground">Forgrunnen</string>
    <string name="warning_this_document_has_unsaved_changes">Advarsel: dette dokumentet har ulagrede endringer</string>
    <string name="bold_headings">Fet skrift</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Se denne korte videoen for å slå av all reklame i 1 time</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Se denne korte videoen for å slå av all reklame i tre timer</string>
    <string name="the_book_is_complete">Boken er komplett.</string>
    <string name="time">Tid</string>
    <string name="date_added">Dato lagt til</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Tekst- og bakgrunnsfarge</string>
    <string name="library_folders">Bibliotekmapper</string>
    <string name="folder_no_access">Ingen tilgang · trykk for å tillate igjen</string>
-   <string name="watch">Se</string>
    <string name="librerax_not_installed">LibreraX er ikke installert. Last ned og installer den, og åpne boken på nytt.</string>
    <string name="remove_library_folder">Fjerne denne mappen fra biblioteket? Filene i den blir ikke slettet.</string>
    <string name="epub_engine">EPUB-motor</string>

@@ -677,15 +677,12 @@
    <string name="accent">Aksen</string>
    <string name="discarded_books">Buku-buku yang dibuang</string>
    <string name="show_print_edition_page_numbers_epub3">Tampilkan nomor halaman edisi cetak (epub3)</string>
-   <string name="ad_privacy_settings">Pengaturan privasi iklan</string>
    <string name="allow_other_music_to_play">Izinkan musik lain diputar</string>
    <string name="enable_image_scale">Aktifkan skala gambar</string>
    <string name="open_books_on_page_1">Buka buku di halaman 1</string>
    <string name="foreground">Latar depan</string>
    <string name="warning_this_document_has_unsaved_changes">Peringatan: dokumen ini memiliki perubahan yang belum disimpan</string>
    <string name="bold_headings">Judul tebal</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Tonton video singkat ini untuk menonaktifkan semua iklan selama 1 jam.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Tonton video singkat ini untuk menonaktifkan semua iklan selama 3 jam.</string>
    <string name="the_book_is_complete">Buku ini sudah selesai.</string>
    <string name="time">Waktu</string>
    <string name="date_added">Tanggal ditambahkan</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Warna teks dan latar belakang</string>
    <string name="library_folders">Folder pustaka</string>
    <string name="folder_no_access">Tanpa akses · ketuk untuk mengizinkan lagi</string>
-   <string name="watch">Tonton</string>
    <string name="librerax_not_installed">LibreraX belum terpasang. Unduh dan pasang, lalu buka buku lagi.</string>
    <string name="remove_library_folder">Hapus folder ini dari pustaka? File di dalamnya tidak akan dihapus.</string>
    <string name="epub_engine">Mesin EPUB</string>

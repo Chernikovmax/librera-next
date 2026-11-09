@@ -87,7 +87,6 @@ public abstract class UIFragment<T> extends Fragment {
     /** A notice the tab raises in the chrome, painted with it rather than against it. */
     private final List<View> floatingNotices = new ArrayList<View>();
     Handler handler;
-    View adFrame;
     SwipeRefreshLayout swipeRefreshLayout;
     int listHash = 0;
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {

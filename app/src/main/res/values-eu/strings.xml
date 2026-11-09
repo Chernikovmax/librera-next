@@ -677,15 +677,12 @@
    <string name="accent">Azentua</string>
    <string name="discarded_books">Baztertutako liburuak</string>
    <string name="show_print_edition_page_numbers_epub3">Erakutsi inprimatutako edizioaren orriaren zenbakiak (epub3)</string>
-   <string name="ad_privacy_settings">Iragarkien pribatutasun ezarpenak</string>
    <string name="allow_other_music_to_play">Beste musikari erreproduzitzeko baimena eman</string>
    <string name="enable_image_scale">Gaitu irudien eskala</string>
    <string name="open_books_on_page_1">Ireki liburuak 1. orrialdean</string>
    <string name="foreground">Lehen planoan</string>
    <string name="warning_this_document_has_unsaved_changes">Abisua: dokumentu honek gorde gabeko aldaketak ditu</string>
    <string name="bold_headings">Izenburu lodiak</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Ikusi bideo labur hau iragarki guztiak ordubetez desaktibatzeko</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Ikusi bideo labur hau iragarki guztiak 3 orduz desaktibatzeko</string>
    <string name="the_book_is_complete">Liburua osatuta dago.</string>
    <string name="time">Denbora</string>
    <string name="date_added">Gehitze data</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Testua eta atzeko planoaren kolorea</string>
    <string name="library_folders">Liburutegiko karpetak</string>
    <string name="folder_no_access">Sarbiderik ez · sakatu berriro baimentzeko</string>
-   <string name="watch">Ikusi</string>
    <string name="librerax_not_installed">LibreraX ez dago instalatuta. Deskargatu eta instalatu, eta ireki liburua berriro.</string>
    <string name="remove_library_folder">Karpeta hau liburutegitik kendu? Bertako fitxategiak ez dira ezabatuko.</string>
    <string name="epub_engine">EPUB motorra</string>

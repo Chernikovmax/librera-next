@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -76,7 +77,6 @@ import com.foobnix.pdf.search.activity.msg.NotifyAllFragments;
 import com.foobnix.pdf.search.activity.msg.OpenTagMessage;
 import com.foobnix.pdf.search.activity.msg.SearchMetaMsg;
 import com.foobnix.sys.TempHolder;
-import com.foobnix.ui2.AdsFragmentActivity;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.AppDB.SEARCH_IN;
 import com.foobnix.ui2.MainTabs2;
@@ -86,11 +86,9 @@ import com.foobnix.ui2.adapter.AuthorsAdapter2;
 import com.foobnix.ui2.adapter.FileMetaAdapter;
 import com.foobnix.work.CheckDeletedBooksWorker;
 import com.foobnix.work.SearchAllBooksWorker;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -419,6 +417,13 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
         myAutoCompleteImage = (ImageView) view.findViewById(R.id.myAutoCompleteImage);
         searchEditText = (AutoCompleteTextView) view.findViewById(R.id.filterLine);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        setButtonTooltip(view.findViewById(R.id.menu2));
+        setButtonTooltip(view.findViewById(R.id.myAutoCompleteImage));
+        setButtonTooltip(view.findViewById(R.id.cleanFilter));
+        setButtonTooltip(view.findViewById(R.id.onUpdateLibrary));
+        setButtonTooltip(view.findViewById(R.id.sortBy));
+        setButtonTooltip(view.findViewById(R.id.sortOrder));
+        setButtonTooltip(view.findViewById(R.id.onGridList));
 
         bindOnGrantPanel(view.findViewById(R.id.layoutOnGrant));
 
@@ -560,6 +565,13 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
 
         return view;
 
+    }
+
+    private void setButtonTooltip(View button) {
+        CharSequence label = button.getContentDescription();
+        if (label != null) {
+            ViewCompat.setTooltipText(button, label);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) public void showResult(MessageSyncFinish event) {
@@ -1038,7 +1050,6 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
 
     private void popupMenu(final ImageView onGridList) {
         MyPopupMenu p = new MyPopupMenu(getActivity(), onGridList);
-        PopupHelper.addPROIcon(p, getActivity());
         List<Integer> names = Arrays.asList(R.string.list, //
                 R.string.compact, //
                 R.string.grid, //
@@ -1182,7 +1193,6 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
         layoutError.setVisibility(View.GONE);
         recyclerView.scrollToPosition(0);
         seachAll();
-        ((AdsFragmentActivity) getActivity()).showInterstitialNoFinish();
     }
 
     @Override public void notifyFragment() {

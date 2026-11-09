@@ -677,15 +677,12 @@
    <string name="accent">Προφορά</string>
    <string name="discarded_books">Πεταμένα βιβλία</string>
    <string name="show_print_edition_page_numbers_epub3">Εμφάνιση αριθμών σελίδων έντυπης έκδοσης (epub3)</string>
-   <string name="ad_privacy_settings">Ρυθμίσεις απορρήτου διαφημίσεων</string>
    <string name="allow_other_music_to_play">Επιτρέψτε την αναπαραγωγή άλλης μουσικής</string>
    <string name="enable_image_scale">Ενεργοποίηση κλίμακας εικόνας</string>
    <string name="open_books_on_page_1">Ανοίξτε τα βιβλία στη σελίδα 1</string>
    <string name="foreground">Προσκήνιο</string>
    <string name="warning_this_document_has_unsaved_changes">Προειδοποίηση: αυτό το έγγραφο έχει μη αποθηκευμένες αλλαγές</string>
    <string name="bold_headings">Έντονες επικεφαλίδες</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Παρακολουθήστε αυτό το σύντομο βίντεο για να απενεργοποιήσετε όλες τις διαφημίσεις για 1 ώρα</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Παρακολουθήστε αυτό το σύντομο βίντεο για να απενεργοποιήσετε όλες τις διαφημίσεις για 3 ώρες</string>
    <string name="the_book_is_complete">Το βιβλίο είναι ολοκληρωμένο.</string>
    <string name="time">Φορά</string>
    <string name="date_added">Ημερομηνία προσθήκης</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Κείμενο και χρώμα φόντου</string>
    <string name="library_folders">Φάκελοι βιβλιοθήκης</string>
    <string name="folder_no_access">Χωρίς πρόσβαση · πατήστε για να επιτρέψετε ξανά</string>
-   <string name="watch">Παρακολούθηση</string>
    <string name="librerax_not_installed">Το LibreraX δεν είναι εγκατεστημένο. Κατεβάστε και εγκαταστήστε το και, στη συνέχεια, ανοίξτε ξανά το βιβλίο.</string>
    <string name="remove_library_folder">Αφαίρεση αυτού του φακέλου από τη βιβλιοθήκη; Τα αρχεία του δεν θα διαγραφούν.</string>
    <string name="epub_engine">Μηχανή EPUB</string>

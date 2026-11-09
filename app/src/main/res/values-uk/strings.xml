@@ -677,15 +677,12 @@
    <string name="accent">Акцент</string>
    <string name="discarded_books">Викинуті книги</string>
    <string name="show_print_edition_page_numbers_epub3">Показати номери сторінок друкованого видання (epub3)</string>
-   <string name="ad_privacy_settings">Налаштування конфіденційності реклами</string>
    <string name="allow_other_music_to_play">Дозволити відтворення іншої музики</string>
    <string name="enable_image_scale">Включити масштаб зображення</string>
    <string name="open_books_on_page_1">Відкрити книги на сторінці 1</string>
    <string name="foreground">Передній план</string>
    <string name="warning_this_document_has_unsaved_changes">Попередження: у цьому документі є незбережені зміни</string>
    <string name="bold_headings">Жирний шрифт заголовків</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Перегляньте це коротке відео, щоб вимкнути всю рекламу на 1 годину</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Перегляньте це коротке відео, щоб вимкнути всю рекламу на 3 години</string>
    <string name="the_book_is_complete">Книга завершена.</string>
    <string name="time">Час</string>
    <string name="date_added">Дата додавання</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Колір тексту та фону</string>
    <string name="library_folders">Папки бібліотеки</string>
    <string name="folder_no_access">Немає доступу · торкніться, щоб дозволити знову</string>
-   <string name="watch">Дивитися</string>
    <string name="librerax_not_installed">LibreraX не встановлено. Завантажте та встановіть її, потім відкрийте книгу знову.</string>
    <string name="remove_library_folder">Прибрати цю теку з бібліотеки? Файли в ній не буде видалено.</string>
    <string name="epub_engine">Рушій EPUB</string>

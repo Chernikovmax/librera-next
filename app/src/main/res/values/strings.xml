@@ -679,16 +679,12 @@
    <string name="accent">Accent</string>
    <string name="discarded_books">Discarded books</string>
    <string name="show_print_edition_page_numbers_epub3">Show print edition page numbers (Epub3)</string>
-   <string name="ad_privacy_settings">Ad privacy settings</string>
    <string name="allow_other_music_to_play">Allow other music to play</string>
    <string name="enable_image_scale">Enable image scale</string>
    <string name="open_books_on_page_1">Open books on page 1</string>
    <string name="foreground">Foreground</string>
    <string name="warning_this_document_has_unsaved_changes">Warning: This document has unsaved changes</string>
    <string name="bold_headings">Bold Headings</string>
-   <string name="watch">Watch</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Watch this short video to turn off all ads for 1 hour</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Watch this short video to turn off all ads for 3 hours</string>
    <string name="the_book_is_complete">The book is complete.</string>
    <string name="time">Time</string>
    <string name="date_added">Date added</string>

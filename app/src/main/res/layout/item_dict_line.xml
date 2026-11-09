@@ -5,14 +5,14 @@
     android:background="?android:attr/selectableItemBackground"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="4dip" >
+    android:padding="8dip" >
 
     <ImageView
         android:id="@+id/image1"
         android:layout_width="40dip"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
+        android:layout_marginLeft="4dip"
+        android:layout_marginRight="4dip"
         android:src="@drawable/glyphicons_37_file" />
 
     <TextView
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="80dip"
-        android:layout_marginLeft="4dip"
+        android:layout_marginLeft="8dip"
         android:singleLine="true"
         android:text="Item"
         android:textSize="20sp" />

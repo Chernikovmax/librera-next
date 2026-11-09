@@ -112,7 +112,7 @@ import com.foobnix.tts.TTSEngine;
 import com.foobnix.tts.TTSNotification;
 import com.foobnix.tts.TTSService;
 import com.foobnix.tts.TtsStatus;
-import com.foobnix.ui2.AdsFragmentActivity;
+import com.foobnix.ui2.ReaderFragmentActivity;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.MyContextWrapper;
@@ -129,12 +129,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.concurrent.TimeUnit;
 
-public class HorizontalViewActivity extends AdsFragmentActivity {
+public class HorizontalViewActivity extends ReaderFragmentActivity {
 
     public boolean prev = true;
     VerticalViewPager viewPager;
     SeekBar seekBar;
-    View showRewardVideo;
     TextView toastBrightnessText, floatingBookmarkTextView, maxSeek, currentSeek, pagesCountIndicator,
             flippingIntervalView, pagesTime, pagesTime1, pagesPower, titleTxt, chapterView, modeName, pannelBookTitle;
     View bottomBar, bottomIndicators, onClose, overlay, musicButtonPanel, parentParent;
@@ -246,7 +245,6 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
         public boolean onLongClick(final View v) {
             Vibro.vibrate();
             CloseAppDialog.showOnLongClickDialog(HorizontalViewActivity.this, v, dc);
-            hideAds();
             return true;
         }
     };
@@ -344,7 +342,6 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
         anchorX = (ImageView) findViewById(R.id.anchorX);
         anchorY = (ImageView) findViewById(R.id.anchorY);
 
-        showRewardVideo = ViewBinder.initRewardButton(this, R.id.showRewardVideo);
 
         floatingBookmarkTextView = findViewById(R.id.floatingBookmark);
         floatingBookmarkTextView.setOnClickListener(new OnClickListener() {
@@ -882,7 +879,6 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
                     }
                 });
                 Keyboards.hideNavigation(HorizontalViewActivity.this);
-                hideAds();
 
             }
         });
@@ -931,7 +927,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
                     nullAdapter();
                 }
                 closeDialogs();
-                showInterstitial();
+                finishActivityAfterReaderAction();
             }
 
         });
@@ -1295,12 +1291,12 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
     /** A PDF drawn on is written, or not, before the book closes - as scroll mode asks. */
     @Override
-    public void showInterstitial() {
+    public void finishActivityAfterReaderAction() {
         if (dc != null && dc.hasPDFAnnotations()) {
-            dc.saveAnnotationsAndClose(dc::saveAnnotations, HorizontalViewActivity.super::showInterstitial);
+            dc.saveAnnotationsAndClose(dc::saveAnnotations, HorizontalViewActivity.super::finishActivityAfterReaderAction);
             return;
         }
-        super.showInterstitial();
+        super.finishActivityAfterReaderAction();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -1353,11 +1349,6 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             return false;
         }
         return dc.closeDialogs();
-    }
-
-    public void hideAds() {
-        //adFrame.setTag("");
-        //adFrame.setVisibility(View.GONE);
     }
 
     public void updateIconMode() {
@@ -1767,7 +1758,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
         clickUtils.init();
         LOG.d("MessageEvent", ev.getMessage(), ev.getX(), ev.getY());
         if (ev.getMessage().equals(MessageEvent.MESSAGE_CLOSE_BOOK)) {
-            showInterstitial();
+            finishActivityAfterReaderAction();
         } else if (ev.getMessage().equals(MessageEvent.MESSAGE_CLOSE_BOOK_APP)) {
             dc.onCloseActivityFinal(new Runnable() {
 
@@ -1888,7 +1879,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
             @Override
             public void showInterstialAndClose() {
-                showInterstitial();
+                finishActivityAfterReaderAction();
             }
 
             @Override
@@ -2238,19 +2229,12 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
     }
 
-    @Override
-    public void onRewardLoaded() {
-        super.onRewardLoaded();
-        ViewBinder.hideShowRewardButton(this, showRewardVideo);
-    }
-
     public void hideShow() {
         hideShow(true);
     }
 
     public void updateBannnerTop() {
         try {
-            //((RelativeLayout.LayoutParams) adFrame.getLayoutParams()).topMargin = actionBar.getHeight() + Dips.dpToPx(24);
         } catch (Exception e) {
             LOG.e(e);
         }
@@ -2263,8 +2247,6 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             //AppState.get().isEditMode = true;
             ttsFixPosition();
         }
-        ViewBinder.hideShowRewardButton(this, showRewardVideo);
-
         updateBannnerTop();
         showPagesHelper();
 
@@ -2289,7 +2271,6 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             if (seekLine != null) {
                 seekLine.setVisibility(AppState.get().isEditMode && AppState.get().isShowBottomSeekBar ? View.VISIBLE : View.GONE);
             }
-            //adFrame.setVisibility(AppState.get().isEditMode ? View.VISIBLE : View.GONE);
 
             DocumentController.chooseFullScreen(this, AppState.get().fullScreenMode);
             ttsFixPosition();
@@ -2333,8 +2314,6 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
                         if (seekLine != null) {
                             seekLine.setVisibility(AppState.get().isShowBottomSeekBar ? View.VISIBLE : View.GONE);
                         }
-                        //adFrame.setVisibility(View.VISIBLE);
-                        ///adFrame.setTag(null);
 
                         Keyboards.invalidateEink(parentParent);
 
@@ -2367,7 +2346,6 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
                     try {
                         actionBar.setVisibility(View.GONE);
                         bottomBar.setVisibility(View.GONE);
-                        //adFrame.setVisibility(View.GONE);
 
                         Keyboards.invalidateEink(parentParent);
 
@@ -2670,7 +2648,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
     @Override
     public void onBackPressedFinishImpl() {
-        showInterstitial();
+        finishActivityAfterReaderAction();
     }
 
     public boolean closeDialog() {
@@ -2719,7 +2697,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
         if (AppState.get().isShowLongBackDialog) {
             CloseAppDialog.showOnLongClickDialog(HorizontalViewActivity.this, null, dc);
         } else {
-            showInterstitial();
+            finishActivityAfterReaderAction();
         }
     }
 

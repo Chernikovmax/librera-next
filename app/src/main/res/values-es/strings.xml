@@ -677,15 +677,12 @@
    <string name="accent">Acento</string>
    <string name="discarded_books">Libros descartados</string>
    <string name="show_print_edition_page_numbers_epub3">Mostrar los números de página de la edición impresa (epub3)</string>
-   <string name="ad_privacy_settings">Configuración de privacidad de anuncios</string>
    <string name="allow_other_music_to_play">Permitir que se reproduzca otra música</string>
    <string name="enable_image_scale">Habilitar escala de imagen</string>
    <string name="open_books_on_page_1">Libros abiertos en la página 1</string>
    <string name="foreground">Primer plano</string>
    <string name="warning_this_document_has_unsaved_changes">Advertencia: este documento tiene cambios sin guardar.</string>
    <string name="bold_headings">Encabezados en negrita</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Mira este breve vídeo para desactivar todos los anuncios durante 1 hora.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Mire este breve video para desactivar todos los anuncios durante 3 horas.</string>
    <string name="the_book_is_complete">El libro está completo.</string>
    <string name="time">Tiempo</string>
    <string name="date_added">Fecha añadida</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Color del texto y del fondo</string>
    <string name="library_folders">Carpetas de la biblioteca</string>
    <string name="folder_no_access">Sin acceso · toca para permitirlo de nuevo</string>
-   <string name="watch">Ver</string>
    <string name="librerax_not_installed">LibreraX no está instalado. Descárgalo e instálalo y vuelve a abrir el libro.</string>
    <string name="remove_library_folder">¿Quitar esta carpeta de la biblioteca? Los archivos que contiene no se eliminarán.</string>
    <string name="epub_engine">Motor EPUB</string>

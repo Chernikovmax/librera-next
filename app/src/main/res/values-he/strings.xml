@@ -677,15 +677,12 @@
    <string name="accent">מִבטָא</string>
    <string name="discarded_books">ספרים שנזרקו</string>
    <string name="show_print_edition_page_numbers_epub3">הצג מספרי עמודים במהדורה מודפסת (epub3)</string>
-   <string name="ad_privacy_settings">הגדרות פרטיות המודעה</string>
    <string name="allow_other_music_to_play">לאפשר למוזיקה אחרת להתנגן</string>
    <string name="enable_image_scale">אפשר קנה מידה תמונה</string>
    <string name="open_books_on_page_1">פתח ספרים בעמוד 1</string>
    <string name="foreground">חֲזִית</string>
    <string name="warning_this_document_has_unsaved_changes">אזהרה: במסמך זה יש שינויים שלא נשמרו</string>
    <string name="bold_headings">כותרות מודגשות</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">צפו בסרטון הקצר הזה כדי לכבות את כל הפרסומות למשך שעה</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">צפו בסרטון הקצר הזה כדי לכבות את כל הפרסומות למשך 3 שעות</string>
    <string name="the_book_is_complete">הספר שלם.</string>
    <string name="time">זְמַן</string>
    <string name="date_added">תאריך הוספה</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">צבע טקסט ורקע</string>
    <string name="library_folders">תיקיות הספרייה</string>
    <string name="folder_no_access">אין גישה · הקישו כדי לאפשר שוב</string>
-   <string name="watch">צפה</string>
    <string name="librerax_not_installed">LibreraX אינו מותקן. הורידו והתקינו אותו ואז פתחו את הספר שוב.</string>
    <string name="remove_library_folder">להסיר את התיקייה הזו מהספרייה? הקבצים שבה לא יימחקו.</string>
    <string name="epub_engine">מנוע EPUB</string>

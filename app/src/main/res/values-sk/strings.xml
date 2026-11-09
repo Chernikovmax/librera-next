@@ -677,15 +677,12 @@
    <string name="accent">Farba zvýraznenia</string>
    <string name="discarded_books">Vyradené knihy</string>
    <string name="show_print_edition_page_numbers_epub3">Zobraziť čísla strán tlačeného vydania (Epub3)</string>
-   <string name="ad_privacy_settings">Nastavenia ochrany súkromia pri reklamách</string>
    <string name="allow_other_music_to_play">Povoliť prehrávanie inej hudby</string>
    <string name="enable_image_scale">Povoliť mierku obrázkov</string>
    <string name="open_books_on_page_1">Otvoriť knihy na strane 1</string>
    <string name="foreground">Popredie</string>
    <string name="warning_this_document_has_unsaved_changes">Upozornenie: tento dokument obsahuje neuložené zmeny</string>
    <string name="bold_headings">Tučné nadpisy</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Pozrite si toto krátke video a na 1 hodinu vypnete všetky reklamy.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Pozrite si toto krátke video a na 3 hodiny vypnete všetky reklamy.</string>
    <string name="the_book_is_complete">Kniha je kompletná.</string>
    <string name="time">Čas</string>
    <string name="date_added">Dátum pridania</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Farba textu a pozadia</string>
    <string name="library_folders">Priečinky knižnice</string>
    <string name="folder_no_access">Bez prístupu · ťuknutím povolíte znova</string>
-   <string name="watch">Pozrieť</string>
    <string name="librerax_not_installed">LibreraX nie je nainštalovaný. Stiahnite a nainštalujte ho a potom knihu otvorte znova.</string>
    <string name="remove_library_folder">Odstrániť tento priečinok z knižnice? Súbory v ňom nebudú vymazané.</string>
    <string name="epub_engine">Jadro EPUB</string>

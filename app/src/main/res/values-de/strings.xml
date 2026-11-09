@@ -677,15 +677,12 @@
    <string name="accent">Akzent</string>
    <string name="discarded_books">Weggeworfene Bücher</string>
    <string name="show_print_edition_page_numbers_epub3">Seitenzahlen der gedruckten Ausgabe anzeigen (epub3)</string>
-   <string name="ad_privacy_settings">Datenschutzeinstellungen für Anzeigen</string>
    <string name="allow_other_music_to_play">Andere Musik abspielen lassen</string>
    <string name="enable_image_scale">Bildskalierung aktivieren</string>
    <string name="open_books_on_page_1">Bücher auf Seite 1 öffnen</string>
    <string name="foreground">Vordergrund</string>
    <string name="warning_this_document_has_unsaved_changes">Warnung: Dieses Dokument enthält ungespeicherte Änderungen</string>
    <string name="bold_headings">Fettgedruckte Überschriften</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Sehen Sie sich dieses kurze Video an, um alle Werbeanzeigen für 1 Stunde auszuschalten.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Sehen Sie sich dieses kurze Video an, um alle Werbeanzeigen für 3 Stunden auszuschalten.</string>
    <string name="the_book_is_complete">Das Buch ist fertig.</string>
    <string name="time">Zeit</string>
    <string name="date_added">Datum hinzugefügt</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Text- und Hintergrundfarbe</string>
    <string name="library_folders">Bibliotheksordner</string>
    <string name="folder_no_access">Kein Zugriff · zum erneuten Erlauben tippen</string>
-   <string name="watch">Ansehen</string>
    <string name="librerax_not_installed">LibreraX ist nicht installiert. Lade es herunter, installiere es und öffne das Buch dann erneut.</string>
    <string name="remove_library_folder">Diesen Ordner aus der Bibliothek entfernen? Die Dateien darin werden nicht gelöscht.</string>
    <string name="epub_engine">EPUB-Modul</string>

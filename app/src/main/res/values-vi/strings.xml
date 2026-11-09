@@ -677,15 +677,12 @@
    <string name="accent">Giọng</string>
    <string name="discarded_books">Sách bỏ đi</string>
    <string name="show_print_edition_page_numbers_epub3">Hiển thị số trang của ấn bản in (epub3)</string>
-   <string name="ad_privacy_settings">Cài đặt bảo mật quảng cáo</string>
    <string name="allow_other_music_to_play">Cho phép phát nhạc khác</string>
    <string name="enable_image_scale">Kích hoạt tỷ lệ hình ảnh</string>
    <string name="open_books_on_page_1">Mở sách ở trang 1</string>
    <string name="foreground">Tiền cảnh</string>
    <string name="warning_this_document_has_unsaved_changes">Cảnh báo: tài liệu này có những thay đổi chưa được lưu</string>
    <string name="bold_headings">Tiêu đề in đậm</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Hãy xem video ngắn này để tắt tất cả quảng cáo trong 1 giờ.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Hãy xem video ngắn này để tắt tất cả quảng cáo trong 3 giờ.</string>
    <string name="the_book_is_complete">Cuốn sách đã hoàn thành.</string>
    <string name="time">Thời gian</string>
    <string name="date_added">Ngày thêm</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Màu chữ và màu nền</string>
    <string name="library_folders">Thư mục thư viện</string>
    <string name="folder_no_access">Không có quyền truy cập · chạm để cho phép lại</string>
-   <string name="watch">Xem</string>
    <string name="librerax_not_installed">LibreraX chưa được cài đặt. Hãy tải xuống và cài đặt, sau đó mở lại sách.</string>
    <string name="remove_library_folder">Xóa thư mục này khỏi thư viện? Các tệp bên trong sẽ không bị xóa.</string>
    <string name="epub_engine">Công cụ EPUB</string>

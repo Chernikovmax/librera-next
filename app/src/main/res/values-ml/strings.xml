@@ -677,15 +677,12 @@
    <string name="accent">ഉച്ചാരണം</string>
    <string name="discarded_books">ഉപേക്ഷിച്ച പുസ്തകങ്ങൾ</string>
    <string name="show_print_edition_page_numbers_epub3">പ്രിന്റ് എഡിഷൻ പേജ് നമ്പറുകൾ കാണിക്കുക (epub3)</string>
-   <string name="ad_privacy_settings">പരസ്യ സ്വകാര്യതാ ക്രമീകരണങ്ങൾ</string>
    <string name="allow_other_music_to_play">മറ്റ് സംഗീതം പ്ലേ ചെയ്യാൻ അനുവദിക്കുക</string>
    <string name="enable_image_scale">ഇമേജ് സ്കെയിൽ പ്രാപ്തമാക്കുക</string>
    <string name="open_books_on_page_1">പേജ് 1-ൽ പുസ്തകങ്ങൾ തുറക്കുക</string>
    <string name="foreground">മുൻഭാഗം</string>
    <string name="warning_this_document_has_unsaved_changes">മുന്നറിയിപ്പ്: ഈ പ്രമാണത്തിൽ സംരക്ഷിക്കാത്ത മാറ്റങ്ങളുണ്ട്.</string>
    <string name="bold_headings">ബോൾഡ് തലക്കെട്ടുകൾ</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">ഒരു മണിക്കൂർ നേരത്തേക്ക് എല്ലാ പരസ്യങ്ങളും ഓഫാക്കാൻ ഈ ചെറിയ വീഡിയോ കാണുക.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">എല്ലാ പരസ്യങ്ങളും 3 മണിക്കൂർ ഓഫാക്കാൻ ഈ ചെറിയ വീഡിയോ കാണുക.</string>
    <string name="the_book_is_complete">പുസ്തകം പൂർത്തിയായി.</string>
    <string name="time">സമയം</string>
    <string name="date_added">ചേർത്ത തീയതി</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">വാചകത്തിന്റെയും പശ്ചാത്തലത്തിന്റെയും നിറം</string>
    <string name="library_folders">ലൈബ്രറി ഫോള്‍ഡറുകള്‍</string>
    <string name="folder_no_access">ആക്സസ് ഇല്ല · വീണ്ടും അനുവദിക്കാൻ ടാപ്പ് ചെയ്യുക</string>
-   <string name="watch">കാണുക</string>
    <string name="librerax_not_installed">LibreraX ഇൻസ്റ്റാൾ ചെയ്തിട്ടില്ല. ഇത് ഡൗൺലോഡ് ചെയ്ത് ഇൻസ്റ്റാൾ ചെയ്യുക, തുടർന്ന് പുസ്തകം വീണ്ടും തുറക്കുക.</string>
    <string name="remove_library_folder">ഈ ഫോൾഡർ ലൈബ്രറിയിൽ നിന്ന് നീക്കം ചെയ്യണോ? അതിലെ ഫയലുകൾ ഇല്ലാതാക്കില്ല.</string>
    <string name="epub_engine">EPUB എഞ്ചിൻ</string>

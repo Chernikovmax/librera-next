@@ -677,15 +677,12 @@
    <string name="accent">Accent</string>
    <string name="discarded_books">Cărți aruncate</string>
    <string name="show_print_edition_page_numbers_epub3">Afișați numerele paginilor ediției tipărite (epub3)</string>
-   <string name="ad_privacy_settings">Setări de confidențialitate a anunțurilor</string>
    <string name="allow_other_music_to_play">Permiteți să redea altă muzică</string>
    <string name="enable_image_scale">Activați scara imaginii</string>
    <string name="open_books_on_page_1">Cărți deschise de la pagina 1</string>
    <string name="foreground">Prim plan</string>
    <string name="warning_this_document_has_unsaved_changes">Atenție: acest document are modificări nesalvate</string>
    <string name="bold_headings">Titluri îngroșate</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Urmărește acest scurt videoclip pentru a dezactiva toate reclamele timp de o oră</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Urmărește acest scurt videoclip pentru a dezactiva toate reclamele timp de 3 ore</string>
    <string name="the_book_is_complete">Cartea este completă.</string>
    <string name="time">Timp</string>
    <string name="date_added">Data adăugării</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Text și culoare de fundal</string>
    <string name="library_folders">Dosarele bibliotecii</string>
    <string name="folder_no_access">Fără acces · atingeți pentru a permite din nou</string>
-   <string name="watch">Vizionează</string>
    <string name="librerax_not_installed">LibreraX nu este instalat. Descarcă-l și instalează-l, apoi deschide din nou cartea.</string>
    <string name="remove_library_folder">Elimini acest dosar din bibliotecă? Fișierele din el nu vor fi șterse.</string>
    <string name="epub_engine">Motor EPUB</string>

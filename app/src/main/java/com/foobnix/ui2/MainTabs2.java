@@ -64,7 +64,6 @@ import com.foobnix.model.AppSP;
 import com.foobnix.model.AppState;
 import com.foobnix.model.LibreraSafSync;
 import com.foobnix.pdf.SlidingTabLayout;
-import com.foobnix.pdf.info.ADS;
 import com.foobnix.pdf.info.Android6;
 import com.foobnix.pdf.info.ExtUtils;
 import com.foobnix.pdf.info.AppsConfig;
@@ -100,12 +99,6 @@ import com.foobnix.ui2.fragment.RecentFragment2;
 import com.foobnix.ui2.fragment.SearchFragment2;
 import com.foobnix.ui2.fragment.UIFragment;
 import com.foobnix.work.SearchAllBooksWorker;
-import com.google.android.ump.ConsentDebugSettings;
-import com.google.android.ump.ConsentForm;
-import com.google.android.ump.ConsentInformation;
-import com.google.android.ump.ConsentRequestParameters;
-import com.google.android.ump.FormError;
-import com.google.android.ump.UserMessagingPlatform;
 
 import org.ebookdroid.common.settings.books.SharedBooks;
 import org.ebookdroid.ui.viewer.VerticalViewActivity;
@@ -123,7 +116,7 @@ import java.util.HashSet;
 import mobi.librera.libgooglepro.RefiewForm;
 
 @SuppressLint("NewApi")
-public class MainTabs2 extends AdsFragmentActivity {
+public class MainTabs2 extends ReaderFragmentActivity {
     public static final int REQUEST_CODE_ADD_RESOURCE = 123;
     public static final int REQUEST_CODE_ADD_LIBRARY_STORAGE = 124;
     public static final String EXTRA_EXIT = "EXTRA_EXIT";
@@ -184,7 +177,6 @@ public class MainTabs2 extends AdsFragmentActivity {
         public void run() {
             if (drawerLayout != null) {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    onDestroyBanner();
                     finish();
                 } else {
                     drawerLayout.openDrawer(GravityCompat.START, AppState.get().appTheme != AppState.THEME_INK);
@@ -986,69 +978,6 @@ public class MainTabs2 extends AdsFragmentActivity {
             }, 5000);
         }
 
-        try {
-            //ads
-            LOG.d(this, "TEST-ads-device ...");
-            if (AppsConfig.isShowAdsInApp(this)) {
-                ConsentRequestParameters params;
-
-                if (AppsConfig.IS_TEST_DEVICE) {
-                    ConsentDebugSettings
-                            debugSettings =
-                            new ConsentDebugSettings.Builder(this).setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
-                                                                  .addTestDeviceHashedId(ADS.getByTestID(this))
-                                                                  .build();
-
-                    params =
-                            new ConsentRequestParameters.Builder().setConsentDebugSettings(debugSettings)
-                                                                  .setTagForUnderAgeOfConsent(false)
-                                                                  .build();
-                    LOG.d(this, "TEST-ads-device true", ADS.getByTestID(this));
-                } else {
-                    params = new ConsentRequestParameters.Builder().setTagForUnderAgeOfConsent(false).build();
-                    LOG.d(this, "TEST-ads-device false", ADS.getByTestID(this));
-                }
-                ConsentInformation consentInformation = UserMessagingPlatform.getConsentInformation(this);
-
-                if (AppsConfig.IS_TEST_DEVICE) {
-                    //consentInformation.reset();
-                }
-
-                consentInformation.requestConsentInfoUpdate(this, params, () -> {
-                    if (consentInformation.isConsentFormAvailable()) {
-                        loadForm(consentInformation);
-                    }
-                }, formError -> {
-                    LOG.d("formError", formError.getErrorCode(), formError.getMessage());
-                });
-            }
-        } catch (Exception e) {
-            LOG.e(e);
-        }
-    }
-
-    public void loadForm(ConsentInformation consentInformation) {
-        // Loads a consent form. Must be called on the main thread.
-        UserMessagingPlatform.loadConsentForm(this, new UserMessagingPlatform.OnConsentFormLoadSuccessListener() {
-            @Override
-            public void onConsentFormLoadSuccess(ConsentForm consentForm) {
-                if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED) {
-                    consentForm.show(MainTabs2.this, formError -> {
-                        if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
-                        }
-                        if (formError != null) {
-                            LOG.d("formError", formError.getErrorCode(), formError.getMessage());
-                        }
-                        //activateAds();
-                    });
-                }
-            }
-        }, new UserMessagingPlatform.OnConsentFormLoadFailureListener() {
-            @Override
-            public void onConsentFormLoadFailure(FormError formError) {
-                LOG.d("formError", formError.getErrorCode(), formError.getMessage());
-            }
-        });
     }
 
     private View syncProgress;

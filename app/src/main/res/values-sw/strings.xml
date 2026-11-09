@@ -677,15 +677,12 @@
    <string name="accent">Lafudhi</string>
    <string name="discarded_books">Vitabu vilivyotupwa</string>
    <string name="show_print_edition_page_numbers_epub3">Onyesha nambari za kurasa za toleo la kuchapisha (epub3)</string>
-   <string name="ad_privacy_settings">Mipangilio ya faragha ya tangazo</string>
    <string name="allow_other_music_to_play">Kuruhusu muziki mwingine kucheza</string>
    <string name="enable_image_scale">Wezesha kiwango cha picha</string>
    <string name="open_books_on_page_1">Fungua vitabu kwenye ukurasa wa 1</string>
    <string name="foreground">Mbele</string>
    <string name="warning_this_document_has_unsaved_changes">Onyo: hati hii ina mabadiliko ambayo hayajahifadhiwa</string>
    <string name="bold_headings">Vichwa vyenye herufi nzito</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Tazama video hii fupi ili kuzima matangazo yote kwa saa 1</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Tazama video hii fupi ili kuzima matangazo yote kwa saa 3</string>
    <string name="the_book_is_complete">Kitabu kimekamilika.</string>
    <string name="time">Wakati</string>
    <string name="date_added">Tarehe imeongezwa</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Maandishi na rangi ya usuli</string>
    <string name="library_folders">Folda za maktaba</string>
    <string name="folder_no_access">Hakuna ufikiaji · gusa ili kuruhusu tena</string>
-   <string name="watch">Tazama</string>
    <string name="librerax_not_installed">LibreraX haijasakinishwa. Ipakue na uisakinishe, kisha ufungue kitabu tena.</string>
    <string name="remove_library_folder">Ondoa folda hii kwenye maktaba? Faili zilizomo hazitafutwa.</string>
    <string name="epub_engine">Injini ya EPUB</string>

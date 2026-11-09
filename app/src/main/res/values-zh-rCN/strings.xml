@@ -677,15 +677,12 @@
    <string name="accent">着重色</string>
    <string name="discarded_books">废弃的书籍</string>
    <string name="show_print_edition_page_numbers_epub3">显示印刷版页码 (epub3)</string>
-   <string name="ad_privacy_settings">广告隐私设置</string>
    <string name="allow_other_music_to_play">允许播放其他音乐</string>
    <string name="enable_image_scale">启用图像缩放</string>
    <string name="open_books_on_page_1">打开书本第 1 页</string>
    <string name="foreground">前景</string>
    <string name="warning_this_document_has_unsaved_changes">警告：此文档有未保存的更改</string>
    <string name="bold_headings">粗体标题</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">观看此短视频，即可在 1 小时内关闭所有广告。</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">观看此短视频，即可在 3 小时内关闭所有广告。</string>
    <string name="the_book_is_complete">这本书已经完成了。</string>
    <string name="time">时间</string>
    <string name="date_added">添加日期</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">文本和背景颜色</string>
    <string name="library_folders">书库文件夹</string>
    <string name="folder_no_access">无访问权限 · 点按以重新允许</string>
-   <string name="watch">观看</string>
    <string name="librerax_not_installed">尚未安装 LibreraX。请下载并安装，然后重新打开这本书。</string>
    <string name="remove_library_folder">要从书库中移除此文件夹吗？其中的文件不会被删除。</string>
    <string name="epub_engine">EPUB 引擎</string>

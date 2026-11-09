@@ -677,15 +677,12 @@
    <string name="accent">لهجه</string>
    <string name="discarded_books">کتاب های دور ریخته شده</string>
    <string name="show_print_edition_page_numbers_epub3">نمایش شماره صفحات نسخه چاپی (epub3)</string>
-   <string name="ad_privacy_settings">تنظیمات حریم خصوصی تبلیغات</string>
    <string name="allow_other_music_to_play">اجازه پخش موسیقی دیگر را بدهید</string>
    <string name="enable_image_scale">مقیاس تصویر را فعال کنید</string>
    <string name="open_books_on_page_1">باز کردن کتابها در صفحه 1</string>
    <string name="foreground">پیش‌زمینه</string>
    <string name="warning_this_document_has_unsaved_changes">هشدار: این سند تغییرات ذخیره نشده‌ای دارد</string>
    <string name="bold_headings">عنوان‌های پررنگ</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">برای خاموش کردن تمام تبلیغات به مدت ۱ ساعت، این ویدیوی کوتاه را تماشا کنید</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">برای غیرفعال کردن تمام تبلیغات به مدت ۳ ساعت، این ویدیوی کوتاه را تماشا کنید</string>
    <string name="the_book_is_complete">کتاب کامل است.</string>
    <string name="time">زمان</string>
    <string name="date_added">تاریخ اضافه شد</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">رنگ متن و پس زمینه</string>
    <string name="library_folders">پوشه‌های کتابخانه</string>
    <string name="folder_no_access">بدون دسترسی · برای اجازه دوباره ضربه بزنید</string>
-   <string name="watch">تماشا</string>
    <string name="librerax_not_installed">LibreraX نصب نشده است. آن را دانلود و نصب کنید، سپس کتاب را دوباره باز کنید.</string>
    <string name="remove_library_folder">این پوشه از کتابخانه حذف شود؟ فایل‌های داخل آن پاک نمی‌شوند.</string>
    <string name="epub_engine">موتور EPUB</string>

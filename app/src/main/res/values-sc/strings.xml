@@ -677,15 +677,12 @@
    <string name="accent">Atzentu</string>
    <string name="discarded_books">Libros iscartados</string>
    <string name="show_print_edition_page_numbers_epub3">Ammustra sos nùmeros de pàgina de s\'editzione imprentada (Epub3)</string>
-   <string name="ad_privacy_settings">Impostatziones de riservadesa de sos annùntzios</string>
    <string name="allow_other_music_to_play">Permite sa riprodutzione de àtera mùsica</string>
    <string name="enable_image_scale">Abilita s\'iscala de s\'immàgine</string>
    <string name="open_books_on_page_1">Aberi sos libros in sa pàgina 1</string>
    <string name="foreground">Primu pranu</string>
    <string name="warning_this_document_has_unsaved_changes">Dae cara: custu documentu tenet modìficas non sarvadas</string>
    <string name="bold_headings">Tìtulos in grussitu</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Abbista·ti custu vìdeu curtzu pro istudare totu sas publitzidades pro 1 ora</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Pòmpia·ti custu vìdeu curtzu pro istudare totu sas publitzidades pro 3 oras</string>
    <string name="the_book_is_complete">Su libru est finidu.</string>
    <string name="time">Tempus</string>
    <string name="date_added">Data de annanta</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Text and background color</string>
    <string name="library_folders">Cartellas de sa biblioteca</string>
    <string name="folder_no_access">Chene atzessu · toca pro lu permìtere torra</string>
-   <string name="watch">Pòmpia</string>
    <string name="librerax_not_installed">LibreraX no est installadu. Iscàrriga·lu e installa·lu, e a pustis torra a abèrrere su libru.</string>
    <string name="remove_library_folder">Bogare custa cartella dae sa biblioteca? Sos archìvios chi bi sunt no ant a èssere cantzellados.</string>   
    <string name="epub_engine">Motore EPUB</string>

@@ -11,7 +11,7 @@ import com.foobnix.model.AppProfile;
 import com.foobnix.model.AppState;
 import com.foobnix.model.MyPath;
 import com.foobnix.pdf.search.activity.msg.NotifyAllFragments;
-import com.foobnix.ui2.AdsFragmentActivity;
+import com.foobnix.ui2.ReaderFragmentActivity;
 import com.foobnix.ui2.adapter.FileMetaAdapter;
 
 import org.greenrobot.eventbus.EventBus;

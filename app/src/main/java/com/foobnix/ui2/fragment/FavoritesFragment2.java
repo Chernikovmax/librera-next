@@ -303,7 +303,6 @@ public class FavoritesFragment2 extends UIFragment<FileMeta> {
 
     private void popupMenu(final ImageView image) {
         MyPopupMenu p = new MyPopupMenu(getActivity(), image);
-        PopupHelper.addPROIcon(p, getActivity());
 
         List<Integer> names = Arrays.asList(R.string.list, //
                 R.string.compact, //

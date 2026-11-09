@@ -677,15 +677,12 @@
    <string name="accent">アクセント</string>
    <string name="discarded_books">捨てられた本</string>
    <string name="show_print_edition_page_numbers_epub3">印刷版のページ番号を表示する (epub3)</string>
-   <string name="ad_privacy_settings">広告のプライバシー設定</string>
    <string name="allow_other_music_to_play">他の音楽の再生を許可する</string>
    <string name="enable_image_scale">画像の拡大縮小を有効にする</string>
    <string name="open_books_on_page_1">1ページの本を開く</string>
    <string name="foreground">前景</string>
    <string name="warning_this_document_has_unsaved_changes">警告: このドキュメントには保存されていない変更があります</string>
    <string name="bold_headings">太字の見出し</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">この短いビデオを見ると、1時間すべての広告がオフになります</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">この短いビデオを見て、3時間すべての広告をオフにしてください</string>
    <string name="the_book_is_complete">本は完成しました。</string>
    <string name="time">時間</string>
    <string name="date_added">追加日</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">テキストと背景色</string>
    <string name="library_folders">ライブラリのフォルダ</string>
    <string name="folder_no_access">アクセスなし · タップして再度許可</string>
-   <string name="watch">見る</string>
    <string name="librerax_not_installed">LibreraX がインストールされていません。ダウンロードしてインストールしてから、もう一度本を開いてください。</string>
    <string name="remove_library_folder">このフォルダをライブラリから外しますか？フォルダ内のファイルは削除されません。</string>
    <string name="epub_engine">EPUB エンジン</string>

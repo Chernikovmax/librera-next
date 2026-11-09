@@ -677,15 +677,12 @@
    <string name="accent">لهجة</string>
    <string name="discarded_books">الكتب المهملة</string>
    <string name="show_print_edition_page_numbers_epub3">إظهار أرقام صفحات الطبعة المطبوعة (epub3)</string>
-   <string name="ad_privacy_settings">إعدادات خصوصية الإعلان</string>
    <string name="allow_other_music_to_play">السماح بتشغيل الموسيقى الأخرى</string>
    <string name="enable_image_scale">تمكين مقياس الصورة</string>
    <string name="open_books_on_page_1">افتح الكتب في الصفحة 1</string>
    <string name="foreground">المقدمة</string>
    <string name="warning_this_document_has_unsaved_changes">تحذير: هذا المستند يحتوي على تغييرات غير محفوظة</string>
    <string name="bold_headings">عناوين بارزة</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">شاهد هذا الفيديو القصير لإيقاف جميع الإعلانات لمدة ساعة واحدة</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">شاهد هذا الفيديو القصير لإيقاف جميع الإعلانات لمدة 3 ساعات</string>
    <string name="the_book_is_complete">الكتاب مكتمل.</string>
    <string name="time">وقت</string>
    <string name="date_added">تاريخ الإضافة</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">لون النص والخلفية</string>
    <string name="library_folders">مجلدات المكتبة</string>
    <string name="folder_no_access">لا يوجد وصول · انقر للسماح مجددًا</string>
-   <string name="watch">مشاهدة</string>
    <string name="librerax_not_installed">LibreraX غير مثبّت. نزّله وثبّته، ثم افتح الكتاب مرة أخرى.</string>
    <string name="remove_library_folder">إزالة هذا المجلد من المكتبة؟ لن تُحذف الملفات الموجودة فيه.</string>
    <string name="epub_engine">محرك EPUB</string>

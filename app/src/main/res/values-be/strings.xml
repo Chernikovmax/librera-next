@@ -677,15 +677,12 @@
    <string name="accent">Акцэнт</string>
    <string name="discarded_books">Выкінутыя кнігі</string>
    <string name="show_print_edition_page_numbers_epub3">Паказаць нумары старонак друкаванага выдання (epub3)</string>
-   <string name="ad_privacy_settings">Налады прыватнасці рэкламы</string>
    <string name="allow_other_music_to_play">Дазволіць прайграваць іншую музыку</string>
    <string name="enable_image_scale">Уключыць маштаб выявы</string>
    <string name="open_books_on_page_1">Адкрытыя кнігі на старонцы 1</string>
    <string name="foreground">Пярэдні план</string>
    <string name="warning_this_document_has_unsaved_changes">Папярэджанне: у гэтым дакуменце ёсць незахаваныя змены</string>
    <string name="bold_headings">Тлустыя загалоўкі</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Паглядзіце гэта кароткае відэа, каб адключыць усю рэкламу на 1 гадзіну</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Паглядзіце гэта кароткае відэа, каб адключыць усю рэкламу на 3 гадзіны</string>
    <string name="the_book_is_complete">Кніга завершана.</string>
    <string name="time">Час</string>
    <string name="date_added">Дата дадання</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Колер тэксту і фону</string>
    <string name="library_folders">Папкі бібліятэкі</string>
    <string name="folder_no_access">Няма доступу · націсніце, каб дазволіць зноў</string>
-   <string name="watch">Глядзець</string>
    <string name="librerax_not_installed">LibreraX не ўсталяваны. Спампуйце і ўсталюйце яго, потым адкрыйце кнігу зноў.</string>
    <string name="remove_library_folder">Выдаліць гэтую папку з бібліятэкі? Файлы ў ёй не будуць выдалены.</string>
    <string name="epub_engine">Рухавік EPUB</string>

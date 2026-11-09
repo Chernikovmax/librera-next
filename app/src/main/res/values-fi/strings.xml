@@ -677,15 +677,12 @@
    <string name="accent">Aksentti</string>
    <string name="discarded_books">Hylätyt kirjat</string>
    <string name="show_print_edition_page_numbers_epub3">Näytä painetun painoksen sivunumerot (epub3)</string>
-   <string name="ad_privacy_settings">Mainosten tietosuoja-asetukset</string>
    <string name="allow_other_music_to_play">Salli muun musiikin toistaa</string>
    <string name="enable_image_scale">Ota kuvan mittakaava käyttöön</string>
    <string name="open_books_on_page_1">Avaa kirjat sivulla 1</string>
    <string name="foreground">Etualalla</string>
    <string name="warning_this_document_has_unsaved_changes">Varoitus: tässä asiakirjassa on tallentamattomia muutoksia</string>
    <string name="bold_headings">Lihavoidut otsikot</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Katso tämä lyhyt video sammuttaaksesi kaikki mainokset 1 tunniksi</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Katso tämä lyhyt video sammuttaaksesi kaikki mainokset kolmeksi tunniksi</string>
    <string name="the_book_is_complete">Kirja on valmis.</string>
    <string name="time">Aika</string>
    <string name="date_added">Lisäyspäivämäärä</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Tekstin ja taustan väri</string>
    <string name="library_folders">Kirjaston kansiot</string>
    <string name="folder_no_access">Ei käyttöoikeutta · napauta salliaksesi uudelleen</string>
-   <string name="watch">Katso</string>
    <string name="librerax_not_installed">LibreraX ei ole asennettu. Lataa ja asenna se ja avaa kirja sitten uudelleen.</string>
    <string name="remove_library_folder">Poistetaanko tämä kansio kirjastosta? Sen tiedostoja ei poisteta.</string>
    <string name="epub_engine">EPUB-moottori</string>

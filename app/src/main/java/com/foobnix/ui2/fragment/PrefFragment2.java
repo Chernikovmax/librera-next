@@ -124,15 +124,10 @@ import com.foobnix.pdf.search.activity.msg.GDriveSycnEvent;
 import com.foobnix.pdf.search.activity.msg.MessageSync;
 import com.foobnix.sys.ImageExtractor;
 import com.foobnix.sys.TempHolder;
-import com.foobnix.ui2.AdsFragmentActivity;
 import com.foobnix.ui2.BooksService;
 import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.MyContextWrapper;
 import com.foobnix.work.SearchAllBooksWorker;
-import com.google.android.ump.ConsentForm;
-import com.google.android.ump.ConsentInformation;
-import com.google.android.ump.FormError;
-import com.google.android.ump.UserMessagingPlatform;
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -854,30 +849,6 @@ public class PrefFragment2 extends UIFragment {
             }
         });
         closeMenu.setVisibility(TxtUtils.visibleIf(AppState.get().isEnableAccessibility));
-
-        ConsentInformation consentInformation = UserMessagingPlatform.getConsentInformation(getActivity());
-
-        TextView adsSettigns = inflate.findViewById(R.id.adsSettigns);
-        adsSettigns.setOnClickListener(new OnClickListener() {
-            @Override public void onClick(View v) {
-
-                UserMessagingPlatform.showPrivacyOptionsForm(getActivity(),
-                        new ConsentForm.OnConsentFormDismissedListener() {
-                            @Override public void onConsentFormDismissed(@Nullable FormError formError) {
-                                if (formError != null) {
-                                    Toast.makeText(getActivity(), formError.getMessage(), Toast.LENGTH_LONG)
-                                         .show();
-                                }
-                            }
-                        });
-
-            }
-        });
-        boolean isPrivicyOptionRequired =
-                consentInformation.getPrivacyOptionsRequirementStatus() == ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED;
-
-        adsSettigns.setVisibility(TxtUtils.visibleIf(isPrivicyOptionRequired));
-        asButton(adsSettigns);
 
         inflate.findViewById(R.id.onKeyCode)
                .
@@ -3430,9 +3401,6 @@ public class PrefFragment2 extends UIFragment {
         LocalBroadcastManager.getInstance(activity)
                              .sendBroadcast(intent);
 
-        if (activity instanceof AdsFragmentActivity) {
-            ((AdsFragmentActivity) activity).showInterstitialNoFinish();
-        }
     }
 
     public static void closeLeftMenu(FragmentActivity activity) {

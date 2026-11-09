@@ -155,7 +155,6 @@ public class RecentFragment2 extends UIFragment<FileMeta> {
 
     private void popupMenu(final ImageView onGridList) {
         MyPopupMenu p = new MyPopupMenu(getActivity(), onGridList);
-        PopupHelper.addPROIcon(p, getActivity());
 
         List<Integer> names = Arrays.asList(R.string.list, R.string.compact, R.string.grid, R.string.cover);
         final List<Integer> icons = Arrays.asList(R.drawable.my_glyphicons_114_paragraph_justify, R.drawable.my_glyphicons_114_justify_compact, R.drawable.glyphicons_157_thumbnails, R.drawable.glyphicons_158_thumbnails_small);

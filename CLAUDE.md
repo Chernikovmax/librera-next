@@ -2,6 +2,7 @@
 
 ## Translations: always all languages
 
+
 Every string added, changed or removed in `app/src/main/res/values/strings.xml` (English) must be
 added, changed or removed in **every** `app/src/main/res/values-*/strings.xml` in the same change -
 never English only, never "translations later".

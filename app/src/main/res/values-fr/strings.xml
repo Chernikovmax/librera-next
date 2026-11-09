@@ -677,15 +677,12 @@
    <string name="accent">Accent</string>
    <string name="discarded_books">Livres jetés</string>
    <string name="show_print_edition_page_numbers_epub3">Afficher les numéros de page de l\'édition imprimée (epub3)</string>
-   <string name="ad_privacy_settings">Paramètres de confidentialité des annonces</string>
    <string name="allow_other_music_to_play">Autoriser la lecture d\'autres musiques</string>
    <string name="enable_image_scale">Activer l\'échelle de l\'image</string>
    <string name="open_books_on_page_1">Livres ouverts à la page 1</string>
    <string name="foreground">Premier plan</string>
    <string name="warning_this_document_has_unsaved_changes">Avertissement : ce document contient des modifications non enregistrées</string>
    <string name="bold_headings">Titres en gras</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Regardez cette courte vidéo pour désactiver toutes les publicités pendant 1 heure.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Regardez cette courte vidéo pour désactiver toutes les publicités pendant 3 heures.</string>
    <string name="the_book_is_complete">Le livre est terminé.</string>
    <string name="time">Temps</string>
    <string name="date_added">Date d\'ajout</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Couleur du texte et de l\'arrière-plan</string>
    <string name="library_folders">Dossiers de la bibliothèque</string>
    <string name="folder_no_access">Pas d\'accès · touchez pour l\'autoriser à nouveau</string>
-   <string name="watch">Regarder</string>
    <string name="librerax_not_installed">LibreraX n\'est pas installé. Téléchargez-le et installez-le, puis rouvrez le livre.</string>
    <string name="remove_library_folder">Retirer ce dossier de la bibliothèque ? Les fichiers qu\'il contient ne seront pas supprimés.</string>
    <string name="epub_engine">Moteur EPUB</string>

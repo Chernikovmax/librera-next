@@ -32,7 +32,7 @@ import com.foobnix.sys.TempHolder;
 import com.foobnix.sys.VerticalModeController;
 import com.foobnix.tts.TTSEngine;
 import com.foobnix.tts.TTSNotification;
-import com.foobnix.ui2.AdsFragmentActivity;
+import com.foobnix.ui2.ReaderFragmentActivity;
 import com.foobnix.ui2.FileMetaCore;
 import com.foobnix.librerax.BookOpenGuard;
 import com.foobnix.librerax.LibreraX;
@@ -357,7 +357,7 @@ public class ViewerActivityController extends ActionController<VerticalViewActiv
 
     }
 
-    public void createWrapper(AdsFragmentActivity a) {
+    public void createWrapper(ReaderFragmentActivity a) {
         try {
             String file = Apps.getBookPathFromActivity(a);
 
@@ -524,7 +524,7 @@ public class ViewerActivityController extends ActionController<VerticalViewActiv
     }
 
     public void closeActivity(final ActionEx action) {
-        viewerActivity.showInterstitial();
+        viewerActivity.finishActivityAfterReaderAction();
         LOG.d("ViewerActivityController closeActivity");
     }
 

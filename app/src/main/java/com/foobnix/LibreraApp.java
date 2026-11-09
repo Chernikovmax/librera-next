@@ -21,17 +21,12 @@ import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.TxtUtils;
 import com.foobnix.ext.CacheZipUtils;
 import com.foobnix.hypen.HypenUtils;
-import com.foobnix.pdf.info.ADS;
 import com.foobnix.pdf.info.AppsConfig;
 import com.foobnix.pdf.info.IMG;
 import com.foobnix.pdf.info.Prefs;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.sys.TempHolder;
 import com.foobnix.tts.TTSNotification;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.RequestConfiguration;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -122,67 +117,9 @@ public class LibreraApp extends Application {
 
 
 
-        AppsConfig.init(this);
         Dips.init(this);
         Prefs.get().init(this);
 
-        try {
-            if (AppsConfig.isShowAdsInApp(this)) {
-                LOG.d("ADS1", "MobileAds.initialize");
-
-//                AdSettings.addTestDevice("e13a44ef-2006-41e0-8597-ed1afcc727b6");
-//                if (!AudienceNetworkAds.isInitialized(context)) {
-//                    if(AppsConfig.IS_LOG) {
-//                        AdSettings.turnOnSDKDebugger(context);
-//                    }
-//
-//                    AudienceNetworkAds
-//                            .buildInitSettings(context)
-//                            .withInitListener(initResult -> LOG.d("FBads",initResult,initResult.getMessage()))
-//                            .initialize();
-//                }
-//                AdSettings.addTestDevice("e13a44ef-2006-41e0-8597-ed1afcc727b6");
-
-                MobileAds.initialize(this, new OnInitializationCompleteListener() {
-                    @Override
-                    public void onInitializationComplete(
-                            @NonNull
-                            InitializationStatus initializationStatus) {
-                        LOG.d("ads-complete");
-                    }
-                });
-//                new Thread(){
-//                    @Override public void run() {
-//                        try {
-//                            LOG.d("AppsConfig", "getAdvertisingIdInfo",
-//                                    AdvertisingIdClient.getAdvertisingIdInfo(LibreraApp.this));
-//                            LOG.d("AppsConfig", "getAdvertisingIdInfo-debug",
-//                                    AdvertisingIdClient.getIsAdIdFakeForDebugLogging(LibreraApp.this));
-//                        }catch (Exception e){
-//                            LOG.e(e);
-//                        }
-//                    }
-//                }.start();
-
-
-
-
-                LOG.d("AppsConfig.IS_TEST_DEVICE", AppsConfig.IS_TEST_DEVICE);
-                if (AppsConfig.IS_TEST_DEVICE) {
-                    RequestConfiguration
-                            configuration =
-                            new RequestConfiguration.Builder().setTestDeviceIds(AppsConfig.testDevices).build();
-                    MobileAds.setRequestConfiguration(configuration);
-
-                    //AdSettings.addTestDevice("be454c77-6dd2-4931-933c-d279f5da225d");
-                    //AdSettings.addTestDevice("72a461e0-9268-4d1f-80f4-f9b45a692124");
-                }
-            }
-        } catch (Exception e) {
-            LOG.e(e);
-        }
-
-        Log.d("Build", "Build.TestDeviceID :" + ADS.getByTestID(this));
         Log.d("Build", "Build.MODEL :" + Build.MODEL);
         Log.d("Build", "Build.DEVICE:" + Build.DEVICE);
 

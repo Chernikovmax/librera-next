@@ -677,15 +677,12 @@
    <string name="accent">Přízvuk</string>
    <string name="discarded_books">Vyřazené knihy</string>
    <string name="show_print_edition_page_numbers_epub3">Zobrazit čísla stránek tištěného vydání (epub3)</string>
-   <string name="ad_privacy_settings">Nastavení soukromí reklam</string>
    <string name="allow_other_music_to_play">Povolit přehrávání jiné hudby</string>
    <string name="enable_image_scale">Povolit měřítko obrazu</string>
    <string name="open_books_on_page_1">Otevřené knihy na straně 1</string>
    <string name="foreground">Popředí</string>
    <string name="warning_this_document_has_unsaved_changes">Varování: tento dokument obsahuje neuložené změny</string>
    <string name="bold_headings">Tučné nadpisy</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Podívejte se na toto krátké video a vypněte všechny reklamy na 1 hodinu</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Podívejte se na toto krátké video a vypněte všechny reklamy na 3 hodiny</string>
    <string name="the_book_is_complete">Kniha je kompletní.</string>
    <string name="time">Čas</string>
    <string name="date_added">Datum přidání</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Barva textu a pozadí</string>
    <string name="library_folders">Složky knihovny</string>
    <string name="folder_no_access">Bez přístupu · klepnutím povolíte znovu</string>
-   <string name="watch">Přehrát</string>
    <string name="librerax_not_installed">LibreraX není nainstalován. Stáhněte a nainstalujte jej a poté knihu otevřete znovu.</string>
    <string name="remove_library_folder">Odebrat tuto složku z knihovny? Soubory v ní nebudou smazány.</string>
    <string name="epub_engine">Jádro EPUB</string>

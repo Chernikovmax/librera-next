@@ -677,15 +677,12 @@
    <string name="accent">Aksan</string>
    <string name="discarded_books">Atılan kitaplar</string>
    <string name="show_print_edition_page_numbers_epub3">Basılı baskı sayfa numaralarını göster (epub3)</string>
-   <string name="ad_privacy_settings">Reklam gizlilik ayarları</string>
    <string name="allow_other_music_to_play">Diğer müziğin çalmasına izin ver</string>
    <string name="enable_image_scale">Görüntü ölçeğini etkinleştir</string>
    <string name="open_books_on_page_1">1. sayfadaki kitapları açın</string>
    <string name="foreground">Ön plan</string>
    <string name="warning_this_document_has_unsaved_changes">Uyarı: bu belgede kaydedilmemiş değişiklikler var</string>
    <string name="bold_headings">Kalın başlıklar</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Bu kısa videoyu izleyerek 1 saat boyunca tüm reklamları kapatabilirsiniz.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Bu kısa videoyu izleyerek 3 saat boyunca tüm reklamları kapatabilirsiniz.</string>
    <string name="the_book_is_complete">Kitap tamamlandı.</string>
    <string name="time">Zaman</string>
    <string name="date_added">Eklenme tarihi</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Metin ve arka plan rengi</string>
    <string name="library_folders">Kitaplık klasörleri</string>
    <string name="folder_no_access">Erişim yok · yeniden izin vermek için dokunun</string>
-   <string name="watch">İzle</string>
    <string name="librerax_not_installed">LibreraX yüklü değil. İndirip yükleyin, ardından kitabı yeniden açın.</string>
    <string name="remove_library_folder">Bu klasör kitaplıktan kaldırılsın mı? İçindeki dosyalar silinmez.</string>
    <string name="epub_engine">EPUB motoru</string>

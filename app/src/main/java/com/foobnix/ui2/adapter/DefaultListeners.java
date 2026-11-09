@@ -19,7 +19,6 @@ import com.foobnix.model.AppSP;
 import com.foobnix.model.AppState;
 import com.foobnix.model.SimpleMeta;
 import com.foobnix.model.Tags2;
-import com.foobnix.pdf.info.ADS;
 import com.foobnix.pdf.info.Clouds;
 import com.foobnix.pdf.info.ExtUtils;
 import com.foobnix.pdf.info.IMG;
@@ -411,7 +410,6 @@ public class DefaultListeners {
                 return false;
             }
 
-            ADS.hideAdsTemp(a);
 
             File file = new File(result.getPath());
 

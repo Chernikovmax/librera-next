@@ -677,15 +677,12 @@
    <string name="accent">Екпін</string>
    <string name="discarded_books">Лақтырылған кітаптар</string>
    <string name="show_print_edition_page_numbers_epub3">Баспа басылымының бет нөмірлерін көрсету (epub3)</string>
-   <string name="ad_privacy_settings">Жарнаманың құпиялылық параметрлері</string>
    <string name="allow_other_music_to_play">Басқа музыканы ойнатуға мүмкіндік беріңіз</string>
    <string name="enable_image_scale">Кескін масштабын қосыңыз</string>
    <string name="open_books_on_page_1">1 беттегі кітаптарды ашыңыз</string>
    <string name="foreground">Алдыңғы жоспар</string>
    <string name="warning_this_document_has_unsaved_changes">Ескерту: бұл құжатта сақталмаған өзгерістер бар</string>
    <string name="bold_headings">Қалың шрифтпен жазылған тақырыптар</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Барлық жарнамаларды 1 сағатқа өшіру үшін осы қысқа бейнені көріңіз</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Барлық жарнамаларды 3 сағатқа өшіру үшін осы қысқа бейнені көріңіз</string>
    <string name="the_book_is_complete">Кітап толықтай дайын.</string>
    <string name="time">Уақыт</string>
    <string name="date_added">Қосылған күні</string>
@@ -702,7 +699,6 @@
    <string name="text_and_background_color">Мәтін және фон түсі</string>
    <string name="library_folders">Кітапхана қалталары</string>
    <string name="folder_no_access">Қол жеткізу жоқ · қайта рұқсат беру үшін түртіңіз</string>
-   <string name="watch">Көру</string>
    <string name="librerax_not_installed">LibreraX орнатылмаған. Оны жүктеп алып орнатыңыз, содан кейін кітапты қайта ашыңыз.</string>
    <string name="remove_library_folder">Бұл қалтаны кітапханадан алып тастау керек пе? Ондағы файлдар жойылмайды.</string>
    <string name="epub_engine">EPUB қозғалтқышы</string>

@@ -136,7 +136,6 @@ public class BookmarksFragment2 extends UIFragment<AppBookmark> {
 
     private void popupMenu(final ImageView onGridList) {
         MyPopupMenu p = new MyPopupMenu(getActivity(), onGridList);
-        PopupHelper.addPROIcon(p, getActivity());
 
         List<Integer> names = Arrays.asList(R.string.bookmark_by_date, R.string.bookmark_by_book);
         final List<Integer> icons = Arrays.asList(R.drawable.my_glyphicons_114_paragraph_justify, R.drawable.glyphicons_159_thumbnails_list);

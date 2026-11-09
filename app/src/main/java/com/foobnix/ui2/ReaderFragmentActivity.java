@@ -14,17 +14,14 @@ import androidx.fragment.app.FragmentActivity;
 import com.foobnix.android.utils.Dips;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.model.AppState;
-import com.foobnix.pdf.info.ADS;
-import com.foobnix.pdf.info.AppsConfig;
 import com.foobnix.pdf.info.IMG;
 import com.foobnix.pdf.info.R;
 import com.foobnix.sys.TempHolder;
 import com.foobnix.tts.TTSEngine;
 import com.foobnix.tts.TTSNotification;
-import com.google.android.gms.ads.OnUserEarnedRewardListener;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public abstract class AdsFragmentActivity extends FragmentActivity {
+public abstract class ReaderFragmentActivity extends FragmentActivity {
 
     Handler handler;
 
@@ -48,8 +45,6 @@ public abstract class AdsFragmentActivity extends FragmentActivity {
         }
     }
 
-    long timeActivityCreated = 0;
-
     @Override
     protected void onCreate(Bundle arg0) {
         if (AppState.get().isSystemThemeColor) {
@@ -64,7 +59,6 @@ public abstract class AdsFragmentActivity extends FragmentActivity {
         super.onCreate(arg0);
 
         handler = new Handler(Looper.getMainLooper());
-        timeActivityCreated = System.currentTimeMillis();
 
         getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
             @Override
@@ -75,129 +69,40 @@ public abstract class AdsFragmentActivity extends FragmentActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        if (AppsConfig.isShowAdsInApp(this)) {
-            if (this instanceof MainTabs2) {
-                ADS.get().showBanner(this);
-            }
-        }
-//           // if (this instanceof HorizontalViewActivity || this instanceof VerticalViewActivity) {
-//                ADS.get().loadRewardedAd(this, onRewardLoaded);
-//                ADS.get().loadInterstitial(this);
-//            //}
-//        }
-    }
-
-    Runnable onRewardLoaded = new Runnable() {
-        @Override
-        public void run() {
-            onRewardLoaded();
-        }
-    };
-
-    public void onRewardLoaded() {
-
-    }
-
-    public void showRewardVideo(OnUserEarnedRewardListener listener) {
-        if (AppsConfig.isShowAdsInApp(this)) {
-            ADS.get().showRewardedAd(this, listener);
-        }
-    }
-
-    public boolean isRewardLoaded() {
-        return ADS.get().isRewardsLoaded();
-    }
-
-    public boolean isRewardActivated() {
-        if (!AppsConfig.isShowAdsInApp(this)) {
-            return true;
-        }
-        return ADS.get().isRewardActivated();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (AppsConfig.isShowAdsInApp(this) ) {
-
-            if (this instanceof MainTabs2) {
-                ADS.get().onResumeBanner(this);
-            }
-
-            ADS.get().loadRewardedAd(this, onRewardLoaded);
-            ADS.get().loadInterstitial(this);
-
-        }
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (this instanceof MainTabs2) {
-            ADS.get().onPauseBanner();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-    }
-
-    protected void onDestroyBanner() {
-        ADS.get().onDestroyBanner();
-    }
-
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        LOG.d("AdsFragmentActivity onSaveInstanceState before", outState);
+        LOG.d("ReaderFragmentActivity onSaveInstanceState before", outState);
 
         if (outState != null) {
             outState.clear();
         }
-        LOG.d("AdsFragmentActivity onSaveInstanceState after", outState);
+        LOG.d("ReaderFragmentActivity onSaveInstanceState after", outState);
         super.onSaveInstanceState(outState);
 
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        LOG.d("AdsFragmentActivity onRestoreInstanceState before", savedInstanceState);
+        LOG.d("ReaderFragmentActivity onRestoreInstanceState before", savedInstanceState);
 
         if (savedInstanceState != null) {
             savedInstanceState.clear();
         }
-        LOG.d("AdsFragmentActivity onRestoreInstanceState after", savedInstanceState);
+        LOG.d("ReaderFragmentActivity onRestoreInstanceState after", savedInstanceState);
 
         super.onRestoreInstanceState(savedInstanceState);
     }
 
-    public void showInterstitial() {
+    public void finishActivityAfterReaderAction() {
         TempHolder.get().loadingCancelled.set(true);
         IMG.pauseRequests(this);
         TTSNotification.hideNotification();
         TTSEngine.get().shutdown();
-//        if (ADS.secondsRemain(timeActivityCreated) > FULL_SCREEN_TIMEOUT_SEC) {
-//
-//        } else {
-//            LOG.d("ADS1 showInterstitial skip",ADS.secondsRemain(timeActivityCreated));
-//        }
-        ADS.get().showInterstitial(this);
         onFinishActivity();
-    }
-
-    public void showInterstitialNoFinish() {
-        if (AppsConfig.isShowAdsInApp(this)) {
-            ADS.get().showInterstitial(this);
-        }
     }
 
     public void onBackPressedAction() {

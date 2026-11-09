@@ -9,9 +9,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import com.foobnix.model.AppState;
-import com.foobnix.pdf.info.AppsConfig;
 import com.foobnix.pdf.info.R;
-import com.foobnix.pdf.info.Urls;
 import com.foobnix.pdf.info.view.MyPopupMenu;
 
 import java.lang.reflect.Field;
@@ -92,28 +90,6 @@ public class PopupHelper {
                 .getContext()
                 .getString(stringId));
 
-    }
-
-    public static void addPROIcon(final MyPopupMenu menu, final Context c) {
-        if (true) {
-            // templorary hide this;
-            return;
-
-        }
-        if (AppsConfig.isShowAdsInApp(c)) {
-            menu
-                    .getMenu()
-                    .add(R.string.app_name_pro)
-                    .setIcon(R.mipmap.icon_pdf_pro)
-                    .setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            Urls.openPdfPro(c);
-                            return false;
-                        }
-                    });
-        }
     }
 
     public static void initIcons(final PopupMenu menu, int color) {

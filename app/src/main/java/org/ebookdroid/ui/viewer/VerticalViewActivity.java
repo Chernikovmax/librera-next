@@ -36,7 +36,6 @@ import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.view.BrightnessHelper;
 import com.foobnix.pdf.info.wrapper.DocumentController;
 import com.foobnix.pdf.search.activity.HorizontalViewActivity;
-import com.foobnix.pdf.search.activity.ViewBinder;
 import com.foobnix.pdf.search.view.CloseAppDialog;
 import com.foobnix.sys.TempHolder;
 import com.foobnix.tts.TTSNotification;
@@ -75,12 +74,6 @@ public class VerticalViewActivity extends AbstractActionActivity<VerticalViewAct
         }
 
     }
-    @Override
-    public void onRewardLoaded() {
-        super.onRewardLoaded();
-        ViewBinder.hideShowRewardButton(this,findViewById(R.id.showRewardVideo));
-    }
-
     /**
      * {@inheritDoc}
      *
@@ -165,7 +158,6 @@ public class VerticalViewActivity extends AbstractActionActivity<VerticalViewAct
 
         getController().afterCreate(this);
 
-        // ADS.activate(this, adView);
 
         handler = new Handler(Looper.getMainLooper());
 
@@ -434,7 +426,7 @@ public class VerticalViewActivity extends AbstractActionActivity<VerticalViewAct
     @Override
     public void onBackPressedFinishImpl() {
         //getController().closeActivityFinal(null);
-        showInterstitial();
+        finishActivityAfterReaderAction();
     }
 
     @Override
