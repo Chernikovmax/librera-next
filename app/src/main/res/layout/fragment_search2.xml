@@ -200,6 +200,59 @@
             app:hideScrollbar="true"
             app:showTrack="false"
             app:trackColor="#bbbbbb"></com.foobnix.ui2.fast.FastScrollRecyclerView>
+            <LinearLayout
+                android:id="@+id/emptyLibraryState"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dip"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/empty_library_title"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dip"
+                    android:gravity="center"
+                    android:text="@string/empty_library_message"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/emptyLibraryAddFolder"
+                    style="@style/textLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dip"
+                    android:background="@drawable/bg_pill_outline"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingLeft="20dip"
+                    android:paddingTop="10dip"
+                    android:paddingRight="20dip"
+                    android:paddingBottom="10dip"
+                    android:text="@string/add_folder" />
+
+                <TextView
+                    android:id="@+id/emptyLibraryRescan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dip"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="8dip"
+                    android:text="@string/update_library"
+                    android:textColor="?android:attr/textColorPrimary" />
+            </LinearLayout>
     </FrameLayout>
 
 </LinearLayout>

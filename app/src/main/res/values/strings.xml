@@ -6,6 +6,8 @@
    <string name="supported_file_formats">Supported formats</string>
    <string name="folder_no_access">No access · tap to allow again</string>
    <string name="add_folder">Add folder</string>
+   <string name="empty_library_title">Your library is empty</string>
+   <string name="empty_library_message">Add a folder with books, or scan your library folders again.</string>
    <string name="archives">Archives</string>
    <string name="other">Other</string>
    <string name="you_need_to_update_the_library">Now update Library to apply changes</string>

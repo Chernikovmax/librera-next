@@ -3,6 +3,8 @@
    <string name="library_settings">Настройки библиотеки</string>
    <string name="scan_device_for_new_books">Пути поиска книг на устройстве</string>
    <string name="add_folder">Добавить еще путь</string>
+   <string name="empty_library_title">В библиотеке пока нет книг</string>
+   <string name="empty_library_message">Добавьте папку с книгами или повторно просканируйте папки библиотеки.</string>
    <string name="archives">Архивы</string>
    <string name="other">Другое</string>
    <string name="you_need_to_update_the_library">Для вступления изменений в силу нужно пересканировать библиотеку. Сделать это сейчас?</string>

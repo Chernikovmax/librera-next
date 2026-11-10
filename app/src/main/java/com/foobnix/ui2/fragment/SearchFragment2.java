@@ -119,7 +119,8 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
     TextView countBooks, layoutErrorOnRestart;
     Handler handler;
     ImageView sortBy, sortOrder, myAutoCompleteImage, cleanFilter, menu2;
-    View secondTopPanel, layoutError;
+    View secondTopPanel, layoutError, emptyLibraryState, layoutOnGrant;
+    TextView emptyLibraryAddFolder, emptyLibraryRescan;
     /**
      * Whether the library can be rebuilt right now. The screen used to read this off the
      * refresh button's own state; the button is gone - the panel's Update does the rebuild -
@@ -425,6 +426,21 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
         setButtonTooltip(view.findViewById(R.id.onGridList));
 
         bindOnGrantPanel(view.findViewById(R.id.layoutOnGrant));
+        layoutOnGrant = view.findViewById(R.id.layoutOnGrant);
+        emptyLibraryState = view.findViewById(R.id.emptyLibraryState);
+        emptyLibraryAddFolder = view.findViewById(R.id.emptyLibraryAddFolder);
+        emptyLibraryRescan = view.findViewById(R.id.emptyLibraryRescan);
+        emptyLibraryAddFolder.setOnClickListener(new OnClickListener() {
+            @Override public void onClick(View v) {
+                MainTabs2.startAddLibraryStorage(getActivity());
+            }
+        });
+        emptyLibraryRescan.setOnClickListener(new OnClickListener() {
+            @Override public void onClick(View v) {
+                rebuildLibrary();
+            }
+        });
+
 
         layoutError = view.findViewById(R.id.layoutError);
         layoutErrorOnRestart = view.findViewById(R.id.layoutErrorOnRestart);
@@ -529,6 +545,7 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
 
         initAutocomplition();
         onTintChanged();
+        updateEmptyLibraryState();
 
         recyclerView.addOnScrollListener(new OnScrollListener() {
             @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -569,10 +586,20 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) public void showResult(MessageSyncFinish event) {
-        layoutError.setVisibility(AppDB.get()
-                                       .getCount() == 0 ? View.VISIBLE : View.GONE);
-
+        layoutError.setVisibility(Prefs.get().isErrorExist(AppProfile.getCurrent(), 0) ? View.VISIBLE : View.GONE);
+        updateEmptyLibraryState();
     }
+
+    private void updateEmptyLibraryState() {
+        boolean libraryFilterIsEmpty = searchEditText.getText().toString().trim().isEmpty();
+        boolean noVisibleBooks = "0".contentEquals(countBooks.getText());
+        boolean showEmptyLibrary = libraryFilterIsEmpty
+                && noVisibleBooks
+                && !layoutError.isShown();
+        layoutOnGrant.setVisibility(View.GONE);
+        emptyLibraryState.setVisibility(showEmptyLibrary ? View.VISIBLE : View.GONE);
+    }
+
 
     public void showAutoCompleteDialog() {
 
@@ -647,13 +674,16 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
      * The library permission prompt is an empty-library call to action, not a banner above books.
      */
     @Override protected boolean isAskingPermission(boolean canWrite, boolean safFolders) {
-        return AppDB.get().getCount() == 0 && super.isAskingPermission(canWrite, safFolders);
+        boolean libraryFilterIsEmpty = searchEditText.getText().toString().trim().isEmpty();
+        return libraryFilterIsEmpty && "0".contentEquals(countBooks.getText())
+                && super.isAskingPermission(canWrite, safFolders);
     }
 
 
     @Override public void onResume() {
         super.onResume();
         menu2.setVisibility(getActivity().findViewById(R.id.imageMenu1) == null ? View.GONE : View.VISIBLE);
+        updateEmptyLibraryState();
     }
 
     @Override public void onStop() {
@@ -1019,6 +1049,7 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
 
         updateOnGrantPanel();
         showBookCount();
+        updateEmptyLibraryState();
     }
 
     private void sortByPopup(final View view) {
