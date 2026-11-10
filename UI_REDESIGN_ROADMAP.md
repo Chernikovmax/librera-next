@@ -62,7 +62,7 @@ Current implementation: Settings section headings no longer use full-width satur
 
 **Outcome:** The design works beyond the initial screenshot and remains usable across realistic states and devices.
 
-Current validation: On a 320×640 Android 36 emulator, the library grid/list and settings screen were checked; the list title wraps to two lines. Settings were also checked at 1.3× system font scale, where controls wrap and remain scrollable. Arabic RTL layout was checked in the library and settings: navigation, toolbar actions, and the settings header mirror correctly; controls remain within the viewport. Permission/empty-library states, tablets, and window resizing remain unvalidated.
+Current validation: On a 320×640 Android 36 emulator, the library grid/list and settings screen were checked; the list title wraps to two lines. Settings were also checked at 1.3× system font scale, where controls wrap and remain scrollable. Arabic RTL layout was checked in the library and settings: navigation, toolbar actions, and the settings header mirror correctly; controls remain within the viewport. Russian library navigation and settings were checked at 320dp: the tab strip scrolls the selected tab fully into view, and the settings folder/format controls fit. Permission/empty-library states, tablets, and window resizing remain unvalidated.
 
 ## Suggested Sequence
 
