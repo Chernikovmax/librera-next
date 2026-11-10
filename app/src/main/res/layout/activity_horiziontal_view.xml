@@ -60,7 +60,7 @@
                 android:layout_weight="0"
                 android:background="@drawable/bg_border_ltgray_dash2"
                 android:src="@drawable/glyphicons_73_bookmark"
-                android:tint="@color/lt_grey_dima" />
+                android:tint="@color/icon_muted" />
         </LinearLayout>
 
         <TextView

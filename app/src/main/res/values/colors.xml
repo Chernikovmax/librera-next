@@ -25,7 +25,8 @@
    <color name="lt_grey_alpha2">#88acacac</color>
    
    <color name="lt_grey_dima1">#d1d1d1</color>
-   <color name="lt_grey_dima">#bbd1d1d1</color>
+   <color name="icon_muted">#757575</color>
+   <color name="lt_grey_dima">#d1d1d1</color>
    
     
     <color name="tint_white">#F5F5F5</color>

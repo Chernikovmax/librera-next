@@ -115,7 +115,7 @@
             android:padding="2dip"
             android:contentDescription="@string/remove"
             android:src="@drawable/glyphicons_599_menu_close"
-            android:tint="@color/lt_grey_dima" />
+            android:tint="@color/icon_muted" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

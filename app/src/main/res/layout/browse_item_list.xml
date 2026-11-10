@@ -113,7 +113,7 @@
                     android:background="@drawable/bg_round_press_grey"
                     android:padding="3dip"
                     android:src="@drawable/glyphicons_599_menu_close"
-                    android:tint="@color/lt_grey_dima1"
+                    android:tint="@color/icon_muted"
                     android:visibility="visible" />
             </LinearLayout>
 
