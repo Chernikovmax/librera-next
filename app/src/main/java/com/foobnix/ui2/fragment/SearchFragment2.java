@@ -420,7 +420,6 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
         setButtonTooltip(view.findViewById(R.id.menu2));
         setButtonTooltip(view.findViewById(R.id.myAutoCompleteImage));
         setButtonTooltip(view.findViewById(R.id.cleanFilter));
-        setButtonTooltip(view.findViewById(R.id.onUpdateLibrary));
         setButtonTooltip(view.findViewById(R.id.sortBy));
         setButtonTooltip(view.findViewById(R.id.sortOrder));
         setButtonTooltip(view.findViewById(R.id.onGridList));
@@ -474,11 +473,6 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
             }
         });
 
-        view.findViewById(R.id.onUpdateLibrary).setOnClickListener(v -> {
-            if (getActivity() instanceof MainTabs2) {
-                ((MainTabs2) getActivity()).showLibraryFolders();
-            }
-        });
 
         sortBy.setOnClickListener(new OnClickListener() {
 

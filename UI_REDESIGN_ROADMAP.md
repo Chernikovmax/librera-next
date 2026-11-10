@@ -30,6 +30,8 @@ Make Librera's interface more comfortable, clear, and visually cohesive without 
 - Check card density and grid behavior at different screen widths.
 
 **Outcome:** Books are easier to scan, and their presentation remains readable on narrow screens and with larger text.
+Current implementation: Grid columns follow the library viewport width and update on resize. List titles use a two-line, 16sp limit with end ellipsis; opening and secondary actions are visually distinct. The library toolbar label now fits at 320dp after removing its duplicate folder-settings shortcut; folder management remains in Settings. Arabic RTL library navigation and actions were checked at 320dp; some Settings strings remain untranslated. Contextual permission states and broader device/state validation remain open.
+
 
 ## 4. Restructure Settings
 
@@ -40,6 +42,8 @@ Make Librera's interface more comfortable, clear, and visually cohesive without 
 
 **Outcome:** Users can scan and find settings instead of navigating a dense, undifferentiated form.
 
+Current implementation: Settings opens as a full-screen page, with a localized title and accessible close action. Library folders and supported formats are separated; the form has distinct book-cover, general, appearance, reading, app-behavior, tabs, widget, and import/export sections. Folder controls and the format grid fit at 320dp; section headings now use theme-aware text rather than full-width blue panels. At 1.3× system font scale, controls wrap without clipping and remain scrollable; other settings states remain unvalidated.
+
 ## 5. Establish a Cohesive Visual Language
 
 - Bring the top bar, library, and settings into one coherent visual system.
@@ -48,6 +52,8 @@ Make Librera's interface more comfortable, clear, and visually cohesive without 
 
 **Outcome:** The app feels cohesive while keeping book covers central to the experience.
 
+Current implementation: Settings section headings no longer use full-width saturated-blue backgrounds; blue remains on navigation and primary toolbar surfaces. Contrast, selected/focus feedback, and consistency across remaining surfaces still need review.
+
 ## 6. Validate Real-World Layouts and States
 
 - Test narrow screens, long translations, RTL, and increased system font sizes.
@@ -55,6 +61,8 @@ Make Librera's interface more comfortable, clear, and visually cohesive without 
 - Check gesture navigation, system insets, tablets, and window resizing.
 
 **Outcome:** The design works beyond the initial screenshot and remains usable across realistic states and devices.
+
+Current validation: On a 320×640 Android 36 emulator, the library grid/list and settings screen were checked; the list title wraps to two lines. Settings were also checked at 1.3× system font scale, where controls wrap and remain scrollable. Arabic RTL layout was checked in the library and settings: navigation, toolbar actions, and the settings header mirror correctly; controls remain within the viewport. Permission/empty-library states, tablets, and window resizing remain unvalidated.
 
 ## Suggested Sequence
 

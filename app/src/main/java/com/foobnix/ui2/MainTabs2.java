@@ -175,13 +175,10 @@ public class MainTabs2 extends ReaderFragmentActivity {
     Runnable closeActivityRunnable = new Runnable() {
         @Override
         public void run() {
-            if (drawerLayout != null) {
-                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    finish();
-                } else {
-                    drawerLayout.openDrawer(GravityCompat.START, AppState.get().appTheme != AppState.THEME_INK);
-                }
-
+            if (isSettingsPageOpen()) {
+                finish();
+            } else {
+                openSettingsPage();
             }
         }
     };
@@ -536,7 +533,7 @@ public class MainTabs2 extends ReaderFragmentActivity {
      */
     private PrefFragment2 findPrefFragment() {
         try {
-            Fragment drawer = getSupportFragmentManager().findFragmentById(R.id.left_drawer);
+            Fragment drawer = getSupportFragmentManager().findFragmentById(R.id.settings_page);
             if (drawer instanceof PrefFragment2 && drawer.isAdded()) {
                 return (PrefFragment2) drawer;
             }
@@ -549,6 +546,25 @@ public class MainTabs2 extends ReaderFragmentActivity {
             LOG.e(e);
         }
         return null;
+    }
+
+    private boolean isSettingsPageOpen() {
+        View settingsPage = findViewById(R.id.settings_page);
+        return settingsPage != null && settingsPage.getVisibility() == View.VISIBLE;
+    }
+
+    private void openSettingsPage() {
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START, false);
+        }
+        findViewById(R.id.settings_page).setVisibility(View.VISIBLE);
+    }
+
+    public void closeSettingsPage() {
+        View settingsPage = findViewById(R.id.settings_page);
+        if (settingsPage != null) {
+            settingsPage.setVisibility(View.GONE);
+        }
     }
 
     public boolean isPullToRefreshEnable() {
@@ -742,17 +758,17 @@ public class MainTabs2 extends ReaderFragmentActivity {
             tabFragments.add(new PrefFragment2());
             //tabFragments.add(new CloudsFragment2());
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.left_drawer, new PrefFragment2()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.settings_page, new PrefFragment2()).commit();
 
         drawerLayout = findViewById(R.id.drawer_layout);
 
         imageMenu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    drawerLayout.closeDrawer(GravityCompat.START, AppState.get().appTheme != AppState.THEME_INK);
+                if (isSettingsPageOpen()) {
+                    closeSettingsPage();
                 } else {
-                    drawerLayout.openDrawer(GravityCompat.START, AppState.get().appTheme != AppState.THEME_INK);
+                    openSettingsPage();
                 }
             }
         });
@@ -1237,10 +1253,14 @@ public class MainTabs2 extends ReaderFragmentActivity {
 
     @Override
     public void onBackPressedImpl() {
-//        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//            drawerLayout.closeDrawer(GravityCompat.START, AppState.get().appTheme != AppState.THEME_INK);
-//            return;
-//        }
+        if (isSettingsPageOpen()) {
+            closeSettingsPage();
+            return;
+        }
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
 
         if (tabFragments != null) {
             if (!tabFragments.isEmpty() && tabFragments.get(pager.getCurrentItem()).isBackPressed()) {

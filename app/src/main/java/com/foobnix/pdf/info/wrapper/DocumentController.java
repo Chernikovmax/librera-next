@@ -590,6 +590,17 @@ public abstract class DocumentController {
                     // being lost on the drawer's white ground.
                     drawer.setBackgroundColor(underStatusBar ? Color.TRANSPARENT : Color.WHITE);
                 }
+                // Preferences cover the page rather than using the drawer; keep their
+                // content clear of the same system bars while letting the page show
+                // through the inset strips.
+                View settingsPage = a.findViewById(R.id.settings_page);
+                if (settingsPage != null && underStatusBar) {
+                    settingsPage.setPadding(settingsPage.getPaddingLeft(),
+                                            insets.top,
+                                            settingsPage.getPaddingRight(),
+                                            insets.bottom);
+                    settingsPage.setBackgroundColor(Color.TRANSPARENT);
+                }
 
                 return WindowInsetsCompat.CONSUMED;
             });

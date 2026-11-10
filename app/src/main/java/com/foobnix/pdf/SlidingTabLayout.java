@@ -475,9 +475,12 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
         }
 
-        if (isFloating()) {
-            // The bottom bar divides narrow screens among several tabs; two lines keep
-            // their names legible without changing the configurable tab order or count.
+        if (isFloating() && AppState.get().tabWithNames) {
+            // Keep each label intact; the horizontal strip scrolls when translated names do
+            // not all fit, instead of squeezing five tabs into clipped fragments.
+            textView.setSingleLine();
+            textView.setEllipsize(TextUtils.TruncateAt.END);
+        } else if (isFloating()) {
             textView.setSingleLine(false);
             textView.setMaxLines(2);
             textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -604,13 +607,15 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 });
 
 
-                LinearLayout.LayoutParams
-                        params =
-                        new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1);
+                boolean scrollableNamedTabs = AppState.get().tabWithNames;
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
+                        scrollableNamedTabs ? 0 : 1);
                 if (isFloating()) {
-                    // Every tab the same width, so the patch behind the chosen one comes out
-                    // as a pill across it rather than a circle in the middle of it.
-                    params.width = 0;
+                    if (!scrollableNamedTabs) {
+                        // Icon-only tabs share the available width evenly.
+                        params.width = 0;
+                    }
                     params.leftMargin = params.rightMargin = Dips.DP_2;
                 }
                 getmTabStrip().addView(tabView, params);

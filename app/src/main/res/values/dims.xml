@@ -68,7 +68,6 @@
     
     
 
-    <!-- The width of a value a settings row offers to change: one for every row, so the values
-         stand in one column; the name beside it takes what is left and wraps there. -->
-    <dimen name="pref_value_width">160dp</dimen>
+    <!-- Leave the setting label room to wrap on compact screens while keeping values aligned. -->
+    <dimen name="pref_value_width">120dp</dimen>
 </resources>

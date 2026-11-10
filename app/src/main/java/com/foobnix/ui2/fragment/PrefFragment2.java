@@ -145,10 +145,7 @@ public class PrefFragment2 extends UIFragment {
     public static final Pair<Integer, Integer> PAIR =
             new Pair<>(R.string.preferences, R.drawable.glyphicons_5_settings);
 
-    private static final String WWW_SITE = "https://librera.app/librera-reader/";
-    private static final String WWW_BETA_SITE = "http://beta.librera.mobi";
-    private static final String WWW_WIKI_SITE = "https://librera.mobi/faq";
-    View section1, section2, section3, section4, section5, section6, section7, section8, section9, panelRecent,
+    View section1, section2, section3, section4, section5, section7, section8, section9, panelRecent,
             statusBarHack;
     TextView singIn, syncInfo, syncInfo2, syncHeader, syncNow, syncLibrary;
     ProgressBar syncProgress;
@@ -205,7 +202,7 @@ public class PrefFragment2 extends UIFragment {
         TintUtil.setSectionFillColor(section3, TintUtil.color);
         TintUtil.setSectionFillColor(section4, TintUtil.color);
         TintUtil.setSectionFillColor(section5, TintUtil.color);
-        TintUtil.setSectionFillColor(section6, TintUtil.color);
+
         TintUtil.setSectionFillColor(section7, TintUtil.color);
         TintUtil.setSectionFillColor(section8, TintUtil.color);
         TintUtil.setSectionFillColor(section9, TintUtil.color);
@@ -226,7 +223,6 @@ public class PrefFragment2 extends UIFragment {
         }
         TxtUtils.updateAllLinks(inflate,true);
         paintLinkButtons(inflate);
-        paintLibreraXBlock(inflate);
         paintLibraryFolders();
 
     }
@@ -336,7 +332,6 @@ public class PrefFragment2 extends UIFragment {
     @Override public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                                        final Bundle savedInstanceState) {
         inflate = inflater.inflate(R.layout.fragment_preferences, container, false);
-        markAppBoxes(inflate);
 
         singIn = inflate.findViewById(R.id.signIn);
         syncInfo = inflate.findViewById(R.id.syncInfo);
@@ -566,7 +561,7 @@ public class PrefFragment2 extends UIFragment {
         section3 = inflate.findViewById(R.id.section3);
         section4 = inflate.findViewById(R.id.section4);
         section5 = inflate.findViewById(R.id.section5);
-        section6 = inflate.findViewById(R.id.section6);
+
         section7 = inflate.findViewById(R.id.section7);
 
         onTintChanged();
@@ -670,45 +665,15 @@ public class PrefFragment2 extends UIFragment {
 
         // ((TextView) findViewById(R.id.appName)).setText(AppsConfig.APP_NAME);
 
-        try {
-            PackageInfo packageInfo = getActivity().getPackageManager()
-                                                   .getPackageInfo(getActivity().getPackageName(), 0);
-            String version =
-                    packageInfo.versionName + " (" + AppsConfig.MUPDF_FZ_VERSION + "-" + LibreraBuildConfig.FLAVOR + ")";
-            if (Dips.isEInk()) {
-                version += " INK";
-            }
-            version += " W:" + FoliateContext.webViewVersion().split("\\.")[0];
-            final String versionTitle = version;
-            if (AppsConfig.IS_LOG) {
-                version += "\n MODEL: " + Build.MODEL;
-                version += "\n BRAND: " + Build.BRAND;
-                version += "\n PRODUCT: " + Build.PRODUCT;
-                version += "\n MANUFACTURER: " + Build.MANUFACTURER;
-                version += "\n DEVICE: " + Build.DEVICE;
-                version += "\n REFRESH: " + Dips.getRefreshRate();
-                version += "\n W x H: " + Dips.screenWidthDP() + " x " + Dips.screenHeightDP();
-                version += "\n Night: " + Apps.isNight(getActivity());
-            }
-
-            // ((TextView) inflate.findViewById(R.id.pVersion)).setText(String.format("%s:
-            // %s (%s)", getString(R.string.version), version, AppsConfig.MUPDF_VERSION));
-            ((TextView) inflate.findViewById(R.id.pVersion)).setText(
-                    String.format("%s: %s", getString(R.string.version), version));
-            ((TextView) inflate.findViewById(R.id.section6)).setText(
-                    String.format("%s: %s %s %s", Apps.getApplicationName(getActivity()), versionTitle,
-                            "SDK: " + Build.VERSION.SDK_INT, Build.MANUFACTURER));
-        } catch (final NameNotFoundException e) {
-        }
 
         View onCloseApp = inflate.findViewById(R.id.onCloseApp);
-        onCloseApp.setOnClickListener(new OnClickListener() {
-
-            @Override public void onClick(View v) {
+        onCloseApp.setOnClickListener(v -> {
+            if (getActivity() instanceof MainTabs2) {
+                ((MainTabs2) getActivity()).closeSettingsPage();
+            } else {
                 getActivity().finish();
             }
         });
-
         final TextView onFullScreen = inflate.findViewById(R.id.fullscreen);
 
         onFullScreen.setText(DocumentController.getFullScreenName(getActivity(), AppState.get().fullScreenMainMode));
@@ -1154,19 +1119,6 @@ public class PrefFragment2 extends UIFragment {
                                                         popupMenu.show();
                                                     }
                                                 });
-
-        final TextView onMail = inflate.findViewById(R.id.onMailSupport);
-        asButton(onMail, getString(R.string.my_email));
-
-        onMail.setOnClickListener(new
-
-                                          OnClickListener() {
-                                              @Override
-
-                                              public void onClick(final View v) {
-                                                  onEmail();
-                                              }
-                                          });
 
         ((ConfLineView) inflate.findViewById(R.id.configLongClick)).init(//
                 () -> AppState.get().defaultLongClick,//
@@ -1818,23 +1770,6 @@ public class PrefFragment2 extends UIFragment {
             }
         });
 
-        final TextView whatIsNew = inflate.findViewById(R.id.whatIsNew);
-        whatIsNew.setText(
-
-                getActivity().
-
-                                     getString(R.string.what_is_new_in) + " " + Apps.getApplicationName(
-
-                        getActivity()) + " " + Apps.getVersionName(
-
-                        getActivity()));
-        asButton(whatIsNew);
-        whatIsNew.setOnClickListener(new View.OnClickListener() {
-
-            @Override public void onClick(View v) {
-                Urls.openWhatIsNew(getActivity());
-            }
-        });
 
         ///
 
@@ -2538,104 +2473,6 @@ public class PrefFragment2 extends UIFragment {
             }
         });
 
-        // Which icon this is depends on the flavour installed, so it is asked of the package
-        // manager rather than named here. Set before paintLinkButtons runs, which is what folds
-        // the mark into the button beside it.
-        ImageView rateItIcon = inflate.findViewById(R.id.rateItIcon);
-        try {
-            rateItIcon.setImageDrawable(squareAppIcon());
-        } catch (Exception e) {
-            LOG.e(e);
-        }
-
-        // The LibreraX mark is drawn square; the two app icons above it are not, so it is
-        // given the same round rather than standing as the one hard-cornered tile of three.
-        roundCorners(inflate.findViewById(R.id.libreraXIcon));
-
-        TextView rateIt = inflate.findViewById(R.id.onRateIt);
-        // The words ask for a review on Google Play, which is not where an F-Droid build came
-        // from, so that build is not asked for one.
-        ((View) rateIt.getParent()).setVisibility(TxtUtils.visibleIf(!AppsConfig.IS_FDROID));
-        asButton(rateIt);
-        // Set after asButton, which flattens a button's text to strip any underline it was
-        // carrying and would take the bold with it. Whichever flavour this is names itself.
-        rateIt.setText(TxtUtils.fromHtml("<b>" + Apps.getApplicationName(getActivity()) + "</b>: "
-                + getString(R.string.rate_pdf_reader1)));
-        rateIt.setOnClickListener(new OnClickListener() {
-
-            @Override public void onClick(final View v) {
-                Urls.rateIT(getActivity());
-            }
-        });
-
-        asButton(inflate.findViewById(R.id.openWeb)).
-
-                                                             setOnClickListener(new OnClickListener() {
-
-            @Override public void onClick(final View v) {
-                Urls.open(getActivity(), WWW_SITE);
-            }
-        });
-
-        asButton(inflate.findViewById(R.id.openBeta)).
-
-                                                              setOnClickListener(new OnClickListener() {
-
-            @Override public void onClick(final View v) {
-                Urls.open(getActivity(), WWW_BETA_SITE);
-            }
-        });
-
-        asButton(inflate.findViewById(R.id.openWiki)).
-
-                                                              setOnClickListener(new OnClickListener() {
-
-            @Override public void onClick(final View v) {
-                Urls.open(getActivity(), WWW_WIKI_SITE);
-            }
-        });
-
-        asButton(inflate.findViewById(R.id.onTelegram)).
-
-                                                                setOnClickListener(new OnClickListener() {
-
-            @Override public void onClick(final View v) {
-                Urls.open(getActivity(), "https://t.me/LibreraReader");
-            }
-        });
-
-        TextView proText = inflate.findViewById(R.id.downloadPRO);
-        // Nothing to sell to a reader who is already on PRO, and the F-Droid builds are not
-        // published on the store the offer leads to.
-        boolean isPro = AppsConfig.PRO_LIBRERA_READER.equals(Apps.getPackageName(getActivity()));
-        ((View) proText.getParent()).setVisibility(TxtUtils.visibleIf(!isPro && !AppsConfig.IS_FDROID));
-        asButton(proText);
-        proText.setText(getText(R.string.librera_pro));
-        ((View) proText.getParent()).
-
-                                            setOnClickListener(new OnClickListener() {
-
-            @Override public void onClick(final View v) {
-                Urls.openPdfPro(getActivity());
-            }
-        });
-
-        inflate.findViewById(R.id.libreraXAppStore)
-               .setOnClickListener(v -> Urls.open(getActivity(), LibreraX.DOWNLOAD_URL_APP_STORE));
-        inflate.findViewById(R.id.libreraXGooglePlay)
-               .setOnClickListener(v -> Urls.open(getActivity(), LibreraX.DOWNLOAD_URL_PLAY));
-
-        // A reader who came by F-Droid may have no Play store to take the badge up on, so that
-        // build is also shown where the APK itself can be fetched.
-        TextView libreraXGithub = inflate.findViewById(R.id.libreraXGithub);
-        libreraXGithub.setVisibility(TxtUtils.visibleIf(AppsConfig.IS_FDROID));
-        if (AppsConfig.IS_FDROID) {
-            asButton(libreraXGithub);
-            // After asButton, which flattens the text and would take the bold with it.
-            libreraXGithub.setText(getText(R.string.librerax_github));
-            libreraXGithub.setOnClickListener(
-                    v -> Urls.open(getActivity(), LibreraX.DOWNLOAD_URL_GITHUB));
-        }
 
         inflate.findViewById(R.id.cleanRecent)
                .
@@ -2692,40 +2529,6 @@ public class PrefFragment2 extends UIFragment {
                    }
                });
 
-        // licences link
-        asButton(inflate.findViewById(R.id.libraryLicenses)).
-
-                                                                     setOnClickListener(new OnClickListener() {
-
-            @Override public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle(R.string.licenses_for_libraries);
-
-                WebView wv = new WebView(getActivity());
-                wv.loadUrl("file:///android_asset/licenses.html");
-                wv.setWebViewClient(new WebViewClient() {
-                    @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        view.loadUrl(url);
-                        return true;
-                    }
-                });
-
-                alert.setView(wv);
-                alert.setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog create = alert.create();
-                create.setOnDismissListener(new OnDismissListener() {
-
-                    @Override public void onDismiss(DialogInterface dialog) {
-                        Keyboards.hideNavigation(getActivity());
-                    }
-                });
-                create.show();
-            }
-        });
 
         asButton(inflate.findViewById(R.id.docSearch))
                 .
@@ -2937,7 +2740,6 @@ public class PrefFragment2 extends UIFragment {
 
         TxtUtils.updateAllLinks(inflate, true);
         paintLinkButtons(inflate);
-        paintLibreraXBlock(inflate);
         TintUtil.setBackgroundFillColor(panelRecent, TintUtil.color);
         return inflate;
 
@@ -2980,22 +2782,6 @@ public class PrefFragment2 extends UIFragment {
         return button;
     }
 
-    /**
-     * The buttons about the app itself, under its section: boxes of several lines, most with an
-     * app's mark in them, kept to the round the cards are rather than drawn as pills.
-     */
-    private static final int[] APP_BOXES = {R.id.onRateIt, R.id.downloadPRO, R.id.libreraXGithub,
-            R.id.whatIsNew, R.id.libraryLicenses, R.id.onMailSupport, R.id.openWeb, R.id.openBeta,
-            R.id.openWiki, R.id.onTelegram};
-
-    private static void markAppBoxes(View root) {
-        for (int id : APP_BOXES) {
-            View view = root.findViewById(id);
-            if (view != null) {
-                view.setTag(R.id.cardShape, Boolean.TRUE);
-            }
-        }
-    }
 
     /** Cuts a button's ring and its mark from the colour its own word is drawn in. */
     private void paintLinkButton(TextView button) {
@@ -3011,47 +2797,6 @@ public class PrefFragment2 extends UIFragment {
         }
     }
 
-    /**
-     * The app's own icon, drawn square. What the package manager hands back is an adaptive
-     * icon, which cuts itself to whatever shape the launcher uses - a circle here - the moment
-     * it is drawn. Its two layers are drawn instead, over the bleed a square mask cuts, so the
-     * art comes out whole.
-     */
-    private Drawable squareAppIcon() {
-        Resources res = getResources();
-        String name = res.getResourceEntryName(getActivity().getApplicationInfo().icon);
-        // Two flavours keep an adaptive icon under the same name as their raster, and an
-        // adaptive icon wins the lookup from API 26 on. The rasters are kept a second time
-        // under drawable, where nothing shadows them, so the square art is asked for there
-        // first and the mipmap only answers for the flavours that have no adaptive version.
-        for (String kind : new String[]{"drawable", "mipmap"}) {
-            int id = res.getIdentifier(name, kind, getActivity().getPackageName());
-            if (id != 0) {
-                Drawable raster = ContextCompat.getDrawable(getActivity(), id);
-                if (raster instanceof BitmapDrawable) {
-                    return raster;
-                }
-            }
-        }
-        Drawable icon = Apps.getApplicationImage(getActivity());
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O || !(icon instanceof AdaptiveIconDrawable)) {
-            return icon;
-        }
-        AdaptiveIconDrawable adaptive = (AdaptiveIconDrawable) icon;
-        int size = Dips.dpToPx(72);
-        // The adaptive canvas is 108dp wide and only its middle 72dp is ever shown, so each
-        // layer is drawn half again as wide as the square and centred in it.
-        int bleed = size / 4;
-        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        for (Drawable layer : new Drawable[]{adaptive.getBackground(), adaptive.getForeground()}) {
-            if (layer != null) {
-                layer.setBounds(-bleed, -bleed, size + bleed, size + bleed);
-                layer.draw(canvas);
-            }
-        }
-        return new BitmapDrawable(getResources(), bitmap);
-    }
 
     /** Rounds a mark's corners the way an app icon is rounded, by a fifth of its own width. */
     private void roundCorners(ImageView mark) {
@@ -3067,29 +2812,6 @@ public class PrefFragment2 extends UIFragment {
         mark.setImageDrawable(rounded);
     }
 
-    /**
-     * The LibreraX block is not a link, but it stands in a column with two that are and has to
-     * read as one of them: it is given the same ring, in the colour the pass has just settled
-     * on, and the same insets TintUtil.asLinkButton gives a button.
-     */
-    private void paintLibreraXBlock(View inflate) {
-        View block = inflate.findViewById(R.id.libreraXBlock);
-        TextView link = inflate.findViewById(R.id.whatIsNew);
-        if (block == null || link == null) {
-            return;
-        }
-        block.setBackgroundResource(R.drawable.bg_button_outline_card);
-        // The same insets a button with a mark inside it takes, so the marks of the three
-        // boxes start at one edge.
-        block.setPadding(Dips.DP_10, Dips.DP_8, Dips.DP_10, Dips.DP_8);
-        if (block.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) block.getLayoutParams();
-            lp.leftMargin = lp.rightMargin = Dips.DP_8;
-            lp.topMargin = lp.bottomMargin = Dips.DP_4;
-            block.setLayoutParams(lp);
-        }
-        TintUtil.setRingColor(block, link.getCurrentTextColor());
-    }
 
     /**
      * Draws a picture into a square of the given size, as it is. The icon is taken from a
@@ -3333,26 +3055,6 @@ public class PrefFragment2 extends UIFragment {
         super.onCreate(savedInstanceState);
     }
 
-    public void onEmail() {
-        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-
-        String string = getResources().getString(R.string.my_email)
-                                      .replace("<u>", "")
-                                      .replace("</u>", "");
-        final String[] aEmailList = {string};
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, aEmailList);
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-                Apps.getApplicationName(getContext()) + " " + Apps.getVersionName(getContext()));
-        emailIntent.setType("plain/text");
-        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Hi Support, ");
-
-        try {
-            startActivity(Intent.createChooser(emailIntent, getActivity().getString(R.string.send_mail)));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(getContext(), R.string.there_are_no_email_applications_installed_, Toast.LENGTH_SHORT)
-                 .show();
-        }
-    }
 
     public String getFullDeviceInfo() {
         return "(" + Build.BRAND + ", " + Build.MODEL + ", " + android.os.Build.VERSION.RELEASE + ", " + Dips.screenWidthDP() + "dp" + ")";
@@ -3405,9 +3107,13 @@ public class PrefFragment2 extends UIFragment {
 
     public static void closeLeftMenu(FragmentActivity activity) {
         try {
-            final DrawerLayout drawerLayout = activity.findViewById(R.id.drawer_layout);
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START, !Dips.isEInk());
+            if (activity instanceof MainTabs2) {
+                ((MainTabs2) activity).closeSettingsPage();
+            } else {
+                final DrawerLayout drawerLayout = activity.findViewById(R.id.drawer_layout);
+                if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START, !Dips.isEInk());
+                }
             }
         } catch (Exception e) {
             LOG.e(e);

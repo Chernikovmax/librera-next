@@ -124,9 +124,9 @@
                 android:layout_marginRight="2dip"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:lines="2"
+                android:maxLines="2"
                 android:text="In the Dark"
-                android:textSize="36sp"
+                android:textSize="16sp"
                 android:textStyle="normal" />
 
             <LinearLayout
