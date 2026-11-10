@@ -21,6 +21,7 @@ Make Librera's interface more comfortable, clear, and visually cohesive without 
 - Preserve list and grid browsing while clarifying how users switch between them.
 
 **Outcome:** The library content is prominent, and the next useful action is clear without competing utility elements.
+Current implementation: The permission prompt is shown only when the live indexed library count is zero, avoiding a stale profile book-count flag that could display the prompt above existing books. Verified on the 320×640 emulator with one indexed book: no permission prompt appears. Empty-library prompt behavior and its visual design remain unvalidated; the fresh Android user profile also showed the indexed book, so it did not provide an empty-library state.
 
 ## 3. Improve Book Presentation
 
@@ -30,7 +31,7 @@ Make Librera's interface more comfortable, clear, and visually cohesive without 
 - Check card density and grid behavior at different screen widths.
 
 **Outcome:** Books are easier to scan, and their presentation remains readable on narrow screens and with larger text.
-Current implementation: Grid columns follow the library viewport width and update on resize. List titles use a two-line, 16sp limit with end ellipsis; opening and secondary actions are visually distinct. The library toolbar label now fits at 320dp after removing its duplicate folder-settings shortcut; folder management remains in Settings. Arabic RTL library navigation and actions were checked at 320dp; some Settings strings remain untranslated. Contextual permission states and broader device/state validation remain open.
+Current implementation: Grid columns follow the library viewport width and update on resize. List titles use a two-line, 16sp limit with end ellipsis; opening and secondary actions are visually distinct. The library toolbar label now fits at 320dp after removing its duplicate folder-settings shortcut; folder management remains in Settings. Arabic RTL library navigation and actions were checked at 320dp; some Settings strings remain untranslated. Broader device/state validation remains open.
 
 
 ## 4. Restructure Settings
@@ -52,7 +53,8 @@ Current implementation: Settings opens as a full-screen page, with a localized t
 
 **Outcome:** The app feels cohesive while keeping book covers central to the experience.
 
-Current implementation: Settings section headings no longer use full-width saturated-blue backgrounds; blue remains on navigation and primary toolbar surfaces. Contrast, selected/focus feedback, and consistency across remaining surfaces still need review.
+Current implementation: Settings section headings no longer use full-width saturated-blue backgrounds; blue remains on navigation and primary toolbar surfaces. Settings keyboard focus is isolated while the full-screen page is open and returns to the library on close; checked with TAB traversal on the 320×640 emulator. Catalog-entry category text uses a darker teal token (#00695C), with a calculated 6.61:1 contrast ratio against white. Build and installation succeeded, but the emulator had no reachable catalog entry to render, so this surface still needs direct visual verification. Broader contrast, selected/focus feedback, and consistency across remaining surfaces still need review.
+ 
 
 ## 6. Validate Real-World Layouts and States
 
@@ -62,7 +64,7 @@ Current implementation: Settings section headings no longer use full-width satur
 
 **Outcome:** The design works beyond the initial screenshot and remains usable across realistic states and devices.
 
-Current validation: On a 320×640 Android 36 emulator, the library grid/list and settings screen were checked; the list title wraps to two lines. Settings were also checked at 1.3× system font scale, where controls wrap and remain scrollable. Arabic RTL layout was checked in the library and settings: navigation, toolbar actions, and the settings header mirror correctly; controls remain within the viewport. Russian library navigation and settings were checked at 320dp: the tab strip scrolls the selected tab fully into view, and the settings folder/format controls fit. Tablet-sized 800×1280 and landscape 1280×800 emulator viewports were checked for library grid/list and settings scrolling; no clipping or interaction regression was observed. Empty-library and permission states remain unvalidated.
+Current validation: On a 320×640 Android 36 emulator, the library grid/list and settings screen were checked; the list title wraps to two lines. Settings were also checked at 1.3× system font scale, where controls wrap and remain scrollable. Arabic RTL layout was checked in the library and settings: navigation, toolbar actions, and the settings header mirror correctly; controls remain within the viewport. Russian library navigation and settings were checked at 320dp: the tab strip scrolls the selected tab fully into view, and the settings folder/format controls fit. Tablet-sized 800×1280 and landscape 1280×800 emulator viewports were checked for library grid/list and settings scrolling; no clipping or interaction regression was observed. The updated app was installed and launched; a populated one-book library shows no permission prompt. Settings keyboard focus isolation was verified after two TAB presses, and library focus returns after closing settings. The empty-library prompt remains unvalidated: a fresh Android user profile was created to avoid modifying the populated owner profile, but the emulator displayed a black screen after switching users, preventing inspection.
 
 ## Suggested Sequence
 

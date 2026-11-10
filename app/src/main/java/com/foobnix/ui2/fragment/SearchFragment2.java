@@ -643,6 +643,13 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
     @Override protected boolean isOnGrantPanelAllowed() {
         return getArguments() != Bundle.EMPTY;
     }
+    /**
+     * The library permission prompt is an empty-library call to action, not a banner above books.
+     */
+    @Override protected boolean isAskingPermission(boolean canWrite, boolean safFolders) {
+        return AppDB.get().getCount() == 0 && super.isAskingPermission(canWrite, safFolders);
+    }
+
 
     @Override public void onResume() {
         super.onResume();
@@ -1010,8 +1017,8 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
 
         }
 
+        updateOnGrantPanel();
         showBookCount();
-
     }
 
     private void sortByPopup(final View view) {

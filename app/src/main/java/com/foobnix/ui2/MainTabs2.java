@@ -557,15 +557,30 @@ public class MainTabs2 extends ReaderFragmentActivity {
         if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START, false);
         }
-        findViewById(R.id.settings_page).setVisibility(View.VISIBLE);
+        View settingsPage = findViewById(R.id.settings_page);
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+            swipeRefreshLayout.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+        }
+        settingsPage.setVisibility(View.VISIBLE);
+        settingsPage.requestFocus();
     }
-
+ 
     public void closeSettingsPage() {
         View settingsPage = findViewById(R.id.settings_page);
         if (settingsPage != null) {
             settingsPage.setVisibility(View.GONE);
         }
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
+            swipeRefreshLayout.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+        }
+        if (imageMenu != null) {
+            imageMenu.requestFocus();
+        }
     }
+
+
 
     public boolean isPullToRefreshEnable() {
         return isPullToRefreshEnable(MainTabs2.this, swipeRefreshLayout);

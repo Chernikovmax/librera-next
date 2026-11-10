@@ -56,7 +56,7 @@
                 android:layout_marginLeft="4dip"
                 android:maxLines="2"
                 android:text="category"
-                android:textColor="@color/tint_gray"
+                android:textColor="@color/text_accent"
                 android:textSize="@dimen/text_subtitle" />
 
             <HorizontalScrollView

@@ -32,6 +32,7 @@
     <color name="tint_blue">#03A9F4</color>
     <color name="tint_blue_alpha">#aa03A9F4</color>
     <color name="tint_gray">#009688</color>
+    <color name="text_accent">#00695C</color>
     <color name="tint_red">#B71C1C</color>
     <color name="tint_yellow">#ffad25</color>
     
