@@ -164,6 +164,7 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
                 searchAndOrderAsync();
                 setSearchHint(R.string.library);
                 isLibraryReady = true;
+                updateEmptyLibraryState();
 
                 if (AppsConfig.IS_LOG) {
                     setSearchHint(Apps.getApplicationName(getContext()));
@@ -176,9 +177,11 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
                 }
                 setSearchHint(R.string.searching_please_wait_);
                 isLibraryReady = false;
+                updateEmptyLibraryState();
             } else if (BooksService.RESULT_BUILD_LIBRARY.equals(intent.getStringExtra(Intent.EXTRA_TEXT))) {
                 isLibraryReady = false;
                 setSearchHint(R.string.extracting_information_from_books);
+                updateEmptyLibraryState();
             } else if (BooksService.RESULT_SEARCH_MESSAGE_TXT.equals(intent.getStringExtra(Intent.EXTRA_TEXT))) {
                 setSearchHint(intent.getStringExtra("TEXT"));
             } else if (BooksService.RESULT_NOTIFY_ALL.equals(intent.getStringExtra(Intent.EXTRA_TEXT))) {
@@ -595,7 +598,8 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
         boolean noVisibleBooks = "0".contentEquals(countBooks.getText());
         boolean showEmptyLibrary = libraryFilterIsEmpty
                 && noVisibleBooks
-                && !layoutError.isShown();
+                && !layoutError.isShown()
+                && isLibraryReady;
         layoutOnGrant.setVisibility(View.GONE);
         emptyLibraryState.setVisibility(showEmptyLibrary ? View.VISIBLE : View.GONE);
     }
@@ -709,10 +713,9 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
     private void seachAll() {
         try {
             LOG.d("SeachFragment2", "seachAll");
+            isLibraryReady = false;
+            updateEmptyLibraryState();
             searchAdapter.clearItems();
-            searchAdapter.notifyDataSetChanged();
-            IMG.clearMemoryCache();
-            IMG.clearDiscCache();
             //BooksService.startForeground(getActivity(), BooksService.ACTION_SEARCH_ALL);
 
             SearchAllBooksWorker.run(getActivity());
@@ -1235,7 +1238,7 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
         if (!BooksService.isRunning) {
             isLibraryReady = true;
             setSearchHint(R.string.library);
-
+            updateEmptyLibraryState();
 //            if(AppsConfig.IS_LOG){
 //                setSearchHint(Apps.getApplicationName(getContext()));
 //            }
