@@ -80,6 +80,7 @@
                     android:padding="3dip"
                     android:singleLine="true"
                     android:text="..."
+        android:textColor="@color/text_accent"
                     android:textSize="@dimen/text_subtitle"
                     android:textStyle="bold"
                     android:visibility="visible" />
