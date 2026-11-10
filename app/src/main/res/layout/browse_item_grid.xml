@@ -38,10 +38,6 @@
                 android:padding="0dip" />
         </androidx.cardview.widget.CardView>
 
-        <FrameLayout
-            android:id="@+id/title2Parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:id="@+id/layoutBootom"
@@ -62,18 +58,23 @@
                 android:text="In the dark"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-
-            <TextView
-                style="@style/textLink"
-                android:textColor="@color/text_accent"
+            <FrameLayout
+                android:id="@+id/title2Parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="2"
-                android:padding="0dip"
-                android:text="Bom Marley"
-                android:textSize="12sp" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/title2"
+                    style="@style/textLink"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:padding="0dip"
+                    android:textColor="@color/text_accent"
+                    android:textSize="12sp" />
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/infoLayout"
