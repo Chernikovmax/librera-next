@@ -111,9 +111,6 @@ public class LibreraApp extends Application {
         }
 
 
-//        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
-//        analytics.setUserProperty("APP_NAME", Apps.getApplicationName(this));
-//        analytics.setUserProperty("APP_VERSION", Apps.getVersionName(this));
 
 
 

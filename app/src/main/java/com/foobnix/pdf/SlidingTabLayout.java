@@ -72,7 +72,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
      * the last book: the pill's own height, the gap it is lifted by, and a little air. A
      * bar of icons alone is the shorter of the two and asks for less.
      */
-    private static final int FLOATING_SPACE_DIPS = 76;
+    private static final int FLOATING_SPACE_DIPS = 88;
     private static final int FLOATING_SPACE_ALONE_DIPS = 50;
     /**
      * A full stadium rounds to half the bar's height, the way LibreraX draws it; the pill
@@ -475,7 +475,13 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
         }
 
-        if (myPOS == POS_HORIZONTAL) {
+        if (isFloating()) {
+            // The bottom bar divides narrow screens among several tabs; two lines keep
+            // their names legible without changing the configurable tab order or count.
+            textView.setSingleLine(false);
+            textView.setMaxLines(2);
+            textView.setEllipsize(TextUtils.TruncateAt.END);
+        } else if (myPOS == POS_HORIZONTAL) {
             textView.setAllCaps(true);
         } else {
             textView.setSingleLine();

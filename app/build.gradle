@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.googleServices)
 }
 
 def taskName = getGradle().getStartParameter().getTaskRequests().toString()
@@ -188,7 +187,7 @@ android {
             manifestPlaceholders = [
                     appName      : "Librera",
                     appIcon      : "@mipmap/icon_pdf_reader",
-                    appRoundIcon : "@mipmap/icon_pdf_reader",
+                    appRoundIcon : "@mipmap/icon_pdf_reader_round",
                     appWebClientId: project.findProperty("appWebClientId") ?: "",
                     appGdriveKey : project.findProperty("librera_appGdriveKey") ?: "",
                     appSafeMode  : "false"

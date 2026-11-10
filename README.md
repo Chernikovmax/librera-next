@@ -67,17 +67,9 @@ RELEASE_STORE_PASSWORD=PASSWD
 RELEASE_KEY_PASSWORD=PASSWD
 RELEASE_KEY_ALIAS=ALIAS
 ~~~~
+## Build
 
-## Create Firebase Authentication file
-
-To build with firebase support (all version but the ones for Fdroid) you need to get an
-authentication file for firebase services offered by google. Therefore please follow
-https://firebase.google.com/docs/android/setup to create your own project. You need to
-register for the packages com.foobnix.pdf.info and com.foobnix.pdf.reader.a1. This way
-you will get a google-services.json file that you have to place in the app folder of
-the repository.
-
-For this project only Analytics is used, so a spakling plan is all you need.
+Firebase Analytics and the Google Services Gradle plugin have been removed. All app variants can be built without `google-services.json`. For Google Drive sign-in, set `appWebClientId` to your own OAuth web client ID; without it, Google sign-in is unavailable in the Google Play services build.
 
 ## Librera Build on MuPdf
 
@@ -90,7 +82,7 @@ cd ..
 
 ## Building for F-Droid for Android
 
-If you wish to build for F-Droid (e.g. not using google services, Internet) you can run the build with
+To build the F-Droid variant:
 
 ~~~~
 cd Builder
@@ -99,7 +91,6 @@ cd ..
 ./gradlew assembleFdroid
 ~~~~
 
-F-Droid build does also not need a **google-services.json**
 
 ## What's new
 

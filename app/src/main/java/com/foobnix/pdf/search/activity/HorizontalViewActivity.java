@@ -296,7 +296,6 @@ public class HorizontalViewActivity extends ReaderFragmentActivity {
 
         super.onCreate(savedInstanceState);
 
-        //FirebaseAnalytics.getInstance(this);
 
         if (PasswordDialog.isNeedPasswordDialog(this)) {
             return;

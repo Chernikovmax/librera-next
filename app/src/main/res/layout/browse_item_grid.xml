@@ -58,7 +58,7 @@
                 android:ellipsize="end"
                 android:gravity="top"
                 android:lineSpacingExtra="4dip"
-                android:singleLine="true"
+                android:maxLines="2"
                 android:text="In the dark"
                 android:textSize="14sp" />
 
@@ -121,11 +121,11 @@
                 <ImageView
                     android:id="@+id/starIcon"
                     style="@style/buttonWhite"
-                    android:layout_width="@dimen/wh_button_small"
-                    android:layout_height="@dimen/wh_button_small"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_weight="0"
                     android:background="@drawable/bg_round_press"
-                    android:padding="2dip"
+                    android:padding="12dp"
                     android:contentDescription="@string/add_to_favorites"
                     android:src="@drawable/glyphicons_9_heart_empty"
                     android:tint="@color/tint_gray" />
@@ -133,11 +133,11 @@
 
                 <ImageView
                     android:id="@+id/itemMenu"
-                    android:layout_width="@dimen/wh_button_small"
-                    android:layout_height="@dimen/wh_button_small"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_weight="0"
                     android:background="@drawable/bg_round_press"
-                    android:padding="2dip"
+                    android:padding="12dp"
                     android:contentDescription="@string/book_menu"
                     android:src="@drawable/glyphicons_498_more_vertical"
                     android:tint="@color/tint_gray" />

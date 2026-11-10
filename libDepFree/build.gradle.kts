@@ -27,8 +27,6 @@ android {
 
 dependencies {
 
-    //implementation(platform(libs.firebase.bom))
-    //api(libs.firebase.analytics)
     //api("androidx.annotation:annotation:1.10.0")
 
     //implementation(libs.billing)

@@ -31,9 +31,7 @@ import java.util.concurrent.Executor;
  * Google checks the three of them against each other - the web client, the package and the
  * signing certificate - and a client that is of the wrong kind, or of another project, makes the
  * sheet fail on the account the user picks with "Developer console is not set up correctly".
- * Where the manifest names none, the web client of the app's own Firebase project is used, the
- * one the google-services plugin takes out of google-services.json - so a build whose signing
- * certificate is registered with that project needs no client of its own here.
+ * The web client must be provided in the manifest metadata; this build does not use Firebase configuration.
  *
  * The flavours built without Google Play services have their own copy of this class in
  * src/noGms/java, which reports the sheet unavailable and nothing more.
@@ -56,23 +54,10 @@ public final class GoogleAccountSheet {
     }
 
     /**
-     * The client the sheet names the app by, or an empty string when the build has none: the
-     * manifest's, where a build sets one of its own, and otherwise the web client of the app's
-     * Firebase project, which the google-services plugin writes into the resources from
-     * google-services.json - the same one LibreraX signs in with.
+     * The web client ID from this build's manifest metadata, or an empty string when none is set.
      */
     private static String clientId(final Context c) {
-        final String own = TxtUtils.nullToEmpty(Apps.getMetaData(c, "librera.GOOGLE_WEB_CLIENT_ID"));
-        if (TxtUtils.isNotEmpty(own)) {
-            return own;
-        }
-        try {
-            final int id = c.getResources().getIdentifier("default_web_client_id", "string", c.getPackageName());
-            return id == 0 ? "" : TxtUtils.nullToEmpty(c.getString(id));
-        } catch (Throwable e) {
-            LOG.e(e);
-            return "";
-        }
+        return TxtUtils.nullToEmpty(Apps.getMetaData(c, "librera.GOOGLE_WEB_CLIENT_ID"));
     }
 
     public static boolean isAvailable(final Context c) {
