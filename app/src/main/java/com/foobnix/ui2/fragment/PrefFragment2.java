@@ -127,6 +127,7 @@ import com.foobnix.sys.TempHolder;
 import com.foobnix.ui2.BooksService;
 import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.MyContextWrapper;
+import com.foobnix.ui2.ThemeManager;
 import com.foobnix.work.SearchAllBooksWorker;
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
 
@@ -150,7 +151,7 @@ public class PrefFragment2 extends UIFragment {
     TextView singIn, syncInfo, syncInfo2, syncHeader, syncNow, syncLibrary;
     ProgressBar syncProgress;
     CheckBox isEnableSync, isSyncPullToRefresh;
-    private TextView curBrightness, themeColor, profileLetter;
+    private TextView curBrightness, profileLetter;
     private CheckBox isRememberDictionary;
     private TextView nextKeys;
     private TextView prevKeys;
@@ -179,6 +180,7 @@ public class PrefFragment2 extends UIFragment {
     private TextView selectedDictionaly;
     private TextView screenOrientation;
     private View inflate;
+    private SettingsNavigation settingsNavigation;
     ConfLineView configSingleClick;
 
     @Override public Pair<Integer, Integer> getNameAndIconRes() {
@@ -186,7 +188,22 @@ public class PrefFragment2 extends UIFragment {
     }
 
     @Override public boolean isBackPressed() {
-        return false;
+        return settingsNavigation != null && settingsNavigation.back();
+    }
+
+    @Override public void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        if (settingsNavigation != null) settingsNavigation.save(state);
+    }
+
+    @Override public void onViewStateRestored(Bundle state) {
+        super.onViewStateRestored(state);
+        if (settingsNavigation != null) settingsNavigation.restoreScroll();
+    }
+
+    @Override public void onDestroyView() {
+        settingsNavigation = null;
+        super.onDestroyView();
     }
 
     @Override public void notifyFragment() {
@@ -207,6 +224,7 @@ public class PrefFragment2 extends UIFragment {
         TintUtil.setSectionFillColor(section8, TintUtil.color);
         TintUtil.setSectionFillColor(section9, TintUtil.color);
         TintUtil.setBackgroundFillColor(panelRecent, TintUtil.color);
+        if (settingsNavigation != null) settingsNavigation.onTintChanged();
         if (statusBarHack != null) {
             statusBarHack.setBackgroundColor(TintUtil.color);
         }
@@ -218,9 +236,6 @@ public class PrefFragment2 extends UIFragment {
             profileLetter.setContentDescription(p + " " + getString(R.string.profile));
         }
 
-        if (AppState.get().appTheme == AppState.THEME_INK) {
-            TxtUtils.setInkTextView(inflate.getRootView());
-        }
         TxtUtils.updateAllLinks(inflate,true);
         paintLinkButtons(inflate);
         paintLibraryFolders();
@@ -659,15 +674,14 @@ public class PrefFragment2 extends UIFragment {
         final ScrollView scrollView = inflate.findViewById(R.id.scroll);
         scrollView.setVerticalScrollBarEnabled(false);
 
-        if (AppState.get().appTheme == AppState.THEME_DARK_OLED) {
-            scrollView.setBackgroundColor(Color.BLACK);
-        }
+        scrollView.setBackgroundColor(ThemeManager.color(requireContext(), R.attr.appBackground));
 
         // ((TextView) findViewById(R.id.appName)).setText(AppsConfig.APP_NAME);
 
 
         View onCloseApp = inflate.findViewById(R.id.onCloseApp);
         onCloseApp.setOnClickListener(v -> {
+            if (isBackPressed()) return;
             if (getActivity() instanceof MainTabs2) {
                 ((MainTabs2) getActivity()).closeSettingsPage();
             } else {
@@ -841,114 +855,6 @@ public class PrefFragment2 extends UIFragment {
             onTheme();
         });
 
-        themeColor = inflate.findViewById(R.id.themeColor);
-        themeColor.setOnClickListener(new
-
-                                              OnClickListener() {
-
-                                                  @Override public void onClick(final View v) {
-
-                                                      PopupMenu p = new PopupMenu(getContext(), themeColor);
-                                                      p.getMenu()
-                                                       .add(R.string.system)
-                                                       .setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-                                                           @Override public boolean onMenuItemClick(MenuItem item) {
-                                                               AppState.get().isSystemThemeColor = true;
-                                                               AppState.get().appTheme =
-                                                                       Dips.isDarkThemeOn() ? AppState.THEME_DARK :
-                                                                               AppState.THEME_LIGHT;
-                                                               AppState.get().contrastImage = 0;
-                                                               AppState.get().brigtnessImage = 0;
-                                                               AppState.get().bolderTextOnImage = false;
-                                                               AppState.get().isEnableBCOptional1 = false;
-
-                                                               IMG.clearDiscCache();
-                                                               IMG.clearMemoryCache();
-                                                               onTheme();
-
-                                                               return false;
-                                                           }
-                                                       });
-
-                                                      p.getMenu()
-                                                       .add(R.string.light)
-                                                       .setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-                                                           @Override public boolean onMenuItemClick(MenuItem item) {
-                                                               AppState.get().isSystemThemeColor = false;
-                                                               AppState.get().appTheme = AppState.THEME_LIGHT;
-
-                                                               AppState.get().contrastImage = 0;
-                                                               AppState.get().brigtnessImage = 0;
-                                                               AppState.get().bolderTextOnImage = false;
-                                                               AppState.get().isEnableBCOptional1 = false;
-
-                                                               IMG.clearDiscCache();
-                                                               IMG.clearMemoryCache();
-                                                               onTheme();
-
-                                                               return false;
-                                                           }
-                                                       });
-                                                      p.getMenu()
-                                                       .add(R.string.black)
-                                                       .setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-                                                           @Override public boolean onMenuItemClick(MenuItem item) {
-                                                               AppState.get().isSystemThemeColor = false;
-                                                               AppState.get().appTheme = AppState.THEME_DARK;
-
-                                                               AppState.get().contrastImage = 0;
-                                                               AppState.get().brigtnessImage = 0;
-                                                               AppState.get().bolderTextOnImage = false;
-                                                               AppState.get().isEnableBCOptional1 = false;
-
-                                                               IMG.clearDiscCache();
-                                                               IMG.clearMemoryCache();
-
-                                                               onTheme();
-                                                               return false;
-                                                           }
-                                                       });
-                                                      p.getMenu()
-                                                       .add(R.string.dark_oled)
-                                                       .setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-                                                           @Override public boolean onMenuItemClick(MenuItem item) {
-                                                               AppState.get().isSystemThemeColor = false;
-                                                               AppState.get().appTheme = AppState.THEME_DARK_OLED;
-
-                                                               AppState.get().contrastImage = 0;
-                                                               AppState.get().brigtnessImage = 0;
-                                                               AppState.get().bolderTextOnImage = false;
-                                                               AppState.get().isEnableBCOptional1 = false;
-                                                               AppState.get().tintThemeColor = Color.BLACK;
-                                                               AppState.get().isUiTextColor = false;
-
-                                                               IMG.clearDiscCache();
-                                                               IMG.clearMemoryCache();
-
-                                                               onTheme();
-                                                               return false;
-                                                           }
-                                                       });
-                                                      p.getMenu()
-                                                       .add("Ink")
-                                                       .setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-                                                           @Override public boolean onMenuItemClick(MenuItem item) {
-                                                               AppState.get().isSystemThemeColor = false;
-                                                               IMG.clearDiscCache();
-                                                               IMG.clearMemoryCache();
-
-                                                               onEink();
-                                                               return false;
-                                                           }
-                                                       });
-                                                      p.show();
-                                                  }
-                                              });
 
         TextView appEngine = inflate.findViewById(R.id.appEngine);
         appEngine.setText("" + AppsConfig.MUPDF_FZ_VERSION);
@@ -2255,180 +2161,6 @@ public class PrefFragment2 extends UIFragment {
                                                 }
                                             });
 
-        //color
-        {
-            LinearLayout colorsLine = inflate.findViewById(R.id.colorsLine);
-            colorsLine.removeAllViews();
-
-            for (String color : AppState.STYLE_COLORS) {
-                View view = inflater.inflate(R.layout.item_color, (ViewGroup) inflate, false);
-                view.setBackgroundColor(Color.TRANSPARENT);
-                final int intColor = Color.parseColor(color);
-                final View img = view.findViewById(R.id.itColor);
-                TintUtil.setColorSwatch(img, intColor);
-                img.setContentDescription(getString(R.string.color));
-
-                colorsLine.addView(view, new LayoutParams(Dips.dpToPx(30), Dips.dpToPx(30)));
-
-                view.setOnClickListener(new OnClickListener() {
-
-                    @Override public void onClick(View v) {
-                        TintUtil.color = intColor;
-                        AppState.get().tintThemeColor = intColor;
-                        TempHolder.listHash++;
-
-                        onTintChanged();
-                        sendNotifyTintChanged();
-
-                        AppProfile.save(getActivity());
-
-                    }
-                });
-            }
-
-            View view = inflater.inflate(R.layout.item_color, (ViewGroup) inflate, false);
-            view.setBackgroundColor(Color.TRANSPARENT);
-            view.setContentDescription(getString(R.string.color));
-            final ImageView img = view.findViewById(R.id.itColor);
-            img.setImageResource(R.drawable.glyphicons_371_plus);
-            img.setColorFilter(AppState.get().userColor);
-            TintUtil.setColorSwatchOutline(img, AppState.get().userColor);
-            colorsLine.addView(view, new
-
-                    LayoutParams(Dips.dpToPx(30), Dips.
-
-                                                              dpToPx(30)));
-
-            view.setOnClickListener(new OnClickListener() {
-                @Override public void onClick(View v) {
-                    new HSVColorPickerDialog(getContext(), AppState.get().userColor, new OnColorSelectedListener() {
-
-                        @Override public void colorSelected(Integer color) {
-                            AppState.get().userColor = color;
-                            AppState.get().tintThemeColor = color;
-                            TintUtil.color = color;
-                            img.setColorFilter(color);
-                            TintUtil.setColorSwatchOutline(img, color);
-
-                            onTintChanged();
-                            sendNotifyTintChanged();
-
-                            AppProfile.save(getActivity());
-
-                            TempHolder.listHash++;
-
-                        }
-                    }).show();
-
-                }
-            });
-        }
-        ///end colors
-        ////
-        {
-            Runnable onAccent = new Runnable() {
-                @Override public void run() {
-                    if (AppState.get().isUiTextColor && AppState.get().uiTextColorUser != AppState.get().tintThemeColor) {
-                        AppState.get().statusBarColorDay = AppState.get().uiTextColorUser;
-                        AppState.get().statusBarColorNight = AppState.get().uiTextColorUser;
-                    } else {
-                        AppState.get().statusBarColorDay = Color.parseColor(AppState.TEXT_COLOR_DAY);
-                        AppState.get().statusBarColorNight = Color.parseColor(AppState.TEXT_COLOR_NIGHT);
-                    }
-
-                    TempHolder.listHash++;
-                    onTintChanged();
-                    sendNotifyTintChanged();
-                    ((MainTabs2) getActivity()).updateCurrentFragment();
-
-                    //TxtUtils.updateAllLinks(inflate, true);
-                }
-            };
-
-            LinearLayout colorsLine = inflate.findViewById(R.id.colorsLine_a);
-            colorsLine.removeAllViews();
-
-            CheckBox isAccentTextColor = inflate.findViewById(R.id.isAccentTextColor);
-
-            // Restored before the listener is set: onAccent overwrites the status bar colors, and
-            // building this screen must not reset the ones the user chose in the reader
-            isAccentTextColor.setChecked(AppState.get().isUiTextColor);
-            isAccentTextColor.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-                @Override public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    AppState.get().isUiTextColor = b;
-                    onAccent.run();
-                }
-            });
-
-            for (String color : AppState.ACCENT_COLORS) {
-                final int intColor = Color.parseColor(color);
-                if (AppState.get().appTheme == AppState.THEME_LIGHT || AppState.get().appTheme == AppState.THEME_INK) {
-                    if (intColor == Color.WHITE) {
-                        continue;
-                    }
-                }
-                if (AppState.get().appTheme == AppState.THEME_DARK_OLED) {
-                    if (intColor == Color.BLACK) {
-                        continue;
-                    }
-                }
-
-                View view = inflater.inflate(R.layout.item_color, (ViewGroup) inflate, false);
-                view.setBackgroundColor(Color.TRANSPARENT);
-
-                final View img = view.findViewById(R.id.itColor);
-                TintUtil.setColorSwatch(img, intColor);
-                img.setContentDescription(getString(R.string.color));
-
-                colorsLine.addView(view, new LayoutParams(Dips.dpToPx(30), Dips.dpToPx(30)));
-
-                view.setOnClickListener(new OnClickListener() {
-
-                    @Override public void onClick(View v) {
-
-                        AppState.get().isUiTextColor = true;
-                        AppState.get().uiTextColor = intColor;
-                        AppState.get().uiTextColorUser = intColor;
-
-                        isAccentTextColor.setChecked(AppState.get().isUiTextColor);
-
-                        onAccent.run();
-
-                    }
-                });
-            }
-
-            View view = inflater.inflate(R.layout.item_color, (ViewGroup) inflate, false);
-            view.setBackgroundColor(Color.TRANSPARENT);
-            view.setContentDescription(getString(R.string.color));
-            final ImageView img = view.findViewById(R.id.itColor);
-            img.setImageResource(R.drawable.glyphicons_371_plus);
-            img.setColorFilter(AppState.get().userColor);
-            TintUtil.setColorSwatchOutline(img, AppState.get().userColor);
-            colorsLine.addView(view, new LayoutParams(Dips.dpToPx(30), Dips.dpToPx(30)));
-
-            view.setOnClickListener(new OnClickListener() {
-                @Override public void onClick(View v) {
-                    new HSVColorPickerDialog(getContext(), AppState.get().userColor, new OnColorSelectedListener() {
-
-                        @Override public void colorSelected(Integer color) {
-                            AppState.get().isUiTextColor = true;
-                            AppState.get().uiTextColor = color;
-                            AppState.get().uiTextColorUser = color;
-
-                            img.setColorFilter(color);
-                            TintUtil.setColorSwatchOutline(img, color);
-                            isAccentTextColor.setChecked(AppState.get().isUiTextColor);
-
-                            onAccent.run();
-
-                        }
-                    }).show();
-
-                }
-            });
-        }
-        ////
 
         asButton(inflate.findViewById(R.id.linksColor)).
 
@@ -2741,27 +2473,11 @@ public class PrefFragment2 extends UIFragment {
         TxtUtils.updateAllLinks(inflate, true);
         paintLinkButtons(inflate);
         TintUtil.setBackgroundFillColor(panelRecent, TintUtil.color);
+        settingsNavigation = new SettingsNavigation(requireActivity(), inflate, savedInstanceState);
         return inflate;
 
     }
 
-    private void onEink() {
-        AppState.get().appTheme = AppState.THEME_INK;
-        AppState.get().blueLightAlpha = 0;
-        AppState.get().tintThemeColor = Color.BLACK;
-        AppState.get().uiTextColor = Color.BLACK;
-        AppState.get().isUiTextColor = true;
-        TintUtil.color = Color.BLACK;
-
-        onTintChanged();
-        sendNotifyTintChanged();
-
-        AppProfile.save(getActivity());
-
-        getActivity().finish();
-        MainTabs2.startActivity(getActivity(), TempHolder.get().currentTab);
-
-    }
 
     /**
      * A link in the panel is drawn as a button - a ring in the theme colour, cut to the same
@@ -3066,8 +2782,7 @@ public class PrefFragment2 extends UIFragment {
         IMG.clearMemoryCache();
         AppProfile.save(getActivity());
         AppProfile.clear();
-        getActivity().finish();
-        MainTabs2.startActivity(getActivity(), TempHolder.get().currentTab);
+        requireActivity().recreate();
     }
 
     public void onScan() {
@@ -3130,21 +2845,6 @@ public class PrefFragment2 extends UIFragment {
         super.onActivityCreated(savedInstanceState);
         rotationText();
 
-        if (AppState.get().isSystemThemeColor) {
-            themeColor.setText(getString(R.string.system));
-        } else if (AppState.get().appTheme == AppState.THEME_INK) {
-            themeColor.setText("Ink");
-        } else if (AppState.get().appTheme == AppState.THEME_LIGHT) {
-            themeColor.setText(getString(R.string.light));
-        } else if (AppState.get().appTheme == AppState.THEME_DARK) {
-            themeColor.setText(getString(R.string.black));
-        } else if (AppState.get().appTheme == AppState.THEME_DARK_OLED) {
-            themeColor.setText(getString(R.string.dark_oled));
-        } else {
-            themeColor.setText("unknown");
-
-        }
-        asButton(themeColor);
     }
 
     private void saveChanges() {

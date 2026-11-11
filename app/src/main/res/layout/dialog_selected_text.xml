@@ -27,7 +27,7 @@
                     android:layout_height="@dimen/wh_button"
                     android:layout_marginLeft="5dip"
                     android:background="@android:drawable/list_selector_background"
-                    android:padding="2dip"
+                    android:padding="12dp"
                     android:src="@drawable/glyphicons_695_text_background"
                     android:tint="@color/tint_gray" />
 
@@ -37,7 +37,7 @@
                     android:layout_height="@dimen/wh_button"
                     android:layout_marginLeft="5dip"
                     android:background="@android:drawable/list_selector_background"
-                    android:padding="2dip"
+                    android:padding="12dp"
                     android:src="@drawable/glyphicons_104_underline"
                     android:tint="@color/tint_gray" />
 
@@ -47,7 +47,7 @@
                     android:layout_height="@dimen/wh_button"
                     android:layout_marginLeft="5dip"
                     android:background="@android:drawable/list_selector_background"
-                    android:padding="2dip"
+                    android:padding="12dp"
                     android:src="@drawable/glyphicons_105_strikethrough"
                     android:tint="@color/tint_gray" />
 
@@ -64,7 +64,7 @@
                     android:layout_height="@dimen/wh_button_small"
                     android:layout_marginLeft="5dip"
                     android:background="@android:drawable/list_selector_background"
-                    android:padding="1dip"
+                    android:padding="12dp"
                     android:src="@drawable/glyphicons_371_plus"
                     android:tint="@color/tint_gray" />
 
@@ -74,7 +74,7 @@
                     android:layout_height="@dimen/wh_button"
                     android:layout_marginLeft="10dip"
                     android:background="@android:drawable/list_selector_background"
-                    android:padding="2dip"
+                    android:padding="12dp"
                     android:src="@drawable/glyphicons_17_bin"
                     android:tint="@color/tint_gray"
                     android:visibility="gone" />
@@ -132,6 +132,7 @@
                 android:layout_height="@dimen/wh_button_medium"
                 android:layout_weight="0"
                 android:adjustViewBounds="true"
+                android:padding="12dp"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/glyphicons_186_volume_up"
                 android:tint="@color/tint_gray" />
@@ -143,6 +144,7 @@
                 android:layout_marginLeft="8dip"
                 android:layout_weight="0"
                 android:adjustViewBounds="true"
+                android:padding="12dp"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/my_glyphicons_smileys_100_headphones_play"
                 android:tint="@color/tint_gray"
@@ -154,7 +156,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lt_grey_alpha" />
+            android:background="?attr/appOutline" />
 
 
 
@@ -176,10 +178,12 @@
 
                 style="@style/textLink"
                 android:layout_width="match_parent"
-                android:layout_height="35dip"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dip"
-                android:singleLine="true"
+                android:singleLine="false"
+                android:ellipsize="@null"
                 android:text="@string/add_to_bookmark"
                 android:textSize="15sp" />
 
@@ -203,10 +207,12 @@
 
                 style="@style/textLink"
                 android:layout_width="match_parent"
-                android:layout_height="35dip"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dip"
-                android:singleLine="true"
+                android:singleLine="false"
+                android:ellipsize="@null"
                 android:text="@string/share"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -229,10 +235,12 @@
 
                 style="@style/textLink"
                 android:layout_width="match_parent"
-                android:layout_height="35dip"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dip"
-                android:singleLine="true"
+                android:singleLine="false"
+                android:ellipsize="@null"
                 android:text="@string/copy"
                 android:textSize="15sp" />
 
@@ -258,10 +266,12 @@
 
                 style="@style/textLink"
                 android:layout_width="match_parent"
-                android:layout_height="35dip"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dip"
-                android:singleLine="true"
+                android:singleLine="false"
+                android:ellipsize="@null"
                 android:text="@string/search_in_document"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -269,7 +279,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lt_grey_alpha" />
+            android:background="?attr/appOutline" />
 
 
         <LinearLayout
@@ -289,10 +299,12 @@
             <TextView
                 style="@style/textLink"
                 android:layout_width="match_parent"
-                android:layout_height="35dip"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dip"
-                android:singleLine="true"
+                android:singleLine="false"
+                android:ellipsize="@null"
                 android:text="@string/web_search_google"
                 android:textSize="15sp" />
 
@@ -314,11 +326,13 @@
                 android:id="@+id/onTranslate"
                 style="@style/textLink"
                 android:layout_width="match_parent"
-                android:layout_height="35dip"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
                 android:background="@android:drawable/list_selector_background"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dip"
-                android:singleLine="true"
+                android:singleLine="false"
+                android:ellipsize="@null"
                 android:text="@string/web_dict_oxfort"
                 android:textSize="15sp" />
 
@@ -327,7 +341,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lt_grey_alpha" />
+            android:background="?attr/appOutline" />
 
 
         <HorizontalScrollView

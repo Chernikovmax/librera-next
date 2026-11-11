@@ -22,6 +22,7 @@ public class SettingsManager {
         try {
 
             current = SharedBooks.load(fileName);
+            com.foobnix.pdf.info.model.BookCSS.get().activateAppearance(current);
             LOG.d("load-getBookSettings", current.p, fileName);
             return current;
         } catch (Exception e) {

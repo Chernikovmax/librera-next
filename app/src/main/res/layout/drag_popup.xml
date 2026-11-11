@@ -16,82 +16,66 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/topLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_weight="0"
-            android:background="#dd4E342E"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="2dip" >
+            android:background="?attr/appSurface">
 
-            <ImageView
-                android:id="@+id/droid"
-                android:layout_width="@dimen/wh_button"
-                android:layout_height="@dimen/wh_button"
-                android:layout_weight="0"
-                android:adjustViewBounds="true"
-                android:cropToPadding="true"
-                android:padding="2dip"
-                android:src="@mipmap/icon_pdf_droid"
-                android:visibility="gone" />
-
-            <!-- The trail back to the dialog this one was opened from. It is set in the same
-                 caps and weight as the name it leads to, so the head reads as one line. -->
             <TextView
                 android:id="@+id/onTitleAction"
-                style="@style/textLinkWhite"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
+                android:layout_marginEnd="48dp"
+                android:minHeight="48dp"
+                android:gravity="center_vertical"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:background="@drawable/redesign_toolbar_button"
+                android:focusable="true"
                 android:text="@string/preferences"
-                android:textAllCaps="true"
+                android:textColor="?attr/appPrimary"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/onTitleAction1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:text=">"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <!-- The name of the dialog, set in caps and bold so the head is told apart from
-                 the settings under it. -->
             <TextView
                 android:id="@+id/dialogTitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/onTitleAction"
+                android:layout_marginEnd="96dp"
+                android:minHeight="48dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="10dip"
-                android:singleLine="true"
-                android:text="Search"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textStyle="bold" >
-            </TextView>
+                android:paddingStart="12dp"
+                android:paddingEnd="4dp"
+                android:textColor="?attr/appOnSurface"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/onIconAction"
-                style="@style/buttonWhiteClose"
-                android:layout_width="@dimen/wh_button"
-                android:layout_height="@dimen/wh_button"
-                android:layout_weight="0"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@id/dialogTitle"
+                android:layout_marginEnd="48dp"
+                android:padding="12dp"
+                android:background="@drawable/redesign_toolbar_button"
+                android:focusable="true"
+                android:contentDescription="@string/menu"
                 android:src="@drawable/my_glyphicons_114_paragraph_justify" />
-            
+
             <ImageView
                 android:id="@+id/closePopup"
-                style="@style/buttonWhiteClose"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:padding="12dp"
+                android:background="@drawable/redesign_toolbar_button"
+                android:focusable="true"
                 android:contentDescription="@string/close_dialog_and_apply_changes"
-                android:layout_width="@dimen/wh_button"
-                android:layout_height="@dimen/wh_button"
-                android:layout_weight="0"
                 android:src="@drawable/glyphicons_599_menu_close" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <com.foobnix.pdf.info.view.MyFrameLayout
             android:id="@+id/popupContent"

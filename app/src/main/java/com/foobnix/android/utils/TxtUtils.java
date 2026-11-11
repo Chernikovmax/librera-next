@@ -1577,43 +1577,11 @@ public class TxtUtils {
 
     public static void updateAllLinks(View parent, boolean accentImage) {
         try {
-            int color = AppState.get().uiTextColor;
+            int color = getLinkTextColor(parent.getContext());
             if (parent instanceof ViewGroup) {
-                if (AppState.get().isUiTextColor) {
-                    color = AppState.get().uiTextColor;
-                } else {
-                    TypedArray out = parent.getContext()
-                                           .getTheme()
-                                           .obtainStyledAttributes(new int[]{android.R.attr.textColorLink});
-                    color = out.getColor(0, Color.WHITE);
-                }
-                if (AppState.get().appTheme == AppState.THEME_DARK_OLED && !AppState.get().isUiTextColor) {
-                    color = Color.WHITE;
-                }
-
                 TxtUtils.updateAllLinks((ViewGroup) parent, color, accentImage);
-            } else {
-                LOG.d("updateAllLinks parent is not ViewGroup");
-            }
-            if (AppState.get().uiTextColor == AppState.get().tintThemeColor) {
-                color = Color.WHITE;
-            }
-            if (AppState.get().appTheme == AppState.THEME_DARK_OLED && !AppState.get().isUiTextColor) {
-                color = Color.WHITE;
             }
 
-            // onCloseApp is a button now, not a line of text, and would stop the loop dead.
-            List<Integer> ids = Arrays.asList(R.id.title, R.id.chapter,
-                    R.id.currentSeek, R.id.maxSeek, R.id.modeName, R.id.nextTypeBootom, R.id.playListName,
-                    R.id.playListNameEdit);
-            if (AppState.get().isUiTextColor) {
-                for (int id : ids) {
-                    TextView view = parent.findViewById(id);
-                    if (view != null) {
-                        view.setTextColor(color);
-                    }
-                }
-            }
         } catch (Exception e) {
             LOG.e(e);
         }
@@ -1623,11 +1591,8 @@ public class TxtUtils {
         txt.setTextColor(getLinkTextColor(txt.getContext()));
     }
 
-    /** The colour a link is drawn in: the one picked for the interface, else the theme's own. */
+    /** Links use the fixed app palette, independently of document colours. */
     public static int getLinkTextColor(Context c) {
-        if (AppState.get().isUiTextColor) {
-            return AppState.get().uiTextColor;
-        }
         TypedArray out = c.getTheme()
                           .obtainStyledAttributes(new int[]{android.R.attr.textColorLink});
         int color = out.getColor(0, Color.WHITE);
@@ -1671,21 +1636,9 @@ public class TxtUtils {
                     } else if (child instanceof ImageView) {
                         ImageView imageView = (ImageView) child;
 
-                        if ((imageView.getId() == R.id.closePopup || imageView.getId() == R.id.onIconAction) && !AppState.get().isUiTextColor) {
-                            imageView.setImageTintList(ColorStateList.valueOf(Color.WHITE));
-                        } else if (AppState.get().appTheme == AppState.THEME_INK) {
-                            // Ink is black and white only: a mark on the black bars is drawn in
-                            // white, a mark on the page in the black of the words around it.
-                            imageView.setImageTintList(ColorStateList.valueOf(TintUtil.inkMarkColor(imageView)));
-                        } else if (accentImages || AppState.get().isUiTextColor) {
-                            if (AppState.get().uiTextColor == AppState.get().tintThemeColor) {
-                                imageView.setImageTintList(ColorStateList.valueOf(Color.WHITE));
-                            } else {
-                                imageView.setImageTintList(tint);
-                            }
-                        } else {
-                            imageView.setImageTintList(ColorStateList.valueOf(Color.WHITE));
-                        }
+                        int foreground = com.foobnix.ui2.ThemeManager.color(imageView.getContext(),
+                                accentImages ? R.attr.appPrimary : R.attr.appOnPrimary);
+                        imageView.setImageTintList(ColorStateList.valueOf(foreground));
 
                         // A mark standing inside a ring has the ring drawn in the colour the
                         // mark itself just took, so the two read as one button rather than as
@@ -1699,7 +1652,7 @@ public class TxtUtils {
                         seekBar.setSaveEnabled(false);
                         seekBar.setSaveFromParentEnabled(false);
 
-                        if (AppState.get().isUiTextColor || accentImages) {
+                        if (accentImages) {
                             seekBar.setProgressTintList(tint);
                             seekBar.setThumbTintList(tint);
                             seekBar.setIndeterminateTintList(tint);
@@ -1744,6 +1697,9 @@ public class TxtUtils {
         int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
+            if ("no_tint".equals(child.getTag())) {
+                continue;
+            }
             if (child instanceof ViewGroup) {
                 updateinks((ViewGroup) child, color);
             } else if (child instanceof TextView) {

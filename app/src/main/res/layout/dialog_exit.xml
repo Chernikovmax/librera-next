@@ -16,7 +16,7 @@
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#77a248"
+        android:background="?attr/appPrimary"
         android:orientation="vertical">
 
         <LinearLayout
@@ -37,7 +37,7 @@
                 android:paddingLeft="10dip"
                 android:singleLine="true"
                 android:text="@string/message"
-                android:textColor="@color/white"
+                android:textColor="?attr/appOnPrimary"
                 android:textStyle="bold"></TextView>
 
             <ImageView
@@ -59,8 +59,7 @@
             android:padding="4dip"
             android:singleLine="false"
             android:text="@string/ask_rate_us1"
-            android:textColor="@color/white" />
-
+            android:textColor="?attr/appOnPrimary" />
         <TextView
             android:id="@+id/onRateUs"
             style="@style/textLink"
@@ -72,7 +71,7 @@
             android:layout_gravity="center"
             android:text="@string/rate_app"
             android:textAllCaps="true"
-            android:textColor="@color/white"
+            android:textColor="?attr/appOnPrimary"
             android:textSize="16sp" />
     </LinearLayout>
 

@@ -1,0 +1,9 @@
+<resources>
+    <string name="reader_appearance">Appearance</string>
+    <string name="reader_this_book">Only this book</string>
+    <string name="reader_default_books">Default for books without custom settings</string>
+    <string name="reader_margin_top">Top margin</string>
+    <string name="reader_margin_bottom">Bottom margin</string>
+    <string name="reader_margin_sides">Side margins</string>
+    <string name="reader_fixed_layout_appearance">Typography is unavailable for fixed-layout documents. Use the page zoom and layout controls in advanced settings.</string>
+</resources>

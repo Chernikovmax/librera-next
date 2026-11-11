@@ -76,17 +76,17 @@ public abstract class DragingPopup {
         if (Dips.screenWidth() > Dips.screenHeight()) {
             width = (int) (width * 1.25);
         }
-        this.width = width;
+        this.width = Math.min(width, Dips.screenWidthDP() - 24);
         this.heigth = Math.min(Dips.dpToPx(heigth), Dips.screenHeight() - Dips.dpToPx(40));
 
         inflater = LayoutInflater.from(anchor.getContext());
 
         popupView = inflater.inflate(R.layout.drag_popup, null, false);
-        ImageView appLogo = (ImageView) popupView.findViewById(R.id.droid);
-        appLogo.setVisibility(View.GONE);
-
+        androidx.cardview.widget.CardView card = (androidx.cardview.widget.CardView) popupView;
+        card.setCardBackgroundColor(com.foobnix.ui2.ThemeManager.color(anchor.getContext(), R.attr.appSurface));
+        card.setCardElevation(com.foobnix.ui2.ThemeManager.isEink() ? 0 : Dips.dpToPx(4));
+        card.setUseCompatPadding(!com.foobnix.ui2.ThemeManager.isEink());
         topHeaderLayout = popupView.findViewById(R.id.topLayout);
-        TintUtil.setTintBgSimple(topHeaderLayout, 230);
 
         popupContent = (MyFrameLayout) popupView.findViewById(R.id.popupContent);
 
@@ -174,9 +174,12 @@ public abstract class DragingPopup {
             String tag = getTAG() + Dips.screenWidth();
             if (cache.containsKey(tag)) {
                 Place place = cache.get(tag);
-                AnchorHelper.setXY(anchor, place.x, place.y);
-                popupView.getLayoutParams().width = place.width;
-                popupView.getLayoutParams().height = place.height;
+                int popupWidth = Math.min(place.width, Dips.screenWidth() - Dips.dpToPx(24));
+                int popupHeight = Math.min(place.height, Dips.screenHeight() - Dips.dpToPx(40));
+                AnchorHelper.setXY(anchor, Math.max(0, Math.min(place.x, Dips.screenWidth() - popupWidth)),
+                        Math.max(0, Math.min(place.y, Dips.screenHeight() - popupHeight)));
+                popupView.getLayoutParams().width = popupWidth;
+                popupView.getLayoutParams().height = popupHeight;
 
                 LOG.d("Anchor Load", tag, place.x, place.y, place.width, place.height);
 
@@ -247,7 +250,6 @@ public abstract class DragingPopup {
 
         if (this.titleAction != null) {
             titleAction.setVisibility(View.VISIBLE);
-            popupView.findViewById(R.id.onTitleAction1).setVisibility(View.VISIBLE);
             titleAction.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -261,7 +263,6 @@ public abstract class DragingPopup {
             TxtUtils.underlineTextView(titleAction);
         } else {
             titleAction.setVisibility(View.GONE);
-            popupView.findViewById(R.id.onTitleAction1).setVisibility(View.GONE);
         }
 
         View contentView;

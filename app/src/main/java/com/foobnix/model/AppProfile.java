@@ -173,7 +173,7 @@ public class AppProfile {
                     .load(c);
         }
 
-        TintUtil.init();
+        com.foobnix.ui2.ThemeManager.initialize(c);
         BookCSS.get()
                .load1(c);
 

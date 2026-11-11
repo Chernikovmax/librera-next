@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_overview">Всё необходимое — без лишней сложности</string>
+    <string name="settings_appearance">Внешний вид</string>
+    <string name="settings_reading">Чтение</string>
+    <string name="settings_library">Библиотека</string>
+    <string name="settings_sync">Синхронизация</string>
+    <string name="settings_advanced">Расширенные</string>
+    <string name="settings_appearance_summary">Палитры, обложки и интерфейс</string>
+    <string name="settings_reading_summary">Типографика по умолчанию, жесты и поведение</string>
+    <string name="settings_library_summary">Папки, сканирование и форматы файлов</string>
+    <string name="settings_sync_summary">Аккаунт Google Drive, состояние и обмен данными</string>
+    <string name="settings_advanced_summary">Движки, профили и импорт/экспорт</string>
+    <string name="settings_formats">Фильтры форматов</string>
+    <string name="settings_formats_summary">Выберите форматы для сканирования папок</string>
+    <string name="settings_defaults">Типографика по умолчанию</string>
+    <string name="settings_defaults_summary">Для текстовых книг; PDF и DJVU сохраняют исходную вёрстку</string>
+    <string name="settings_sync_unavailable">В этой сборке нет синхронизации с Google Drive.</string>
+    <string name="settings_back">Назад к настройкам</string>
+    <string name="settings_palettes">Палитра интерфейса</string>
+</resources>

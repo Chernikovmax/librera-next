@@ -198,6 +198,8 @@ public class DocumentWrapperUI {
     };
     ReaderFragmentActivity a;
     String bookTitle;
+    private com.foobnix.pdf.info.view.ReaderChrome readerChrome;
+    private boolean advancedControls;
     TextView toastBrightnessText, floatingBookmarkTextView, pagesCountIndicator, currentSeek, maxSeek,
             currentTime, bookName, nextTypeBootom, batteryLevel, lirbiLogo, reverseKeysIndicator, onSaveAnnotation;
     public View.OnClickListener onModeChangeClick = new View.OnClickListener() {
@@ -768,6 +770,7 @@ public class DocumentWrapperUI {
         seekBar.setOnSeekBarChangeListener(null);
         seekBar.setMax(max - 1);
         seekBar.setProgress(current - 1);
+        if (readerChrome != null) readerChrome.update(dc.getCurentPage(), dc.getPageCount());
         seekBar.setOnSeekBarChangeListener(onSeek);
 
         speedSeekBar.setOnSeekBarChangeListener(null);
@@ -1425,6 +1428,17 @@ public class DocumentWrapperUI {
         hideShowPrevNext();
         dc.initAnchor(anchor);
         TxtUtils.updateAllLinks(parentParent);
+        readerChrome = new com.foobnix.pdf.info.view.ReaderChrome(dc,
+                (android.widget.RelativeLayout) parentParent, bookTitle,
+                () -> onClose.onClick(anchor), onBookmarks, onBookmarksLong,
+                v -> com.foobnix.pdf.info.view.AppearanceBottomSheet.show(dc, v, onRefresh),
+                this::showReaderMenu, onSeek,
+                () -> onPrevPage.onClick(anchor), () -> onNextPage.onClick(anchor));
+        readerChrome.setOnAutoHide(() -> {
+            AppState.get().isEditMode = false;
+            hideShow();
+        });
+        hideShow();
     }
 
     public void updateSeekBarColorAndSize() {
@@ -1480,6 +1494,7 @@ public class DocumentWrapperUI {
 
         clockIcon.getLayoutParams().height = clockIcon.getLayoutParams().width = iconSize;
         batteryIcon.getLayoutParams().height = batteryIcon.getLayoutParams().width = iconSize;
+        if (readerChrome != null) readerChrome.refreshTheme();
 
         // lirbiLogo.getLayoutParams().height = panelSize;
 
@@ -1583,6 +1598,7 @@ public class DocumentWrapperUI {
     };
 
     public void doShowHideWrapperControlls() {
+        advancedControls = false;
         AppState.get().isEditMode = !AppState.get().isEditMode;
         hideShow();
         Keyboards.invalidateEink(parentParent);
@@ -1886,6 +1902,8 @@ public class DocumentWrapperUI {
     }
 
     public void hide() {
+        if (readerChrome != null) readerChrome.setVisible(false);
+        if (!dc.isMusicianMode()) documentTitleBar.setVisibility(View.GONE);
         menuLayout.setVisibility(View.GONE);
         bottomBar.setVisibility(View.GONE);
         imageMenuArrow.setImageResource(android.R.drawable.arrow_down_float);
@@ -1911,6 +1929,16 @@ public class DocumentWrapperUI {
     };
 
     public void show() {
+        if (readerChrome != null && !advancedControls && !dc.isMusicianMode()) {
+            menuLayout.setVisibility(View.GONE);
+            documentTitleBar.setVisibility(View.GONE);
+            bottomBar.setVisibility(View.GONE);
+            readerChrome.update(dc.getCurentPage(), dc.getPageCount());
+            readerChrome.setVisible(true);
+            return;
+        }
+        if (readerChrome != null) readerChrome.setVisible(false);
+        documentTitleBar.setVisibility(View.VISIBLE);
         showHideHistory();
         menuLayout.setVisibility(View.VISIBLE);
 
@@ -2069,6 +2097,7 @@ public class DocumentWrapperUI {
 
     public void setTitle(final String title) {
         this.bookTitle = title;
+        if (readerChrome != null) readerChrome.setTitle(title);
 
         hideShowEditIcon();
 
@@ -2250,6 +2279,7 @@ public class DocumentWrapperUI {
 
     public void onDestroy() {
         LOG.d("DocumentWrapperUI", "onDestroy");
+        if (readerChrome != null) readerChrome.destroy();
         handlerTimer.removeCallbacksAndMessages(null);
         handler.removeCallbacksAndMessages(null);
 
@@ -2339,4 +2369,26 @@ public class DocumentWrapperUI {
     //
     // }
 
+    private void showReaderMenu(View source) {
+        android.widget.PopupMenu menu = new android.widget.PopupMenu(a, source);
+        menu.getMenu().add(R.string.content_of_book).setOnMenuItemClickListener(item -> {
+            onShowContext.onClick(source); return true;
+        });
+        menu.getMenu().add(R.string.search_in_document).setOnMenuItemClickListener(item -> {
+            onShowSearch.onClick(source); return true;
+        });
+        menu.getMenu().add(R.string.bookmarks).setOnMenuItemClickListener(item -> {
+            onBookmarks.onClick(source); return true;
+        });
+        menu.getMenu().add(R.string.read_out_loud_with_tts).setOnMenuItemClickListener(item -> {
+            onTextToSpeach.onClick(source); return true;
+        });
+        menu.getMenu().add(R.string.advanced_settings).setOnMenuItemClickListener(item -> {
+            advancedControls = true;
+            AppState.get().isEditMode = true;
+            show();
+            return true;
+        });
+        menu.show();
+    }
 }

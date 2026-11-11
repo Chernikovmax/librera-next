@@ -169,7 +169,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         }
         boolean ink = AppState.get().appTheme == AppState.THEME_INK;
         floatingPill = new GradientDrawable();
-        floatingPill.setColor(ink ? pageColor() : setColorAlpha(color, AppsConfig.APP_TRANSPARENCY));
+        floatingPill.setColor(com.foobnix.ui2.ThemeManager.color(getContext(), R.attr.appSurface));
         if (ink) {
             floatingPill.setStroke(Dips.DP_1, TintUtil.color);
         }
@@ -303,13 +303,13 @@ public class SlidingTabLayout extends HorizontalScrollView {
             return;
         }
         try {
-            if (!(tab.getBackground() instanceof RippleDrawable)) {
-                return;
+            Drawable background = tab.getBackground();
+            Drawable patch = background instanceof RippleDrawable
+                    ? ((RippleDrawable) background).getDrawable(0) : background;
+            int color = com.foobnix.ui2.ThemeManager.color(getContext(), R.attr.appSelectedContainer);
+            if (patch instanceof GradientDrawable) {
+                ((GradientDrawable) patch).setColor(isSelected ? color : Color.TRANSPARENT);
             }
-            Drawable patch = ((RippleDrawable) tab.getBackground()).getDrawable(0);
-            boolean ink = AppState.get().appTheme == AppState.THEME_INK;
-            int color = setColorAlpha(ink ? TintUtil.color : Color.WHITE, PATCH_ALPHA);
-            ((GradientDrawable) patch).setColor(isSelected ? color : Color.TRANSPARENT);
         } catch (Exception e) {
             LOG.e(e);
         }
@@ -581,15 +581,10 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 tabTitleView.setCompoundDrawablePadding(
                         isIconsAlone() ? 0 : isFloating() ? Dips.DP_1 : Dips.dpToPx(5));
 
-                if (isInkOnPage()) {
-                    // TintUtil.setDrawableTint(drawable, Color.BLACK);
-                    tabTitleView.setTextColor(TintUtil.color);
-                } else {
-                    if(drawable!=null) {
-                        TintUtil.setDrawableTint(drawable, Color.WHITE);
-                    }
-                    tabTitleView.setTextColor(Color.WHITE);
-                }
+                int foreground = com.foobnix.ui2.ThemeManager.color(getContext(),
+                        isFloating() || isInkOnPage() ? R.attr.appOnSurface : R.attr.appOnPrimary);
+                TintUtil.setDrawableTint(drawable, foreground);
+                tabTitleView.setTextColor(foreground);
 
                 //tabView.setOnClickListener(tabClickListener);
                 tabView.setOnClickListener(new DoubleClickListener() {
@@ -665,7 +660,10 @@ public class SlidingTabLayout extends HorizontalScrollView {
     public void updateIcons(int position) {
         for (int i = 0; i < getmTabStrip().getChildCount(); i++) {
             TextView childAt = (TextView) getmTabStrip().getChildAt(i);
-            int myColor = i == position ? Color.WHITE : TintUtil.colorSecondTab;
+            int myColor = com.foobnix.ui2.ThemeManager.color(getContext(),
+                    isFloating() || isInkOnPage()
+                            ? (i == position ? R.attr.appPrimary : R.attr.appOnSurfaceVariant)
+                            : R.attr.appOnPrimary);
 
 
             Drawable drawable;
@@ -675,13 +673,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 drawable = childAt.getCompoundDrawables()[0];
             }
 
-            if (isInkOnPage()) {
-                TintUtil.setDrawableTint(drawable, TintUtil.color);
-                childAt.setTextColor(TintUtil.color);
-            } else {
-                childAt.setTextColor(myColor);
-                TintUtil.setDrawableTint(drawable, myColor);
-            }
+            childAt.setTextColor(myColor);
+            TintUtil.setDrawableTint(drawable, myColor);
 
             setTabPatch(childAt, i == position);
         }

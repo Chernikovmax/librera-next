@@ -7,14 +7,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/colorBackground"
+    android:theme="@style/SettingsControlsOverlay"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/panelRecent"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/wh_button"
-        android:layout_margin="@dimen/panel_padding"
-        android:background="@drawable/bg_search_second"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:background="?attr/appBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -22,7 +23,8 @@
         <TextView
             android:id="@+id/recentName"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/wh_button"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:layout_marginLeft="@dimen/panel_title_padding"
             android:layout_weight="1"
             android:ellipsize="end"
@@ -30,24 +32,22 @@
             android:lines="1"
             android:maxLines="1"
             android:text="@string/settings"
-            android:textColor="@color/white"
+            android:textColor="?attr/appOnSurface"
             android:textStyle="bold" />
 
-        <!-- The ring is cut a size below the bar it sits in, so the bar closes around it
-             instead of the circle running out over the edge. -->
         <ImageView
             android:id="@+id/onCloseApp"
             android:contentDescription="@string/close_menu"
-            android:layout_width="@dimen/wh_button_medium"
-            android:layout_height="@dimen/wh_button_medium"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="@dimen/dv"
             android:layout_weight="0"
-            android:background="@drawable/bg_round_button"
-            android:padding="6dip"
+            android:background="@android:color/transparent"
+            android:padding="14dp"
             android:src="@drawable/glyphicons_599_menu_close"
             android:tag="no_tint"
-            android:tint="@color/white"
+            android:tint="?attr/appOnSurface"
             android:visibility="visible" />
 
 
@@ -68,6 +68,7 @@
 
 
             <TextView
+                android:tag="settings:hidden"
                 android:id="@+id/closeMenu"
                 style="@style/textLink"
                 android:layout_width="wrap_content"
@@ -77,6 +78,7 @@
                 android:text="@string/close_menu"
                 android:visibility="gone" />
             <LinearLayout
+                android:tag="settings:advanced"
                 android:id="@+id/section9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,6 +99,7 @@
 
 
             <LinearLayout
+                android:tag="settings:advanced"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -142,6 +145,7 @@
 
 
             <LinearLayout
+                android:tag="settings:library"
                 android:id="@+id/section1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -159,6 +163,7 @@
             <!-- The folders the library is built from. The panel fills this with one chip a
                  folder, rather than running them together in a block of text. -->
             <LinearLayout
+                android:tag="settings:library"
                 android:id="@+id/searchPaths"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -168,6 +173,7 @@
             <!-- The two ways a folder gets into the library - the same buttons the library
                  folders dialog has - and under them the library rebuilt from the folders listed. -->
             <include
+                android:id="@+id/settingsSourceActions"
                 layout="@layout/library_folders_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,6 +183,7 @@
 
             <!-- Drawn as Library Settings is: the mark beside it is folded into the ringed button. -->
             <LinearLayout
+                android:tag="settings:library"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -209,6 +216,7 @@
                     android:visibility="gone" />
             </LinearLayout>
             <TextView
+                android:tag="settings:library"
                 style="@style/textSectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -218,6 +226,7 @@
 
 
             <LinearLayout
+                android:tag="settings:formats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -242,6 +251,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:formats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -266,6 +276,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:formats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -290,6 +301,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:formats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -314,6 +326,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:formats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -338,6 +351,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:formats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -362,6 +376,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:formats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -387,6 +402,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:appearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -443,7 +459,7 @@
                 android:layout_height="2dp"
                 android:layout_marginTop="1dip"
                 android:layout_marginBottom="1dip"
-                android:background="@color/lt_grey_alpha"
+                android:background="?attr/appOutline"
                 android:visibility="gone" />
 
             <TextView
@@ -475,31 +491,38 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dip"
-                    android:singleLine="true"
-                    android:text="@string/column_count" />
+                    android:gravity="center_vertical">
 
-                <TextView
-                    android:id="@+id/columsCount"
-                    style="@style/textLinkDropdown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dip"
-                    android:minWidth="60dip"
-                    android:text="2"
-                    android:textAllCaps="true" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="4dp"
+                        android:labelFor="@id/columsCount"
+                        android:text="@string/column_count" />
+
+                    <TextView
+                        android:id="@+id/columsCount"
+                        style="@style/textLinkDropdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="60dp"
+                        android:text="2" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/columsDefaul"
                     style="@style/textLink"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:singleLine="false"
+                    android:ellipsize="none"
                     android:text="@string/restore_defaults_short" />
             </LinearLayout>
 
@@ -509,7 +532,7 @@
                 android:layout_height="2dp"
                 android:layout_marginTop="1dip"
                 android:layout_marginBottom="1dip"
-                android:background="@color/lt_grey_alpha" />
+                android:background="?attr/appOutline" />
 
             <CheckBox
                 android:id="@+id/isShowImages"
@@ -539,6 +562,7 @@
 
 
             <TextView
+                android:tag="settings:appearance"
                 android:id="@+id/section2"
                 style="@style/textSectionTitle"
                 android:layout_width="match_parent"
@@ -548,14 +572,15 @@
 
 
             <LinearLayout
+                android:tag="settings:appearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:orientation="vertical"
                 android:layout_marginLeft="5dip">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:labelFor="@id/tapPositionTop"
                     android:layout_height="wrap_content"
                     android:text="@string/tabs_position"
                     android:textStyle="bold" />
@@ -563,12 +588,15 @@
                 <TextView
                     android:id="@+id/tapPositionTop"
                     style="@style/textLinkDropdown"
-                    android:layout_width="@dimen/pref_value_width"
+                    android:layout_width="match_parent"
+                    android:singleLine="false"
+                    android:ellipsize="none"
                     android:layout_height="wrap_content"
                     android:text="@string/top" />
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:reading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -590,6 +618,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:reading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
@@ -612,14 +641,15 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:appearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:orientation="vertical"
                 android:layout_marginLeft="5dip">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:labelFor="@id/appLang"
                     android:layout_height="wrap_content"
                     android:text="@string/language"
                     android:textStyle="bold" />
@@ -627,27 +657,31 @@
                 <TextView
                     android:id="@+id/appLang"
                     style="@style/textLinkDropdown"
-                    android:layout_width="@dimen/pref_value_width"
+                    android:layout_width="match_parent"
+                    android:singleLine="false"
+                    android:ellipsize="none"
                     android:layout_height="wrap_content"
                     android:minWidth="100dip"
                     android:text="Russian" />
             </LinearLayout>
 
             <TextView
+                android:tag="settings:appearance"
                 style="@style/textSectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/appearance_settings" />
 
             <LinearLayout
+                android:tag="settings:appearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:orientation="vertical"
                 android:layout_marginLeft="5dip">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:labelFor="@id/appFontScale"
                     android:layout_height="wrap_content"
                     android:text="@string/font_size"
                     android:textStyle="bold" />
@@ -655,42 +689,25 @@
                 <TextView
                     android:id="@+id/appFontScale"
                     style="@style/textLinkDropdown"
-                    android:layout_width="@dimen/pref_value_width"
+                    android:layout_width="match_parent"
+                    android:singleLine="false"
+                    android:ellipsize="none"
                     android:layout_height="wrap_content"
                     android:minWidth="100dip"
                     android:text="Normal" />
             </LinearLayout>
 
+
             <LinearLayout
+                android:tag="settings:appearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:orientation="vertical"
                 android:layout_marginLeft="5dip">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/theme"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/themeColor"
-                    style="@style/textLinkDropdown"
-                    android:layout_width="@dimen/pref_value_width"
-                    android:layout_height="wrap_content"
-                    android:text="@string/light" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="5dip">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:labelFor="@id/coverRadius"
                     android:layout_height="wrap_content"
                     android:text="@string/cover_radius"
                     android:textStyle="bold" />
@@ -698,13 +715,16 @@
                 <TextView
                     android:id="@+id/coverRadius"
                     style="@style/textLinkDropdown"
-                    android:layout_width="@dimen/pref_value_width"
+                    android:layout_width="match_parent"
+                    android:singleLine="false"
+                    android:ellipsize="none"
                     android:layout_height="wrap_content"
                     android:minWidth="100dip"
                     android:text="0" />
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:advanced"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -726,92 +746,10 @@
                     android:text="Librera_111" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/theme_color"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:id="@+id/colorsLine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:gravity="bottom"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/color1"
-                        layout="@layout/item_color"
-                        android:layout_width="25dip"
-                        android:layout_height="25dip"
-                        android:layout_margin="1dip" />
-
-                    <include
-                        android:id="@+id/color2"
-                        layout="@layout/item_color"
-                        android:layout_width="25dip"
-                        android:layout_height="25dip"
-                        android:layout_margin="1dip" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
-                android:layout_marginTop="4dip"
-                android:layout_marginBottom="4dip"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/accent"
-                    android:textStyle="bold" />
-
-                <CheckBox
-                    android:id="@+id/isAccentTextColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="" />
-
-                <LinearLayout
-                    android:id="@+id/colorsLine_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:gravity="bottom"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/color1_a"
-                        layout="@layout/item_color"
-                        android:layout_width="25dip"
-                        android:layout_height="25dip"
-                        android:layout_margin="1dip" />
-
-                    <include
-                        android:id="@+id/color2_a"
-                        layout="@layout/item_color"
-                        android:layout_width="25dip"
-                        android:layout_height="25dip"
-                        android:layout_margin="1dip" />
-                </LinearLayout>
-
-            </LinearLayout>
 
 
             <TextView
+                android:tag="settings:advanced"
                 android:id="@+id/linksColor"
                 style="@style/textLink"
                 android:layout_width="wrap_content"
@@ -820,6 +758,7 @@
                 android:visibility="gone" />
 
             <LinearLayout
+                android:tag="settings:advanced"
                 android:id="@+id/onColorChoser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -854,12 +793,14 @@
             </LinearLayout>
 
             <TextView
+                android:tag="settings:reading"
                 style="@style/textSectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/reading_settings" />
 
             <LinearLayout
+                android:tag="settings:advanced"
                 android:id="@+id/pdfEngineRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -883,6 +824,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:advanced"
                 android:id="@+id/epubEngineRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -906,18 +848,18 @@
             </LinearLayout>
 
             <View
-                android:tag="with_tint1"
+                android:tag="settings:advanced"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginTop="1dip"
                 android:layout_marginBottom="1dip"
-                android:background="@color/lt_grey_alpha" />
+                android:background="?attr/appOutline" />
 
             <LinearLayout
+                android:tag="settings:reading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:tag="Brightness section"
                 android:visibility="gone">
 
                 <LinearLayout
@@ -979,11 +921,12 @@
                     android:layout_height="2dp"
                     android:layout_marginTop="3dip"
                     android:layout_marginBottom="1dip"
-                    android:background="@color/lt_grey_alpha" />
+                    android:background="?attr/appOutline" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:reading"
                 android:id="@+id/onKeyCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1052,6 +995,7 @@
             </LinearLayout>
 
             <ImageView
+                android:tag="settings:reading"
                 android:id="@+id/moreModeSettings"
                 android:layout_width="@dimen/wh_button"
                 android:layout_height="@dimen/wh_button"
@@ -1063,32 +1007,36 @@
                 app:tint="@color/tint_gray" />
 
             <com.foobnix.pdf.info.view.confline.ConfLineView
+                android:tag="settings:reading"
                 android:id="@+id/configSingeClick"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 my:text="@string/single_tap" />
 
             <com.foobnix.pdf.info.view.confline.ConfLineView
+                android:tag="settings:reading"
                 android:id="@+id/configLongClick"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 my:text="@string/long_tap" />
 
             <View
-                android:tag="with_tint1"
+                android:tag="settings:advanced"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginTop="3dip"
                 android:layout_marginBottom="1dip"
-                android:background="@color/lt_grey_alpha" />
+                android:background="?attr/appOutline" />
 
             <TextView
+                android:tag="settings:advanced"
                 style="@style/textSectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/app_behavior" />
 
             <LinearLayout
+                android:tag="settings:advanced"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1114,6 +1062,7 @@
             </LinearLayout>
 
             <CheckBox
+                android:tag="settings:reading"
                 android:id="@+id/isOpenLastBook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1121,6 +1070,7 @@
                 android:text="@string/opening_the_last_book_when_the_application_starts" />
 
             <CheckBox
+                android:tag="settings:reading"
                 android:id="@+id/isAlwaysOpenOnPage1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1128,6 +1078,7 @@
                 android:text="@string/open_books_on_page_1" />
 
             <CheckBox
+                android:tag="settings:library"
                 android:id="@+id/isRestoreSearchQuery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1135,6 +1086,7 @@
                 android:text="@string/restore_search_query_when_the_application_starts" />
 
             <CheckBox
+                android:tag="settings:advanced"
                 android:id="@+id/lockBooksByDefault"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1142,6 +1094,7 @@
                 android:text="@string/lock_books_by_default" />
 
             <CheckBox
+                android:tag="settings:advanced"
                 android:id="@+id/isShowCloseAppDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1149,6 +1102,7 @@
                 android:text="@string/show_application_close_dialog_every_time" />
 
             <LinearLayout
+                android:tag="settings:reading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1173,6 +1127,7 @@
             </LinearLayout>
 
             <CheckBox
+                android:tag="settings:reading"
                 android:id="@+id/isLoopAutoplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1182,6 +1137,7 @@
                 android:visibility="gone" />
 
             <CheckBox
+                android:tag="settings:library"
                 android:id="@+id/isDisplayAllFilesInFolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1191,6 +1147,7 @@
                 android:visibility="gone" />
 
             <CheckBox
+                android:tag="settings:advanced"
                 android:id="@+id/isShowWhatIsNewDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1200,6 +1157,7 @@
                 android:visibility="gone" />
 
             <CheckBox
+                android:tag="settings:appearance"
                 android:id="@+id/isEnableAccessibility"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1209,6 +1167,7 @@
                 android:text="@string/accessibility_mode" />
 
             <CheckBox
+                android:tag="settings:advanced"
                 android:id="@+id/isMenuIntegration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1219,6 +1178,7 @@
 
 
             <LinearLayout
+                android:tag="settings:reading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dip"
@@ -1281,6 +1241,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:library"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -1302,6 +1263,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:advanced"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1324,6 +1286,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:library"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
@@ -1344,6 +1307,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:advanced"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1370,6 +1334,7 @@
 
 
             <TextView
+                android:tag="settings:appearance"
                 android:id="@+id/section7"
                 style="@style/textSectionTitle"
                 android:layout_width="match_parent"
@@ -1377,12 +1342,14 @@
                 android:text="@string/tabs_position" />
 
             <CheckBox
+                android:tag="settings:appearance"
                 android:id="@+id/isshowPrefAsMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/show_preferences_tab_in_the_left_menu" />
 
             <com.jmedeisis.draglinearlayout.DragLinearLayout
+                android:tag="settings:appearance"
                 android:id="@+id/dragLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -1394,6 +1361,7 @@
             </com.jmedeisis.draglinearlayout.DragLinearLayout>
 
             <LinearLayout
+                android:tag="settings:appearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -1417,6 +1385,7 @@
             </LinearLayout>
 
             <TextView
+                android:tag="settings:appearance"
                 android:id="@+id/section5"
                 style="@style/textSectionTitle"
                 android:layout_width="match_parent"
@@ -1427,6 +1396,7 @@
             <!-- Prefs. > Preferences > Widget -->
 
             <LinearLayout
+                android:tag="settings:appearance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1503,6 +1473,7 @@
 
 
             <TextView
+                android:tag="settings:advanced"
                 android:id="@+id/section3"
                 style="@style/textSectionTitle"
                 android:layout_width="match_parent"
@@ -1511,6 +1482,7 @@
                 android:text="@string/import_or_export_application_settings_to_json_file" />
 
             <TextView
+                android:tag="settings:advanced"
                 android:padding="4dip"
                 android:text="@string/msg_migration"
                 android:layout_width="match_parent"
@@ -1519,6 +1491,7 @@
 
 
             <LinearLayout
+                android:tag="settings:advanced"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1548,6 +1521,7 @@
             <!-- Hands this profile to LibreraX, see LibreraX.exportTo. asButton draws the mark
                  inside the button. -->
             <LinearLayout
+                android:tag="settings:advanced"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dip"
@@ -1570,6 +1544,7 @@
             </LinearLayout>
 
             <FrameLayout
+                android:tag="settings:advanced"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone">
@@ -1582,6 +1557,7 @@
             </FrameLayout>
 
             <LinearLayout
+                android:tag="settings:advanced"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1603,14 +1579,15 @@
             </LinearLayout>
 
             <View
-                android:tag="with_tint1"
+                android:tag="settings:advanced"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginTop="1dip"
                 android:layout_marginBottom="1dip"
-                android:background="@color/lt_grey_alpha" />
+                android:background="?attr/appOutline" />
 
             <LinearLayout
+                android:tag="settings:reading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1632,6 +1609,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:library"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1654,6 +1632,7 @@
 
 
             <LinearLayout
+                android:tag="settings:sync"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1677,6 +1656,7 @@
 
 
             <LinearLayout
+                android:tag="settings:advanced"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1699,6 +1679,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:reading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -1720,6 +1701,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:tag="settings:sync"
                 android:id="@+id/sectionSync"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

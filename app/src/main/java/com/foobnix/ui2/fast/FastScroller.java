@@ -42,6 +42,7 @@ import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.foobnix.pdf.info.R;
+import com.foobnix.ui2.ThemeManager;
 
 @SuppressLint("NewApi")
 public class FastScroller extends LinearLayout {
@@ -390,6 +391,13 @@ public class FastScroller extends LinearLayout {
     }
 
     private void showBubble() {
+        if (ThemeManager.isEink()) {
+            cancelAnimation(mBubbleAnimator);
+            mBubbleAnimator = null;
+            mBubbleView.setAlpha(1f);
+            mBubbleView.setVisibility(VISIBLE);
+            return;
+        }
         mBubbleView.setVisibility(VISIBLE);
         mBubbleAnimator = mBubbleView.animate().alpha(1f)
                 .setDuration(sBubbleAnimDuration)
@@ -399,6 +407,12 @@ public class FastScroller extends LinearLayout {
     }
 
     private void hideBubble() {
+        if (ThemeManager.isEink()) {
+            cancelAnimation(mBubbleAnimator);
+            mBubbleAnimator = null;
+            mBubbleView.setVisibility(GONE);
+            return;
+        }
         mBubbleAnimator = mBubbleView.animate().alpha(0f)
                 .setDuration(sBubbleAnimDuration)
                 .setListener(new AnimatorListenerAdapter() {
@@ -421,6 +435,14 @@ public class FastScroller extends LinearLayout {
 
     private void showScrollbar() {
         if (mRecyclerView.computeVerticalScrollRange() - mHeight > 0) {
+            if (ThemeManager.isEink()) {
+                cancelAnimation(mScrollbarAnimator);
+                mScrollbarAnimator = null;
+                mScrollbar.setTranslationX(0f);
+                mScrollbar.setAlpha(1f);
+                mScrollbar.setVisibility(VISIBLE);
+                return;
+            }
             float transX = getResources().getDimensionPixelSize(R.dimen.fastscroll_scrollbar_padding);
 
             mScrollbar.setTranslationX(transX);
@@ -434,6 +456,12 @@ public class FastScroller extends LinearLayout {
     }
 
     private void hideScrollbar() {
+        if (ThemeManager.isEink()) {
+            cancelAnimation(mScrollbarAnimator);
+            mScrollbarAnimator = null;
+            mScrollbar.setVisibility(GONE);
+            return;
+        }
         float transX = getResources().getDimensionPixelSize(R.dimen.fastscroll_scrollbar_padding);
 
         mScrollbarAnimator = mScrollbar.animate().translationX(transX).alpha(0f)

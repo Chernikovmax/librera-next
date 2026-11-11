@@ -1,25 +1,56 @@
-# Project-local model routing; credentials remain in the user's local OMP profile.
-# The work is primarily Android UI/UX redesign; keep all roles on the Codex plan.
+# Librera Next: project-local OMP model routing (Java/XML Android UI, EPUB/PDF).
+# Put this file at <repo>/.omp/config.yml.
+# Uses the ChatGPT/Codex OAuth provider; credentials remain in your OMP profile.
+# GPT-6.1 Sol access can vary by rollout; verify with: omp models openai-codex
+
 enabledModels:
   - openai-codex/gpt-6-luna
+  - openai-codex/gpt-6.1-sol
+  - openai-codex/gpt-6-astra
+
 modelProviderOrder:
   - openai-codex
+
+# Keep role mappings scoped to this Android project.
 modelRoleStorage: project
+
 modelRoles:
-  default: openai-codex/gpt-6-luna:low
+  # Main interactive coding agent: features, refactoring, XML/Java integration.
+  default: openai-codex/gpt-6.1-sol:medium
+
+  # Cheap parallel/background jobs and small isolated changes.
   smol: openai-codex/gpt-6-luna:low
   tiny: openai-codex/gpt-6-luna:low
-  task: openai-codex/gpt-6-luna:low
+  memory: openai-codex/gpt-6-luna:low
   widget: openai-codex/gpt-6-luna:low
   commit: openai-codex/gpt-6-luna:low
-  advisor: openai-codex/gpt-6-luna:low
-  review: openai-codex/gpt-6-luna:low
-  # Reasoning-heavy role, used sparingly for navigation / architecture decisions.
-  plan: openai-codex/gpt-6-luna:medium
-  slow: openai-codex/gpt-6-luna:medium
-  # UI work can require inspecting screenshots and design references.
-  vision: openai-codex/gpt-6-luna:low
-defaultThinkingLevel: low
+
+  # Real coding subagents may change complex Android behavior: keep Sol.
+  task: openai-codex/gpt-6.1-sol:medium
+
+  # Architecture and migration planning; use higher effort, but not Astra on every plan.
+  plan: openai-codex/gpt-6.1-sol:high
+
+  # Explicit escalation for deep debugging, EPUB/PDF and E-Ink architecture.
+  slow: openai-codex/gpt-6-astra:high
+
+  # Screenshot-based UI checks and design decisions.
+  vision: openai-codex/gpt-6.1-sol:high
+
+  # Optional reviewer/advisor: review is a custom role for @review agents.
+  advisor: openai-codex/gpt-6.1-sol:high
+  review: openai-codex/gpt-6-astra:high
+  designer: openai-codex/gpt-6.1-sol:high
+
+# Manual model cycling via Ctrl+P: simple -> routine -> complex.
+cycleOrder:
+  - smol
+  - default
+  - slow
+
+defaultThinkingLevel: medium
+
+# Preserve the user's existing context and retry policies.
 extendedContext: false
 compaction:
   enabled: true

@@ -29,9 +29,6 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -74,6 +71,8 @@ import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.UiSystemUtils;
 import com.foobnix.pdf.info.view.AlertDialogs;
 import com.foobnix.pdf.info.view.AnchorHelper;
+import com.foobnix.pdf.info.view.AppearanceBottomSheet;
+import com.foobnix.pdf.info.view.ReaderChrome;
 import com.foobnix.pdf.info.view.BookmarkPanel;
 import com.foobnix.pdf.info.view.BrightnessHelper;
 import com.foobnix.pdf.info.view.Dialogs;
@@ -131,7 +130,8 @@ import java.util.concurrent.TimeUnit;
 
 public class HorizontalViewActivity extends ReaderFragmentActivity {
 
-    public boolean prev = true;
+    private ReaderChrome readerChrome;
+    private boolean advancedControlsVisible;
     VerticalViewPager viewPager;
     SeekBar seekBar;
     TextView toastBrightnessText, floatingBookmarkTextView, maxSeek, currentSeek, pagesCountIndicator,
@@ -283,11 +283,7 @@ public class HorizontalViewActivity extends ReaderFragmentActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         BrightnessHelper.applyBrigtness(this);
 
-        if (AppState.get().isDayNotInvert) {
-            setTheme(R.style.StyledIndicatorsWhite);
-        } else {
-            setTheme(R.style.StyledIndicatorsBlack);
-        }
+        com.foobnix.ui2.ThemeManager.apply(this);
 
         DocumentController.doRotation(this);
         DocumentController.doContextMenu(this);
@@ -1617,6 +1613,10 @@ public class HorizontalViewActivity extends ReaderFragmentActivity {
 
     @Override
     protected void onDestroy() {
+        if (readerChrome != null) {
+            readerChrome.destroy();
+            readerChrome = null;
+        }
         super.onDestroy();
         // Closed, not crashed: whatever happened, it is not a crash to remember
         BookOpenGuard.opened(this, guardedBook, guardMark);
@@ -1726,6 +1726,9 @@ public class HorizontalViewActivity extends ReaderFragmentActivity {
             updateUI(viewPager.getCurrentItem());
             showHideInfoToolBar();
             updateSeekBarColorAndSize();
+            if (readerChrome != null) {
+                readerChrome.refreshTheme();
+            }
             BrightnessHelper.updateOverlay(overlay);
             hideShow();
             TTSEngine.get().stop();
@@ -1921,6 +1924,9 @@ public class HorizontalViewActivity extends ReaderFragmentActivity {
         if (dc != null) {
             dc.currentPage = page;
         }
+        if (readerChrome != null) {
+            readerChrome.update(page + 1, dc.getPageCount());
+        }
 
         pagesTime.setText(UiSystemUtils.getSystemTime(this));
         //pagesTime1.setText(UiSystemUtils.getSystemTime(this));
@@ -1972,6 +1978,17 @@ public class HorizontalViewActivity extends ReaderFragmentActivity {
         updateEditIcon();
         titleTxt.setText(dc.getTitle());
         pannelBookTitle.setText(dc.getTitle());
+        if (readerChrome == null) {
+            readerChrome = new ReaderChrome(dc, (RelativeLayout) parentParent, dc.getTitle(),
+                    () -> onClose.performClick(), onBookmarks, onBookmarksLong,
+                    v -> AppearanceBottomSheet.show(dc, v, onRefresh),
+                    this::showReaderMore, onSeek, this::prevPage, this::nextPage);
+            readerChrome.setOnAutoHide(() -> {
+                AppState.get().isEditMode = false;
+                hideShow(false);
+            });
+        }
+        readerChrome.setTitle(dc.getTitle());
         // The cover of the book now open, drawn into the mark in front of its title.
         if (bookCover != null && dc.getCurrentBook() != null) {
             IMG.getCoverPageWithEffect(this, dc.getCurrentBook().getPath(), null).into(bookCover);
@@ -2228,6 +2245,46 @@ public class HorizontalViewActivity extends ReaderFragmentActivity {
 
     }
 
+    private void showReaderMore(View anchorView) {
+        MyPopupMenu menu = new MyPopupMenu(this, anchorView);
+        menu.getMenu().add(R.string.content_of_book).setOnMenuItemClickListener(item -> {
+            DragingDialogs.dialogShowContent(anchor, dc);
+            return true;
+        });
+        menu.getMenu().add(R.string.search_in_document).setOnMenuItemClickListener(item -> {
+            showSearchDialog();
+            return true;
+        });
+        menu.getMenu().add(R.string.bookmarks).setOnMenuItemClickListener(item -> {
+            onBookmarks.onClick(anchorView);
+            return true;
+        });
+        menu.getMenu().add(R.string.select_the_reading_mode).setOnMenuItemClickListener(item -> {
+            ExtUtils.switchReadingMode(this, dc);
+            return true;
+        });
+        menu.getMenu().add(R.string.orientation).setOnMenuItemClickListener(item -> {
+            MenuBuilderM.addRotateMenu(anchorView, null, () -> {
+                dc.cleanImageMatrix();
+                reloadDoc.run();
+                authoFit();
+            }).show();
+            return true;
+        });
+        menu.getMenu().add(R.string.text_to_speech).setOnMenuItemClickListener(item -> {
+            DragingDialogs.dialogTextToSpeech(anchor, dc);
+            return true;
+        });
+        menu.getMenu().add(R.string.advanced_settings).setOnMenuItemClickListener(item -> {
+            advancedControlsVisible = true;
+            AppState.get().isEditMode = true;
+            hideShow(false);
+            return true;
+        });
+        menu.show();
+        Keyboards.hideNavigation(this);
+    }
+
     public void hideShow() {
         hideShow(true);
     }
@@ -2240,131 +2297,66 @@ public class HorizontalViewActivity extends ReaderFragmentActivity {
     }
 
     public void hideShow(boolean animated) {
-        showTtsPageControls();
+        boolean visible = AppState.get().isEditMode;
         if (AppState.get().isEnableAccessibility) {
-            //animated = false;
-            //AppState.get().isEditMode = true;
-            ttsFixPosition();
+            advancedControlsVisible = true;
+        }
+        if (!visible) {
+            advancedControlsVisible = false;
+        }
+        // Keep the document viewport fixed; only overlay visibility changes on a tap.
+        boolean legacyVisible = visible && (advancedControlsVisible || readerChrome == null);
+        actionBar.clearAnimation();
+        bottomBar.clearAnimation();
+        actionBar.setVisibility(legacyVisible ? View.VISIBLE : View.GONE);
+        bottomBar.setVisibility(legacyVisible ? View.VISIBLE : View.GONE);
+        if (seekLine != null) {
+            seekLine.setVisibility(legacyVisible && AppState.get().isShowBottomSeekBar ? View.VISIBLE : View.GONE);
+        }
+        if (readerChrome != null) {
+            readerChrome.setVisible(visible && !advancedControlsVisible);
+            bottomIndicators.setAlpha(visible && !advancedControlsVisible ? 0f : 1f);
+            progressDraw.setAlpha(visible && !advancedControlsVisible ? 0f : 1f);
+        }
+        if (visible) {
+            DocumentController.turnOnButtons(this);
+        } else {
+            DocumentController.turnOffButtons(this);
+        }
+        if (legacyVisible) {
+            moveTtsControlsIntoPanel();
+        } else if (ttsActive != null) {
+            RelativeLayout root = (RelativeLayout) parentParent;
+            if (ttsActive.getParent() != root) {
+                if (ttsActive.getParent() instanceof ViewGroup) {
+                    ((ViewGroup) ttsActive.getParent()).removeView(ttsActive);
+                }
+                root.addView(ttsActive, root.indexOfChild(anchor));
+            }
+            RelativeLayout.LayoutParams lp;
+            if (ttsActive.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
+                lp = (RelativeLayout.LayoutParams) ttsActive.getLayoutParams();
+                lp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                lp.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                lp.addRule(RelativeLayout.ABOVE, R.id.bottomPanel);
+                lp.bottomMargin = visible ? Dips.dpToPx(128) : 0;
+            } else {
+                lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                lp.addRule(RelativeLayout.ABOVE, R.id.bottomPanel);
+                lp.bottomMargin = visible ? Dips.dpToPx(128) : 0;
+            }
+            ttsActive.setLayoutParams(lp);
         }
         updateBannnerTop();
         showPagesHelper();
-
-        if (seekLine != null) {
-            seekLine.setVisibility(AppState.get().isEditMode && AppState.get().isShowBottomSeekBar ? View.VISIBLE : View.GONE);
-        }
-
-        if (prev == AppState.get().isEditMode) {
-            return;
-        }
-        prev = AppState.get().isEditMode;
-
-        if (AppsConfig.IS_LOG && animated) {
-            modeName.setText(R.string.mode_horizontally);
-            // the name was just rewritten: the engine is put back after it
-            DocumentController.showEngineInDebug(modeName, dc);
-        }
-
-        if (!animated || AppState.get().appTheme == AppState.THEME_INK) {
-            actionBar.setVisibility(AppState.get().isEditMode ? View.VISIBLE : View.GONE);
-            bottomBar.setVisibility(AppState.get().isEditMode ? View.VISIBLE : View.GONE);
-            if (seekLine != null) {
-                seekLine.setVisibility(AppState.get().isEditMode && AppState.get().isShowBottomSeekBar ? View.VISIBLE : View.GONE);
-            }
-
-            DocumentController.chooseFullScreen(this, AppState.get().fullScreenMode);
-            ttsFixPosition();
-            return;
-        }
-
-        final TranslateAnimation hideActionBar = new TranslateAnimation(0, 0, 0, -actionBar.getHeight());
-        final TranslateAnimation hideBottomBar = new TranslateAnimation(0, 0, 0, bottomBar.getHeight());
-
-        final TranslateAnimation showActoinBar = new TranslateAnimation(0, 0, -actionBar.getHeight(), 0);
-        final TranslateAnimation showBottomBar = new TranslateAnimation(0, 0, bottomBar.getHeight(), 0);
-
-        updateAnimation(hideActionBar);
-        updateAnimation(hideBottomBar);
-
-        updateAnimation(showActoinBar);
-        updateAnimation(showBottomBar);
-
-        if (AppState.get().isEditMode) {
-
-            DocumentController.turnOnButtons(this);
-
-            actionBar.startAnimation(showActoinBar);
-            bottomBar.startAnimation(showBottomBar);
-
-            showBottomBar.setAnimationListener(new AnimationListener() {
-
-                @Override
-                public void onAnimationStart(final Animation animation) {
-                }
-
-                @Override
-                public void onAnimationRepeat(final Animation animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(final Animation animation) {
-                    try {
-                        actionBar.setVisibility(View.VISIBLE);
-                        bottomBar.setVisibility(View.VISIBLE);
-                        if (seekLine != null) {
-                            seekLine.setVisibility(AppState.get().isShowBottomSeekBar ? View.VISIBLE : View.GONE);
-                        }
-
-                        Keyboards.invalidateEink(parentParent);
-
-                        ttsFixPosition();
-                    } catch (Exception e) {
-                        LOG.e(e);
-                    }
-
-                }
-            });
-
-        } else {
-            DocumentController.turnOffButtons(this);
-
-            actionBar.startAnimation(hideActionBar);
-            bottomBar.startAnimation(hideBottomBar);
-
-            hideBottomBar.setAnimationListener(new AnimationListener() {
-
-                @Override
-                public void onAnimationStart(final Animation animation) {
-                }
-
-                @Override
-                public void onAnimationRepeat(final Animation animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(final Animation animation) {
-                    try {
-                        actionBar.setVisibility(View.GONE);
-                        bottomBar.setVisibility(View.GONE);
-
-                        Keyboards.invalidateEink(parentParent);
-
-                        ttsFixPosition();
-                    } catch (Exception e) {
-                        LOG.e(e);
-                    }
-                }
-
-            });
-
-        }
-
-        if (pagerAdapter != null) {
-            DocumentController.chooseFullScreen(this, AppState.get().fullScreenMode);
-            pagerAdapter.notifyDataSetChanged();
-        }
-
+        DocumentController.chooseFullScreen(this, AppState.get().fullScreenMode);
+        showTtsPageControls();
         ViewBinder.updateBrightness(onBC);
-
+        Keyboards.invalidateEink(parentParent);
     }
 
     public void applyRTL() {
@@ -2716,9 +2708,6 @@ public class HorizontalViewActivity extends ReaderFragmentActivity {
         }
     }
 
-    private void updateAnimation(final TranslateAnimation a) {
-        a.setDuration(250);
-    }
 
     SeekBar.OnSeekBarChangeListener onSeek = new SeekBar.OnSeekBarChangeListener() {
 
@@ -2736,18 +2725,13 @@ public class HorizontalViewActivity extends ReaderFragmentActivity {
 
         @Override
         public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
-            // updateUI(progress);
+            // Both seek bars are updated when navigation changes. Only a user gesture
+            // should navigate; a programmatic update must not hide the floating chrome.
+            if (!fromUser) {
+                return;
+            }
             viewPager.setCurrentItem(progress, false);
             flippingTimer = 0;
-
-            if (AppState.get().isEditMode && !fromUser) {
-                AppState.get().isEditMode = false;
-                hideShow();
-            }
-            if (fromUser) {
-                //Apps.accessibilityText(HorizontalViewActivity.this, getString(R.string.m_current_page) + " " + dc.getCurentPageFirst1());
-
-            }
         }
     };
 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="?android:attr/selectableItemBackground"
+    card_view:cardBackgroundColor="?attr/appSurface"
+    card_view:cardCornerRadius="20dp"
+    card_view:cardElevation="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageParent"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            card_view:cardBackgroundColor="@color/transparent"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardElevation="0dp"
+            card_view:cardPreventCornerOverlap="true">
+            <ImageView
+                android:id="@+id/browserItemIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/transparent"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true" />
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/layoutBootom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="6dp">
+            <TextView android:id="@+id/title1" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:ellipsize="end" android:maxLines="2" android:textColor="?attr/appOnSurface"
+                android:textSize="14sp" android:textStyle="bold" />
+            <LinearLayout android:id="@+id/title2Parent" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:id="@+id/title2" style="@style/textLink" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:ellipsize="end" android:maxLines="1"
+                    android:textColor="?attr/appOnSurfaceVariant" android:textSize="12sp" />
+                <TextView android:id="@+id/series" style="@style/textLink" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:visibility="gone" />
+                <ImageView android:id="@+id/delete" android:layout_width="1dp" android:layout_height="1dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/infoLayout" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                <TextView android:id="@+id/idPercentText" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:textColor="?attr/appSuccess" android:textSize="11sp" />
+                <TextView android:id="@+id/browserExt" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginStart="8dp"
+                    android:textAllCaps="true" android:textColor="?attr/appOnSurfaceVariant" android:textSize="11sp" />
+                <TextView android:id="@+id/browserSize" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:visibility="gone" />
+                <TextView android:id="@+id/browseDate" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:visibility="gone" />
+                <ImageView android:id="@+id/cloudImage" android:layout_width="24dp"
+                    android:layout_height="24dp" android:visibility="gone" />
+                <ImageView android:id="@+id/starIcon" android:layout_width="48dp" android:layout_height="48dp"
+                    android:background="@drawable/bg_round_press" android:contentDescription="@string/add_to_favorites"
+                    android:padding="12dp" android:src="@drawable/glyphicons_9_heart_empty" android:tint="?attr/appOnSurfaceVariant" />
+                <ImageView android:id="@+id/itemMenu" android:layout_width="48dp" android:layout_height="48dp"
+                    android:background="@drawable/bg_round_press" android:contentDescription="@string/book_menu"
+                    android:padding="12dp" android:src="@drawable/glyphicons_498_more_vertical" android:tint="?attr/appOnSurfaceVariant" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/browserTags" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:orientation="horizontal" />
+            <TextView android:id="@+id/browserPath" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:visibility="gone" />
+            <LinearLayout android:id="@+id/progresLayout" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:visibility="gone">
+                <View android:id="@+id/idProgressBg" android:layout_width="match_parent" android:layout_height="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

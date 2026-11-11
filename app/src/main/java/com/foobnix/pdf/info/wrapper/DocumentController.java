@@ -473,15 +473,11 @@ public abstract class DocumentController {
     }
 
     private static void applyTheme(final Activity a) {
-        if (AppState.get().appTheme == AppState.THEME_LIGHT) {
-            a.setTheme(R.style.StyledIndicatorsWhite);
-        } else {
-            a.setTheme(R.style.StyledIndicatorsBlack);
-        }
+        com.foobnix.ui2.ThemeManager.apply(a);
     }
 
     public static void applyEdgeToEdge(final Activity a) {
-        applyEdgeToEdge(a, false, TintUtil.color);
+        applyEdgeToEdge(a, false, com.foobnix.ui2.ThemeManager.color(a, R.attr.appBackground));
     }
 
     public static void applyEdgeToEdge(final Activity a, final boolean underStatusBar) {
@@ -500,13 +496,18 @@ public abstract class DocumentController {
      */
     public static void applyEdgeToEdge(final Activity a, final boolean underStatusBar, final int barColor) {
         if (a instanceof ComponentActivity) {
-            // Both bars take the app's own colour, with the light icons they always had: the
-            // strip kept for the status bar is painted by the app, and the strip the buttons
-            // at the foot stand on is painted here. The system's scrim would leave that strip
-            // black under chrome that is not, which reads as a band cut off the screen.
-            EdgeToEdge.enable((ComponentActivity) a,
-                              SystemBarStyle.dark(Color.TRANSPARENT),
-                              SystemBarStyle.dark(barColor));
+            // Status icons follow the actual header surface, not the system's night mode.
+            int statusBackground = androidx.core.graphics.ColorUtils.compositeColors(barColor,
+                    com.foobnix.ui2.ThemeManager.color(a, R.attr.appBackground));
+            boolean lightBackground = androidx.core.graphics.ColorUtils.calculateContrast(Color.BLACK, statusBackground)
+                    > androidx.core.graphics.ColorUtils.calculateContrast(Color.WHITE, statusBackground);
+            SystemBarStyle statusStyle = lightBackground
+                    ? SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+                    : SystemBarStyle.dark(Color.TRANSPARENT);
+            SystemBarStyle navigationStyle = lightBackground
+                    ? SystemBarStyle.light(barColor, barColor)
+                    : SystemBarStyle.dark(barColor);
+            EdgeToEdge.enable((ComponentActivity) a, statusStyle, navigationStyle);
         }
         // From Android 10 on, the style above leaves the bar clear and lets the system put its
         // own scrim over whatever shows through. The colour is set here instead, and the scrim
@@ -517,6 +518,10 @@ public abstract class DocumentController {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             a.getWindow().setNavigationBarContrastEnforced(false);
+        }
+        if (isReader(a)) {
+            // Gesture navigation can be transparent: paint the reserved inset behind it too.
+            a.findViewById(android.R.id.content).setBackgroundColor(barColor);
         }
         View parentParent = a.findViewById(R.id.parentParent);
         View statusBarHack = a.findViewById(R.id.systemBarHack);

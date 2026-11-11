@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_books">Книги</string>
+    <string name="navigation_shelves">Полки</string>
+    <string name="navigation_favorites">Избранное</string>
+    <string name="navigation_settings">Настройки</string>
+    <string name="navigation_sources_collections">Источники и коллекции</string>
+    <string name="navigation_recent">Недавние</string>
+    <string name="navigation_bookmarks">Закладки</string>
+    <string name="navigation_catalogs">Каталоги</string>
+    <string name="navigation_drive">Облако</string>
+</resources>

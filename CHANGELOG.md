@@ -4,6 +4,36 @@ All notable changes to Librera Reader.
 
 Release builds: https://github.com/foobnix/LibreraReader/releases · [Unreleased APK Direct Download](http://beta.librera.mobi)
 
+## Unreleased
+
+* Add fixed Cream, OLED Black, and E-Ink Color interface palettes with persistent selection.
+* Preserve the open settings panel and scroll position when switching palettes.
+* Use semantic header foregrounds and contrast-aware status icons; remove decorative elevation from E-Ink navigation and book cards.
+* Redesign the library home with reading counts, a Continue Reading card, shelf status filters, expandable search, and palette-aware list/grid book cards.
+* Add four floating navigation destinations and inset-aware floating reader controls with page progress and existing advanced actions.
+* Add a native reader appearance sheet with separately saved per-book/default typography, draft cancellation, and position-preserving reflow.
+* Group Settings into Appearance, Reading, Library, Sync, and Advanced, with nested format filters, palette previews, and default typography editing outside the reader.
+* Remove the legacy square menu border, add inset 48dp toolbar buttons with round interaction states, and retain the appearance sheet's Apply button after rotation at large font sizes.
+* Disable E-Ink fast-scroll and navigation motion, remove E-Ink sheet/button elevation, and correct system-bar contrast for all three palettes.
+* Give shared settings sliders a separate wrapping label, 48dp controls, and palette-aware round increment/decrement buttons.
+* Keep cover column selection and Restore default on separate rows so the reset action remains readable at large font sizes.
+* Place appearance dropdowns below their labels with full-width, wrapping values for large fonts and long translations.
+* Give native settings checkboxes 48dp minimum touch targets and wrapping labels, including nested format filters.
+* Stack advanced reader settings labels and values; use wrapping controls and 48dp checkbox targets in reading settings.
+* Use semantic native dialog colors and a static, shadow-free E-Ink dialog surface.
+* Replace the main reader navigation glyphs with 24dp vector icons and add a keyboard-focusable appearance action.
+* Give floating reader dialogs a separate wrapping title row, 48dp header actions, and screen-bounded restored dimensions; enlarge and label reading-settings icon actions.
+* Match reader system bars to the active palette background instead of its accent, including transparent gesture navigation, with contrasting system icons.
+* Use the book background around short EPUB and other reflowable pages instead of the fixed-layout surround, preventing gray gaps in night mode.
+* Normalize 23 additional shared action vectors to 24dp and enlarge legacy selection, font, folder, tap-zone, and color dialog controls.
+* Keep floating reader controls visible during keyboard navigation and touch exploration; skip the decorative panel container in accessibility traversal.
+* Make the advanced reader toolbar scroll horizontally with labeled 48dp actions on narrow screens.
+* Match the reference reader progress layout with separate percentage/page counters and a sage seek track; use a horizontal overflow glyph.
+* Give the appearance sheet rounded top corners, a drag handle, a 48dp close action, and compact labeled typography sliders without changing draft/apply behavior.
+* Replace filled bottom-navigation glyphs with outline books, shelves, heart, and sun icons; give the settings overview a surface-colored heading.
+* Move the library view selector beside Bookshelf, compact the continue-reading card, and simplify list rows to match the interactive reference.
+* Keep the reader visible behind the dimmed appearance sheet and clip both sheet surfaces to the rounded top outline.
+
 ## 9.6.7
 
 * New design: floating rounded tabs, round buttons, rounded dialogs and menus, new theme colours.

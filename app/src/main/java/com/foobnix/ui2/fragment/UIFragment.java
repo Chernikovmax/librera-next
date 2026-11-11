@@ -390,7 +390,7 @@ public abstract class UIFragment<T> extends Fragment {
         // The bar's own room, and under it whatever the system's buttons take: the page runs
         // beneath both, and comes to rest clear of both.
         WindowInsetsCompat below = ViewCompat.getRootWindowInsets(column);
-        int space = SlidingTabLayout.floatingSpace()
+        int space = MainTabs2.bottomNavigationSpace()
                 + DocumentController.keptClearOf(getActivity(), below).bottom;
         int under = listReachesFoot ? space : 0;
         if (column.getPaddingBottom() != space - under) {
@@ -467,13 +467,8 @@ public abstract class UIFragment<T> extends Fragment {
         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) floatingHeader.getLayoutParams();
         int carried = 0;
         int cleared = 0;
-        if (SlidingTabLayout.isFloating()) {
-            WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(attached);
-            carried = DocumentController.keptClearOf(getActivity(), insets).top;
-        } else {
-            View strip = getActivity().findViewById(R.id.imageParent1);
-            cleared = strip == null ? 0 : strip.getHeight();
-        }
+        WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(attached);
+        carried = DocumentController.keptClearOf(getActivity(), insets).top;
         if (floatingHeader.getPaddingTop() == headerPaddingTop + carried && lp.topMargin == cleared) {
             return true;
         }
@@ -776,8 +771,8 @@ public abstract class UIFragment<T> extends Fragment {
             recyclerView.setAdapter(searchAdapter);
 
         } else if (mode == AppState.MODE_COVERS || mode == AppState.MODE_GRID) {
-            gridColumnDP = AppState.get().coverBigSize;
-            gridMinColumns = 1;
+            gridColumnDP = this instanceof SearchFragment2 && mode == AppState.MODE_GRID ? 150 : AppState.get().coverBigSize;
+            gridMinColumns = this instanceof SearchFragment2 && mode == AppState.MODE_GRID ? 2 : 1;
 
             GridLayoutManager mGridManager = new GridLayoutManager(getActivity(), gridColumns());
 
@@ -791,6 +786,9 @@ public abstract class UIFragment<T> extends Fragment {
                     }
 
                     int type = searchAdapter.getItemViewType(pos);
+                    if (type == FileMetaAdapter.DISPLAY_TYPE_LIBRARY_HEADER) {
+                        return num;
+                    }
                     if (type == FileMetaAdapter.DISPALY_TYPE_LAYOUT_TITLE_FOLDERS) {
                         return num;
                     }
@@ -847,6 +845,9 @@ public abstract class UIFragment<T> extends Fragment {
                     }
 
                     int type = searchAdapter.getItemViewType(pos);
+                    if (type == FileMetaAdapter.DISPLAY_TYPE_LIBRARY_HEADER) {
+                        return num;
+                    }
                     if (type == FileMetaAdapter.DISPALY_TYPE_LAYOUT_TITLE_FOLDERS) {
                         return num;
                     }

@@ -47,15 +47,7 @@ public abstract class ReaderFragmentActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle arg0) {
-        if (AppState.get().isSystemThemeColor) {
-            AppState.get().appTheme = Dips.isDarkThemeOn() ? AppState.THEME_DARK : AppState.THEME_LIGHT;
-        }
-
-        if (AppState.get().appTheme == AppState.THEME_LIGHT || AppState.get().appTheme == AppState.THEME_INK) {
-            setTheme(R.style.StyledIndicatorsWhite);
-        } else {
-            setTheme(R.style.StyledIndicatorsBlack);
-        }
+        ThemeManager.apply(this);
         super.onCreate(arg0);
 
         handler = new Handler(Looper.getMainLooper());
@@ -73,29 +65,6 @@ public abstract class ReaderFragmentActivity extends FragmentActivity {
         super.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        LOG.d("ReaderFragmentActivity onSaveInstanceState before", outState);
-
-        if (outState != null) {
-            outState.clear();
-        }
-        LOG.d("ReaderFragmentActivity onSaveInstanceState after", outState);
-        super.onSaveInstanceState(outState);
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        LOG.d("ReaderFragmentActivity onRestoreInstanceState before", savedInstanceState);
-
-        if (savedInstanceState != null) {
-            savedInstanceState.clear();
-        }
-        LOG.d("ReaderFragmentActivity onRestoreInstanceState after", savedInstanceState);
-
-        super.onRestoreInstanceState(savedInstanceState);
-    }
 
     public void finishActivityAfterReaderAction() {
         TempHolder.get().loadingCancelled.set(true);

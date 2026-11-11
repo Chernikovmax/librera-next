@@ -42,8 +42,9 @@
         android:visibility="gone" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:layout_below="@id/color_picker_view"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal" >
@@ -66,8 +67,9 @@
 
         <net.margaritov.preference.colorpicker.ColorPickerPanelView
             android:id="@+id/cpTextLight"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:minWidth="48dp"
             android:layout_weight="0.5" />
 
         <TextView
@@ -81,14 +83,16 @@
 
         <net.margaritov.preference.colorpicker.ColorPickerPanelView
             android:id="@+id/cpBGLight"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:minWidth="48dp"
             android:layout_weight="0.5" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:layout_below="@id/color_picker_view"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal" >
@@ -111,8 +115,9 @@
 
         <net.margaritov.preference.colorpicker.ColorPickerPanelView
             android:id="@+id/cpTextBlack"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:minWidth="48dp"
             android:layout_weight="0.5" />
 
         <TextView
@@ -126,8 +131,9 @@
 
         <net.margaritov.preference.colorpicker.ColorPickerPanelView
             android:id="@+id/cpBGBlack"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:minWidth="48dp"
             android:layout_weight="0.5" />
     </LinearLayout>
 
@@ -138,24 +144,27 @@
         <Button
             android:id="@+id/buttonCancel"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:layout_weight="1"
             android:text="Cancel" />
         
         <Button
             android:id="@+id/buttonDefaults"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:layout_weight="1"
             android:text="Default" />
 
         <Button
             android:id="@+id/buttonApply"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:layout_weight="1"
             android:text="Apply" />
     </LinearLayout>

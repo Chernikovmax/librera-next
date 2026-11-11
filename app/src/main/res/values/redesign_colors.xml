@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_cream_shell">#F2ECE3</color>
+    <color name="app_cream_background">#F9F5EE</color>
+    <color name="app_cream_surface">#FFFCF7</color>
+    <color name="app_cream_surface_variant">#EEE5D8</color>
+    <color name="app_cream_featured_container">#EFE2D1</color>
+    <color name="app_cream_on_surface">#352B25</color>
+    <color name="app_cream_on_surface_variant">#62564B</color>
+    <color name="app_cream_primary">#704B3B</color>
+    <color name="app_cream_on_primary">#FFF7EE</color>
+    <color name="app_cream_tertiary">#82503B</color>
+    <color name="app_cream_success">#486454</color>
+    <color name="app_cream_outline">#D9CDBE</color>
+    <color name="app_cream_selected_container">#E5D6C5</color>
+    <color name="app_cream_reader_background">#F6EFE3</color>
+
+    <color name="app_oled_shell">#0A0A0A</color>
+    <color name="app_oled_background">#000000</color>
+    <color name="app_oled_surface">#161616</color>
+    <color name="app_oled_surface_variant">#242322</color>
+    <color name="app_oled_featured_container">#191715</color>
+    <color name="app_oled_on_surface">#D4CEC6</color>
+    <color name="app_oled_on_surface_variant">#9B938B</color>
+    <color name="app_oled_primary">#C5A797</color>
+    <color name="app_oled_on_primary">#211915</color>
+    <color name="app_oled_tertiary">#C19C89</color>
+    <color name="app_oled_success">#A7B9A9</color>
+    <color name="app_oled_outline">#3D3935</color>
+    <color name="app_oled_selected_container">#302823</color>
+    <color name="app_oled_reader_background">#000000</color>
+
+    <color name="app_eink_shell">#E9ECE6</color>
+    <color name="app_eink_background">#FCFCF5</color>
+    <color name="app_eink_surface">#FFFFFA</color>
+    <color name="app_eink_surface_variant">#E8ECE5</color>
+    <color name="app_eink_featured_container">#EBEFE7</color>
+    <color name="app_eink_on_surface">#1C2820</color>
+    <color name="app_eink_on_surface_variant">#49574C</color>
+    <color name="app_eink_primary">#2C5048</color>
+    <color name="app_eink_on_primary">#FFFFFF</color>
+    <color name="app_eink_tertiary">#69493C</color>
+    <color name="app_eink_success">#31584B</color>
+    <color name="app_eink_outline">#829187</color>
+    <color name="app_eink_selected_container">#DEE8DF</color>
+    <color name="app_eink_reader_background">#FFFFF6</color>
+</resources>

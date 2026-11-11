@@ -43,12 +43,14 @@ public class AppBook implements CurrentPageListener {
     public String cfi;
     public long t;//time
     public String ln;
+    /** Serialized reader appearance overrides for this book. */
+    public String appearanceJson;
 
     public boolean rtl = Urls.isRtl();
 
     @Override
     public int hashCode() {
-        final String s = "" + path + z + sp + cp + dp + dc + lk + (int) (x * 100) + (int) (y * 100) + this.s + d + p + pt + cfi + ln + rtl;
+        final String s = "" + path + z + sp + cp + dp + dc + lk + (int) (x * 100) + (int) (y * 100) + this.s + d + p + pt + cfi + ln + rtl + appearanceJson;
         LOG.d("hashCode-appbook", s);
         return s.hashCode();
     }

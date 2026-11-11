@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="appShell" format="color" />
+    <attr name="appBackground" format="color" />
+    <attr name="appSurface" format="color" />
+    <attr name="appSurfaceVariant" format="color" />
+    <attr name="appFeaturedContainer" format="color" />
+    <attr name="appOnSurface" format="color" />
+    <attr name="appOnSurfaceVariant" format="color" />
+    <attr name="appPrimary" format="color" />
+    <attr name="appOnPrimary" format="color" />
+    <attr name="appTertiary" format="color" />
+    <attr name="appSuccess" format="color" />
+    <attr name="appOutline" format="color" />
+    <attr name="appSelectedContainer" format="color" />
+    <attr name="appReaderBackground" format="color" />
+</resources>

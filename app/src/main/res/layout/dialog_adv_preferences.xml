@@ -2,11 +2,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:myseek="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:theme="@style/SettingsControlsOverlay"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="6dip">
 
@@ -36,38 +37,44 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="180dip"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:labelFor="@id/rotateViewPager"
                 android:text="@string/direction_of_scrolling"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/rotateViewPager"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:text="@string/horizontal" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="180dip"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:labelFor="@id/rtlText"
                 android:text="@string/direction_of_reading_rtl_"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/rtlText"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:text="@string/left_to_rigth" />
         </LinearLayout>
@@ -80,77 +87,76 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="180dip"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:labelFor="@id/rotate"
                 android:text="@string/rotate_page"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/rotate"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:text="0" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="180dip"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:labelFor="@id/tapzoneSize"
                 android:text="@string/tap_zone_size"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tapzoneSize"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:minEms="2"
                 android:text="5%" />
         </LinearLayout>
 
-        <!-- Customising the zones is its own row, so the size beside the word above lines up
-             with the values in every other row rather than sharing its row with a second
-             button and stepping out of the column. -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <View
-                android:layout_width="180dip"
-                android:layout_height="1dp" />
-
             <TextView
                 android:id="@+id/tapzoneCustomize"
                 style="@style/textLink"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:text="@string/customize" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="180dip"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:labelFor="@id/remindRestTime"
                 android:text="@string/remind_about_rest_every"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/remindRestTime"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:text="120 min" />
         </LinearLayout>
@@ -159,20 +165,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:orientation="vertical"
             android:gravity="center_vertical">
 
             <TextView
-                android:layout_width="180dip"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
+                android:labelFor="@id/doubleTapValue"
                 android:text="@string/action_on_double_tap"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/doubleTapValue"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:text="@string/close_book" />
         </LinearLayout>
@@ -212,38 +220,44 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="180dip"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:labelFor="@id/pageQuality"
                 android:text="@string/page_quality"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/pageQuality"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:text="1.2" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="180dip"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:labelFor="@id/pagesInMemory"
                 android:text="@string/pages_in_memory"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/pagesInMemory"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:text="2" />
         </LinearLayout>
@@ -251,18 +265,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:gravity="center_vertical">
 
             <TextView
-                android:layout_width="180dip"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:labelFor="@id/inactivityTime"
                 android:text="@string/screen_turn_off_after_inactivity_minutes_"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/inactivityTime"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:text="2" />
         </LinearLayout>
@@ -270,18 +288,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:gravity="center_vertical">
 
             <TextView
-                android:layout_width="180dip"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:labelFor="@id/antiAliasLevel"
                 android:text="@string/anti_aliasing_level"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/antiAliasLevel"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:text="8" />
         </LinearLayout>
@@ -289,22 +311,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:visibility="gone">
 
             <TextView
-                android:layout_width="180dip"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:labelFor="@id/allocatedMemorySize"
                 android:text="@string/size_of_allocated_memory"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/allocatedMemorySize"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minWidth="50dip"
                 android:padding="5dip"
-                android:singleLine="true"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:text="64MB" />
         </LinearLayout>
 

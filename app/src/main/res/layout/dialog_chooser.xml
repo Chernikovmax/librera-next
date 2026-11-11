@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:background="#dd4E342E"
+            android:background="?attr/appPrimary"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="2dip" >
@@ -39,7 +39,7 @@
                 android:singleLine="true"
                 android:text="@string/choose_"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
+                android:textColor="?attr/appOnPrimary"
                 android:textStyle="bold" />
 
             <ImageView

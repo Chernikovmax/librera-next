@@ -177,9 +177,6 @@ public class TintUtil {
         return AppState.get().tintThemeColor;
     }
 
-    public static void init() {
-        color = AppState.get().tintThemeColor;
-    }
 
     public static void clean() {
         drawables.clear();
@@ -275,6 +272,7 @@ public class TintUtil {
         // A floor under the width, so a column of short values - Top, Dark, Auto - comes out
         // one width instead of a ragged edge. A longer word still makes its button wider.
         button.setMinWidth(Dips.dpToPx(minWidthDp));
+        button.setMinHeight(Dips.dpToPx(48));
         button.setGravity(Gravity.CENTER);
         if (button.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) button.getLayoutParams();

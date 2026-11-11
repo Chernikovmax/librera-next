@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_overview">Everything you need, without the clutter</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_reading">Reading</string>
+    <string name="settings_library">Library</string>
+    <string name="settings_sync">Sync</string>
+    <string name="settings_advanced">Advanced</string>
+    <string name="settings_appearance_summary">Palettes, covers and interface</string>
+    <string name="settings_reading_summary">Default typography, gestures and reading behavior</string>
+    <string name="settings_library_summary">Source folders, scanning and file formats</string>
+    <string name="settings_sync_summary">Google Drive account, status and synchronization</string>
+    <string name="settings_advanced_summary">Rendering engines, profiles and import/export</string>
+    <string name="settings_formats">Format filters</string>
+    <string name="settings_formats_summary">Choose the formats included when scanning your folders</string>
+    <string name="settings_defaults">Default book typography</string>
+    <string name="settings_defaults_summary">For reflowable books; PDF and DJVU keep their original layout</string>
+    <string name="settings_sync_unavailable">Google Drive sync is not included in this build.</string>
+    <string name="settings_back">Back to settings</string>
+    <string name="settings_palettes">Interface palette</string>
+</resources>

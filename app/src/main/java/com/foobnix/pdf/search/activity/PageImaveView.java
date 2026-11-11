@@ -434,8 +434,8 @@ public class PageImaveView extends View {
 //            } else {
 //                canvas.drawColor(MagicHelper.ligtherColor(MagicHelper.getBgColor()));
 //            }
-            if (imageDrawable == null) {
-                drawPageNotReady(canvas);
+            if (imageDrawable == null || BookCSS.get().isTextFormat()) {
+                drawPageBackground(canvas);
             } else {
                 canvas.drawColor(MagicHelper.getForegroundColor());
             }
@@ -502,11 +502,10 @@ public class PageImaveView extends View {
     }
 
     /**
-     * Until the page is made the screen is the book's own page, its colour and background image,
-     * as the scrolled view shows a page still being made. The colour around the page, black for
-     * some, flashed over the whole screen while turning pages quickly.
+     * Text pages and pages still being rendered share the book's background, including its image.
+     * A short chapter must not expose the contrasting surround used for fixed-layout documents.
      */
-    private void drawPageNotReady(final Canvas canvas) {
+    private void drawPageBackground(final Canvas canvas) {
         canvas.drawColor(MagicHelper.getBgColor());
         if (MagicHelper.isNeedBookBackgroundImage()) {
             final Bitmap bg = MagicHelper.getBackgroundImage();

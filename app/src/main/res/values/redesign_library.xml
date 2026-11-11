@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="library_home_title">My library</string>
+    <string name="library_home_summary">%1$d books · %2$d in progress</string>
+    <string name="library_continue_label">CONTINUE READING</string>
+    <string name="library_continue_action">Continue reading</string>
+    <string name="library_shelf_title">Bookshelf</string>
+    <string name="library_filter_all">All</string>
+    <string name="library_filter_reading">Reading</string>
+    <string name="library_filter_finished">Read</string>
+    <string name="library_no_results">No books match these filters</string>
+    <string name="library_saved_progress">%1$d%% read</string>
+</resources>

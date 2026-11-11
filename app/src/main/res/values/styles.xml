@@ -22,6 +22,19 @@
         <item name="android:alertDialogTheme">@style/DialogRoundDark</item>
     </style>
 
+    <style name="SettingsControlsOverlay" parent="">
+        <item name="android:checkboxStyle">@style/SettingsCheckBox</item>
+    </style>
+
+    <style name="SettingsCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">false</item>
+    </style>
+
 
     <style name="PagerTabStripText">
         <item name="android:textSize">14sp</item>
@@ -237,11 +250,29 @@
     <style name="DialogRoundLight" parent="@android:style/Theme.Material.Light.Dialog.Alert">
         <item name="android:windowBackground">@drawable/bg_dialog_round_light</item>
         <item name="android:windowTitleStyle">@style/DialogRoundTitle</item>
+        <item name="android:colorBackground">?attr/appSurface</item>
+        <item name="android:textColor">?attr/appOnSurface</item>
+        <item name="android:textColorPrimary">?attr/appOnSurface</item>
+        <item name="android:textColorSecondary">?attr/appOnSurfaceVariant</item>
+        <item name="android:textColorHint">?attr/appOnSurfaceVariant</item>
+        <item name="android:textColorLink">?attr/appTertiary</item>
+        <item name="android:colorAccent">?attr/appPrimary</item>
+        <item name="android:colorControlActivated">?attr/appPrimary</item>
+        <item name="android:colorControlNormal">?attr/appOnSurfaceVariant</item>
     </style>
 
     <style name="DialogRoundDark" parent="@android:style/Theme.Material.Dialog.Alert">
         <item name="android:windowBackground">@drawable/bg_dialog_round_dark</item>
         <item name="android:windowTitleStyle">@style/DialogRoundTitle</item>
+        <item name="android:colorBackground">?attr/appSurface</item>
+        <item name="android:textColor">?attr/appOnSurface</item>
+        <item name="android:textColorPrimary">?attr/appOnSurface</item>
+        <item name="android:textColorSecondary">?attr/appOnSurfaceVariant</item>
+        <item name="android:textColorHint">?attr/appOnSurfaceVariant</item>
+        <item name="android:textColorLink">?attr/appTertiary</item>
+        <item name="android:colorAccent">?attr/appPrimary</item>
+        <item name="android:colorControlActivated">?attr/appPrimary</item>
+        <item name="android:colorControlNormal">?attr/appOnSurfaceVariant</item>
     </style>
 
     <!-- LibreraXActivity: no screen of its own, only the popup when LibreraX is missing. -->
@@ -261,4 +292,14 @@
         <item name="android:windowDisablePreview">true</item>
     </style>
 
+    <style name="ReaderAppearanceDialog" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+    </style>
+    <style name="ReaderAppearanceDialog.Eink" parent="ReaderAppearanceDialog">
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowElevation">0dp</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+        <item name="android:buttonStyle">@style/Widget.Librera.Eink.ElevationFree</item>
+    </style>
 </resources>
+

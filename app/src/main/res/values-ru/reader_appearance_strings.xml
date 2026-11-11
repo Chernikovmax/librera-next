@@ -1,0 +1,9 @@
+<resources>
+    <string name="reader_appearance">Оформление</string>
+    <string name="reader_this_book">Только эта книга</string>
+    <string name="reader_default_books">По умолчанию для книг без своих настроек</string>
+    <string name="reader_margin_top">Верхнее поле</string>
+    <string name="reader_margin_bottom">Нижнее поле</string>
+    <string name="reader_margin_sides">Боковые поля</string>
+    <string name="reader_fixed_layout_appearance">Типографика недоступна для документов с фиксированной разметкой. Масштаб и расположение страниц доступны в расширенных настройках.</string>
+</resources>

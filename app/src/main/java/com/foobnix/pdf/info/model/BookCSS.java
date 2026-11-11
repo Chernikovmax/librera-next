@@ -188,6 +188,63 @@ public class BookCSS {
         }
     }
     public float appFontScale = 1.0f;
+    public String defaultAppearance;
+    private transient com.foobnix.model.AppBook appearanceBook;
+
+    public void activateAppearance(com.foobnix.model.AppBook book) {
+        if (appearanceBook == book) return;
+        if (appearanceBook == null || appearanceBook.appearanceJson == null) {
+            defaultAppearance = appearanceSnapshot();
+        }
+        applyAppearanceSnapshot(defaultAppearance);
+        appearanceBook = book;
+        if (book != null) applyAppearanceSnapshot(book.appearanceJson);
+    }
+
+    public void setAppearanceScope(com.foobnix.model.AppBook book, boolean defaults) {
+        appearanceBook = book;
+        if (defaults) {
+            defaultAppearance = appearanceSnapshot();
+            book.appearanceJson = null;
+        } else {
+            book.appearanceJson = appearanceSnapshot();
+        }
+    }
+
+    /** Changes global defaults without overwriting the active book's typography override. */
+    public void updateDefaultAppearance(Context context, String snapshot) {
+        defaultAppearance = snapshot;
+        if (appearanceBook == null || appearanceBook.appearanceJson == null) {
+            applyAppearanceSnapshot(snapshot);
+        }
+        save(context);
+    }
+
+    /** Serializes only reader typography; global preferences and paths are never included. */
+    public String appearanceSnapshot() {
+        return fontSizeSp + "|" + fontSizeSpFoliate + "|" + lineHeight12 + "|" + lineHeight12Foliate
+                + "|" + marginTop + "|" + marginBottom + "|" + marginLeft + "|" + marginRight
+                + "|" + marginTopFoliate + "|" + marginBottomFoliate + "|" + marginLeftFoliate
+                + "|" + marginRightFoliate + "|" + paragraphHeight + "|" + textIndent + "|" + textAlign
+                + "|" + (normalFont == null ? "" : normalFont) + "|" + isAutoHypens;
+    }
+    public void applyAppearanceSnapshot(String snapshot) {
+        if (snapshot == null) return;
+        try {
+            String[] v = snapshot.split("\\|", -1);
+            if (v.length != 17) return;
+            int[] n = new int[15];
+            for (int i = 0; i < n.length; i++) n[i] = Integer.parseInt(v[i]);
+            fontSizeSp=n[0]; fontSizeSpFoliate=n[1];
+            lineHeight12=n[2]; lineHeight12Foliate=n[3];
+            marginTop=n[4]; marginBottom=n[5];
+            marginLeft=n[6]; marginRight=n[7];
+            marginTopFoliate=n[8]; marginBottomFoliate=n[9];
+            marginLeftFoliate=n[10]; marginRightFoliate=n[11];
+            paragraphHeight=n[12]; textIndent=n[13];
+            textAlign=n[14]; normalFont=v[15]; isAutoHypens=Boolean.parseBoolean(v[16]);
+        } catch (RuntimeException ignored) { }
+    }
     public String mp3BookPathJson;
     public String dirLastPath;
     public String pathSAF = "";
@@ -570,11 +627,22 @@ public class BookCSS {
             return;
         }
 
-        int currentHash = Objects.hashCode(instance, false);
-        if (currentHash != instance.hashCode) {
-            LOG.d("Objects-save", "SAVE BookCSS");
-            hashCode = currentHash;
-            IO.writeObj(AppProfile.syncCSS, instance);
+        String active = appearanceSnapshot();
+        boolean override = appearanceBook != null && appearanceBook.appearanceJson != null;
+        if (override) {
+            appearanceBook.appearanceJson = active;
+            applyAppearanceSnapshot(defaultAppearance);
+        } else {
+            defaultAppearance = active;
+        }
+        try {
+            int currentHash = Objects.hashCode(instance, false);
+            if (currentHash != instance.hashCode) {
+                hashCode = currentHash;
+                IO.writeObj(AppProfile.syncCSS, instance);
+            }
+        } finally {
+            if (override) applyAppearanceSnapshot(active);
         }
     }
 

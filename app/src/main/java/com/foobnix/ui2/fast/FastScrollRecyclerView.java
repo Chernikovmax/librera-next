@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.foobnix.android.utils.LOG;
 import com.foobnix.pdf.info.TintUtil;
+import com.foobnix.ui2.ThemeManager;
 
 public class FastScrollRecyclerView extends RecyclerView {
 
@@ -173,6 +174,10 @@ public class FastScrollRecyclerView extends RecyclerView {
     }
 
     private void layout(Context context, AttributeSet attrs) {
+        if (ThemeManager.isEink()) {
+            setItemAnimator(null);
+            setOverScrollMode(OVER_SCROLL_NEVER);
+        }
         mFastScroller = new FastScroller(context, attrs);
     }
 }

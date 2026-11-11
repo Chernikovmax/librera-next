@@ -129,6 +129,56 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
     boolean isLibraryReady = true;
     AutoCompleteTextView searchEditText;
     int countTitles = 0;
+    private View libraryHeader, continueSection;
+    private int libraryFilter;
+    private int libraryTotal, libraryReading;
+    private FileMeta continueBook;
+
+    private android.graphics.drawable.GradientDrawable libraryBackground(int attr, int radius) {
+        android.graphics.drawable.GradientDrawable background = new android.graphics.drawable.GradientDrawable();
+        background.setColor(com.foobnix.ui2.ThemeManager.color(requireContext(), attr));
+        background.setCornerRadius(Dips.dpToPx(radius));
+        if (com.foobnix.ui2.ThemeManager.isEink()
+                || (attr != R.attr.appFeaturedContainer && attr != R.attr.appPrimary)) {
+            background.setStroke(Dips.dpToPx(1), com.foobnix.ui2.ThemeManager.color(requireContext(), R.attr.appOutline));
+        }
+        return background;
+    }
+
+    private void bindLibraryHeader() {
+        ((TextView) libraryHeader.findViewById(R.id.librarySummary)).setText(
+                getString(R.string.library_home_summary, libraryTotal, libraryReading));
+        boolean browsing = TxtUtils.isEmpty(searchEditText.getText().toString()) && libraryFilter == 0;
+        continueSection.setVisibility(browsing && continueBook != null ? View.VISIBLE : View.GONE);
+        int[] chips = {R.id.libraryFilterAll, R.id.libraryFilterReading, R.id.libraryFilterFinished};
+        for (int i = 0; i < chips.length; i++) {
+            TextView chip = libraryHeader.findViewById(chips[i]);
+            chip.setSelected(i == libraryFilter);
+            chip.setBackground(libraryBackground(i == libraryFilter ? R.attr.appSelectedContainer : R.attr.appSurface, 24));
+        }
+        if (continueBook == null) return;
+        final FileMeta book = continueBook;
+        ((TextView) libraryHeader.findViewById(R.id.libraryContinueTitle)).setText(
+                TxtUtils.isEmpty(book.getTitle()) ? new java.io.File(book.getPath()).getName() : book.getTitle());
+        ((TextView) libraryHeader.findViewById(R.id.libraryContinueAuthor)).setText(book.getAuthor());
+        float progress = book.getIsRecentProgress() == null ? 0 : book.getIsRecentProgress();
+        ((TextView) libraryHeader.findViewById(R.id.libraryContinueProgress)).setText(
+                getString(R.string.library_saved_progress, Math.round(progress * 100)));
+        TintUtil.setProgressLine(libraryHeader.findViewById(R.id.libraryContinueProgressBar),
+                com.foobnix.ui2.ThemeManager.color(requireContext(), R.attr.appSurfaceVariant),
+                com.foobnix.ui2.ThemeManager.color(requireContext(), R.attr.appSuccess), progress);
+        IMG.getCoverPageWithEffect(getActivity(), book.getPath(), null)
+                .into((ImageView) libraryHeader.findViewById(R.id.libraryContinueCover));
+        libraryHeader.findViewById(R.id.libraryContinueCard).setBackground(libraryBackground(R.attr.appFeaturedContainer, 24));
+        libraryHeader.findViewById(R.id.libraryContinueButton).setBackground(libraryBackground(R.attr.appPrimary, 16));
+        libraryHeader.findViewById(R.id.libraryContinueButton).setOnClickListener(v ->
+                com.foobnix.ui2.adapter.DefaultListeners.getOnItemClickListener(getActivity()).onResultRecive(book));
+    }
+
+    @Override public void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putInt("libraryFilter", libraryFilter);
+    }
     Runnable hideKeyboard = new Runnable() {
 
         @Override public void run() {
@@ -199,6 +249,11 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
             searchAndOrderAsync();
         }
     };
+
+    @Override
+    public boolean hasFloatingHeader() {
+        return false;
+    }
     private final TextWatcher filterTextWatcher = new TextWatcher() {
 
         @Override public void afterTextChanged(final Editable s) {
@@ -278,38 +333,6 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
     }
 
     @Override public void onTintChanged() {
-        TintUtil.setBackgroundFillColor(secondTopPanel, TintUtil.color);
-
-        int color =
-                (AppState.get().appTheme == AppState.THEME_DARK_OLED || AppState.get().appTheme == AppState.THEME_DARK) ?
-                        Color.WHITE : TintUtil.color;
-        TintUtil.setTintImageNoAlpha(menu2, color);
-
-        int colorTheme = TintUtil.getColorInDayNighth();
-        colorTheme = ColorUtils.setAlphaComponent(colorTheme, 230);
-
-        TintUtil.setUITextColor(countBooks, colorTheme);
-
-        TintUtil.setTintImageNoAlpha(cleanFilter, colorTheme);
-        TintUtil.setTintImageNoAlpha(myAutoCompleteImage, colorTheme);
-
-        if (AppState.get().appTheme == AppState.THEME_DARK_OLED || (AppState.get().appTheme == AppState.THEME_DARK && TintUtil.color == Color.BLACK)) {
-            searchEditText.setBackgroundResource(R.drawable.bg_search_edit_night);
-            menu2.setBackgroundResource(R.drawable.bg_search_edit_night);
-
-        } else {
-            searchEditText.setBackgroundResource(R.drawable.bg_search_edit);
-            menu2.setBackgroundResource(R.drawable.bg_search_edit);
-        }
-        TintUtil.setStrokeColor(searchEditText, TintUtil.color);
-        TintUtil.setStrokeColor(menu2, TintUtil.color);
-
-        TintUtil.setUITextColor(searchEditText, colorTheme);
-
-        // Ink is no exception here. The header is painted in the theme colour and carries the
-        // status bar, so black on it cannot be read whatever the page below is set in - the
-        // menu, the name of the shelf and its count are drawn in white as on every other
-        // theme. The page itself stays black on white.
         styleFilterLineOnTint();
 
     }
@@ -327,33 +350,24 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
         searchEditText.setHint(hint == null ? null : hint.toString().toUpperCase(Locale.getDefault()));
     }
 
-    /**
-     * The filter line stands on the tint band the header is painted in, not on the page, so
-     * it is drawn to be read against it: the menu the same white as the buttons on the far
-     * side, and the field a rounded well with its words in white, rather than a boxed-out
-     * rectangle with a border cutting it from the colour it sits on.
-     */
+    /** Keep library controls paired with the semantic background. */
     private void styleFilterLineOnTint() {
-        if (getId() != R.id.pager) {
-            return;
-        }
-        menu2.setBackgroundResource(R.drawable.bg_round_press);
-        TintUtil.setTintImageNoAlpha(menu2, Color.WHITE);
-
-        // The buttons stand on the bar itself. Their own panel was a second, solid block of
-        // the same tint laid over a bar the page shows through - a darker patch with an
-        // edge of its own, right where the bar was meant to read as one surface.
+        ((View) menu2.getParent()).setBackgroundColor(com.foobnix.ui2.ThemeManager.color(requireContext(), R.attr.appBackground));
+        int foreground = com.foobnix.ui2.ThemeManager.color(requireContext(), R.attr.appOnSurface);
+        TintUtil.setTintImageNoAlpha(menu2, foreground);
         secondTopPanel.setBackgroundColor(Color.TRANSPARENT);
-
-        searchEditText.setBackgroundResource(R.drawable.bg_search_round);
+        searchEditText.setBackgroundColor(Color.TRANSPARENT);
         searchEditText.setPadding(Dips.DP_15,
                                   searchEditText.getPaddingTop(),
                                   searchEditText.getPaddingRight(),
                                   searchEditText.getPaddingBottom());
-        TintUtil.setUITextColor(searchEditText, Color.WHITE);
-        countBooks.setTextColor(Color.WHITE);
-        TintUtil.setTintImageNoAlpha(cleanFilter, Color.WHITE);
-        TintUtil.setTintImageNoAlpha(myAutoCompleteImage, Color.WHITE);
+        TintUtil.setUITextColor(searchEditText, foreground);
+        countBooks.setTextColor(foreground);
+        TintUtil.setTintImageNoAlpha(cleanFilter, foreground);
+        TintUtil.setTintImageNoAlpha(myAutoCompleteImage, foreground);
+        TintUtil.setTintImageNoAlpha(sortBy, foreground);
+        TintUtil.setTintImageNoAlpha(sortOrder, foreground);
+        TintUtil.setTintImageNoAlpha(onGridlList, foreground);
     }
 
     public void onGridList() {
@@ -426,7 +440,6 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
         setButtonTooltip(view.findViewById(R.id.cleanFilter));
         setButtonTooltip(view.findViewById(R.id.sortBy));
         setButtonTooltip(view.findViewById(R.id.sortOrder));
-        setButtonTooltip(view.findViewById(R.id.onGridList));
 
         bindOnGrantPanel(view.findViewById(R.id.layoutOnGrant));
         layoutOnGrant = view.findViewById(R.id.layoutOnGrant);
@@ -473,9 +486,37 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
 
         searchAdapter = new FileMetaAdapter();
 
+        libraryFilter = savedInstanceState == null ? 0 : savedInstanceState.getInt("libraryFilter", 0);
+        libraryHeader = inflater.inflate(R.layout.redesign_library_header, new FrameLayout(requireContext()), false);
+        continueSection = libraryHeader.findViewById(R.id.libraryContinueSection);
+        searchAdapter.setLibraryStyle(true);
+        searchAdapter.setLibraryHeader(libraryHeader);
+        int[] filterIds = {R.id.libraryFilterAll, R.id.libraryFilterReading, R.id.libraryFilterFinished};
+        for (int i = 0; i < filterIds.length; i++) {
+            final int selected = i;
+            libraryHeader.findViewById(filterIds[i]).setOnClickListener(v -> {
+                libraryFilter = selected;
+                recyclerView.scrollToPosition(0);
+                searchAndOrderAsync();
+            });
+        }
+        view.findViewById(R.id.librarySearchToggle).setOnClickListener(v -> {
+            boolean opening = view.findViewById(R.id.librarySearchBox).getVisibility() != View.VISIBLE;
+            view.findViewById(R.id.librarySearchBox).setVisibility(opening ? View.VISIBLE : View.GONE);
+            view.findViewById(R.id.libraryBrand).setVisibility(opening ? View.GONE : View.VISIBLE);
+            if (opening) {
+                searchEditText.requestFocus();
+                ((android.view.inputmethod.InputMethodManager) requireContext().getSystemService(
+                        android.content.Context.INPUT_METHOD_SERVICE)).showSoftInput(searchEditText, 0);
+            } else {
+                searchEditText.setText("");
+                Keyboards.close(searchEditText);
+            }
+        });
         authorsAdapter = new AuthorsAdapter2();
 
-        onGridlList = (ImageView) view.findViewById(R.id.onGridList);
+        onGridlList = (ImageView) libraryHeader.findViewById(R.id.onGridList);
+        setButtonTooltip(onGridlList);
         onGridlList.setOnClickListener(new OnClickListener() {
 
             @Override public void onClick(View v) {
@@ -510,6 +551,10 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
                 return true;
             }
         });
+        View shelfSort = libraryHeader.findViewById(R.id.libraryShelfSort);
+        setButtonTooltip(shelfSort);
+        shelfSort.setOnClickListener(v -> sortByPopup(v));
+        shelfSort.setOnLongClickListener(v -> sortBy.performLongClick());
         sortOrder.setVisibility(View.GONE);
 
         bindAdapter(searchAdapter);
@@ -521,6 +566,8 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
 
         if (AppState.get().isRestoreSearchQuery && !TxtUtils.isEmpty(AppState.get().searchQuery)) {
             searchEditText.setText(AppState.get().searchQuery);
+            view.findViewById(R.id.librarySearchBox).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.libraryBrand).setVisibility(View.GONE);
         }
 
         onGridList();
@@ -563,14 +610,9 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
             }
         });
 
-        menu2.setOnClickListener(new OnClickListener() {
-            @Override public void onClick(View view) {
-                if (view.getRootView()
-                        .findViewById(R.id.imageMenu1) != null) {
-                    view.getRootView()
-                        .findViewById(R.id.imageMenu1)
-                        .performClick();
-                }
+        menu2.setOnClickListener(source -> {
+            if (getActivity() instanceof MainTabs2) {
+                ((MainTabs2) getActivity()).showSecondaryDestinations(source);
             }
         });
 
@@ -596,8 +638,8 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
     private void updateEmptyLibraryState() {
         boolean libraryFilterIsEmpty = searchEditText.getText().toString().trim().isEmpty();
         boolean noVisibleBooks = "0".contentEquals(countBooks.getText());
-        boolean showEmptyLibrary = libraryFilterIsEmpty
-                && noVisibleBooks
+        boolean showEmptyLibrary = libraryFilterIsEmpty && libraryFilter == 0
+                && noVisibleBooks && libraryTotal == 0
                 && !layoutError.isShown()
                 && isLibraryReady;
         layoutOnGrant.setVisibility(View.GONE);
@@ -686,7 +728,8 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
 
     @Override public void onResume() {
         super.onResume();
-        menu2.setVisibility(getActivity().findViewById(R.id.imageMenu1) == null ? View.GONE : View.VISIBLE);
+        menu2.setVisibility(View.VISIBLE);
+        if (searchAdapter != null) searchAndOrderAsync();
         updateEmptyLibraryState();
     }
 
@@ -805,8 +848,31 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
                                            .searchBy(txt, SORT_BY.getByID(AppState.get().sortBy),
                                                    AppState.get().isSortAsc);
 
-            ExtUtils.removeReadBooks(searchBy);
+            List<FileMeta> allBooks = TxtUtils.isEmpty(txt) ? searchBy :
+                    AppDB.get().searchBy("", SORT_BY.getByID(AppState.get().sortBy), AppState.get().isSortAsc);
+            ExtUtils.removeNotFound(allBooks);
+            libraryTotal = allBooks.size();
+            libraryReading = 0;
+            continueBook = null;
+            for (FileMeta book : allBooks) {
+                Float progress = book.getIsRecentProgress();
+                if (progress != null && progress > 0 && progress < 1) libraryReading++;
+                if (Boolean.TRUE.equals(book.getIsRecent()) && (progress == null || progress < 1)
+                        && (continueBook == null || (book.getIsRecentTime() != null
+                        && (continueBook.getIsRecentTime() == null || book.getIsRecentTime() > continueBook.getIsRecentTime())))) {
+                    continueBook = book;
+                }
+            }
+            if (libraryFilter != 2) ExtUtils.removeReadBooks(searchBy);
             ExtUtils.removeNotFound(searchBy);
+            if (libraryFilter != 0) {
+                Iterator<FileMeta> filtered = searchBy.iterator();
+                while (filtered.hasNext()) {
+                    Float progress = filtered.next().getIsRecentProgress();
+                    if (libraryFilter == 1 ? progress == null || progress <= 0 || progress >= 1 :
+                            progress == null || progress < 1) filtered.remove();
+                }
+            }
 
             List<String> result = new ArrayList<String>();
             boolean byGenre = txt.startsWith(SEARCH_IN.GENRE.getDotPrefix());
@@ -967,6 +1033,12 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
             sortBy.setVisibility(View.VISIBLE);
 
             searchAdapter.clearItems();
+            FileMeta header = new FileMeta();
+            header.setCusType(FileMetaAdapter.DISPLAY_TYPE_LIBRARY_HEADER);
+            searchAdapter.getItemsList().add(header);
+            bindLibraryHeader();
+            libraryHeader.findViewById(R.id.libraryNoResults).setVisibility(
+                    items.isEmpty() && (libraryFilter != 0 || !TxtUtils.isEmpty(txt)) ? View.VISIBLE : View.GONE);
             searchAdapter.getItemsList()
                          .addAll(items);
             searchAdapter.notifyDataSetChanged();
@@ -1163,7 +1235,7 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
 
     public void showBookCount() {
         countBooks.setText("" + (recyclerView.getAdapter()
-                                             .getItemCount() - countTitles));
+                                             .getItemCount() - countTitles - (recyclerView.getAdapter() == searchAdapter ? 1 : 0)));
     }
 
     @Override public boolean isBackPressed() {

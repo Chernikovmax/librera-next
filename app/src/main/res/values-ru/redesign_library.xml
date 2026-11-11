@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="library_home_title">Моя библиотека</string>
+    <string name="library_home_summary">Книг: %1$d · В процессе: %2$d</string>
+    <string name="library_continue_label">ПРОДОЛЖИТЬ ЧТЕНИЕ</string>
+    <string name="library_continue_action">Продолжить чтение</string>
+    <string name="library_shelf_title">Книжная полка</string>
+    <string name="library_filter_all">Все</string>
+    <string name="library_filter_reading">Читаю</string>
+    <string name="library_filter_finished">Прочитано</string>
+    <string name="library_no_results">Нет книг с такими фильтрами</string>
+    <string name="library_saved_progress">Прочитано %1$d%%</string>
+</resources>

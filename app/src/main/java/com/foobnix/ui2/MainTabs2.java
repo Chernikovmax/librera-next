@@ -30,6 +30,8 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -63,7 +65,6 @@ import com.foobnix.pdf.info.widget.PrefDialogs;
 import com.foobnix.model.AppSP;
 import com.foobnix.model.AppState;
 import com.foobnix.model.LibreraSafSync;
-import com.foobnix.pdf.SlidingTabLayout;
 import com.foobnix.pdf.info.Android6;
 import com.foobnix.pdf.info.ExtUtils;
 import com.foobnix.pdf.info.AppsConfig;
@@ -97,6 +98,8 @@ import com.foobnix.ui2.fragment.OpdsFragment2;
 import com.foobnix.ui2.fragment.PrefFragment2;
 import com.foobnix.ui2.fragment.RecentFragment2;
 import com.foobnix.ui2.fragment.SearchFragment2;
+import com.foobnix.ui2.fragment.FavoritesFragment2;
+import com.foobnix.ui2.fragment.GoogleDriveFragment2;
 import com.foobnix.ui2.fragment.UIFragment;
 import com.foobnix.work.SearchAllBooksWorker;
 
@@ -129,8 +132,7 @@ public class MainTabs2 extends ReaderFragmentActivity {
     ViewPager pager;
     List<UIFragment> tabFragments;
     TabsAdapter2 adapter;
-    ImageView imageMenu;
-    View imageMenuParent, overlay;
+    View overlay;
     private boolean coversReleased;
     TextView toastBrightnessText, onSubscribe;
     Handler handler;
@@ -141,13 +143,13 @@ public class MainTabs2 extends ReaderFragmentActivity {
 
         @Override
         public void onPageSelected(int pos) {
+            if (isSettingsPageOpen()) return;
+            updateNavigationSelection();
             uiFragment = tabFragments.get(pos);
             uiFragment.onSelectFragment();
             TempHolder.get().currentTab = pos;
-
             LOG.d("onPageSelected", uiFragment);
-            Apps.accessibilityText(MainTabs2.this, adapter.getPageTitle(pos)
-                                                          .toString() + " " + getString(R.string.tab_selected));
+            Apps.accessibilityText(MainTabs2.this, adapter.getPageTitle(pos).toString() + " " + getString(R.string.tab_selected));
         }
 
         @Override
@@ -183,7 +185,155 @@ public class MainTabs2 extends ReaderFragmentActivity {
         }
     };
     boolean once = true;
-    private SlidingTabLayout indicator;
+    private View navigationFrame;
+    private LinearLayout navigationItems;
+    private final View[] navigationButtons = new View[4];
+
+    private int pageOf(Class<?> type) {
+        for (int i = 0; i < tabFragments.size(); i++) {
+            if (type.isInstance(tabFragments.get(i))) return i;
+        }
+        return -1;
+    }
+    public static int bottomNavigationSpace() {
+        return Dips.dpToPx(84);
+    }
+
+    private void ensureDestination(UITab tab) {
+        if (pageOf(tab.getClazz()) >= 0) return;
+        try {
+            tabFragments.add(tab.getClazz().getDeclaredConstructor().newInstance());
+        } catch (Exception e) {
+            LOG.e(e);
+        }
+    }
+
+    private void addNavigationButton(int index, int label, int icon, Runnable action) {
+        LinearLayout item = new LinearLayout(this);
+        item.setOrientation(LinearLayout.VERTICAL);
+        item.setGravity(Gravity.CENTER);
+        item.setBackgroundResource(R.drawable.navigation_unselected_background);
+        item.setFocusable(true);
+        item.setClickable(true);
+        item.setContentDescription(getString(label));
+        ImageView image = new ImageView(this);
+        image.setImageResource(icon);
+        image.setColorFilter(ThemeManager.color(this, R.attr.appOnSurface));
+        item.addView(image, new LinearLayout.LayoutParams(Dips.dpToPx(24), Dips.dpToPx(24)));
+        TextView text = new TextView(this);
+        text.setText(label);
+        text.setTextColor(ThemeManager.color(this, R.attr.appOnSurfaceVariant));
+        text.setTextSize(12);
+        text.setGravity(Gravity.CENTER);
+        text.setSingleLine(true);
+        text.setEllipsize(android.text.TextUtils.TruncateAt.END);
+        text.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        item.addView(text);
+        navigationItems.addView(item, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1));
+        item.setOnClickListener(v -> action.run());
+        navigationButtons[index] = item;
+    }
+
+    private void updateNavigationSelection() {
+        if (navigationButtons[0] == null) return;
+        boolean settings = isSettingsPageOpen();
+        if (!settings && pager != null && pager.getCurrentItem() < tabFragments.size()
+                && tabFragments.get(pager.getCurrentItem()) instanceof PrefFragment2) settings = true;
+        int selected = settings ? 3 : -1;
+        if (!settings && pager != null) {
+            UIFragment current = tabFragments.get(pager.getCurrentItem());
+            if (current instanceof SearchFragment2) selected = 0;
+            else if (current instanceof BrowseFragment2) selected = 1;
+            else if (current instanceof FavoritesFragment2) selected = 2;
+        }
+        for (int i = 0; i < navigationButtons.length; i++) {
+            View button = navigationButtons[i];
+            if (button != null) {
+                button.setBackgroundResource(i == selected ? R.drawable.navigation_selected_background
+                        : R.drawable.navigation_unselected_background);
+                button.setSelected(i == selected);
+                LinearLayout item = (LinearLayout) button;
+                ImageView icon = (ImageView) item.getChildAt(0);
+                TextView label = (TextView) item.getChildAt(1);
+                int color = ThemeManager.color(this, i == selected ? R.attr.appPrimary : R.attr.appOnSurfaceVariant);
+                icon.setColorFilter(color);
+                label.setTextColor(color);
+            }
+        }
+    }
+
+    public void showSecondaryDestinations(View anchor) {
+        PopupMenu menu = new PopupMenu(this, anchor);
+        addSecondaryMenuItem(menu, UITab.RecentFragment);
+        addSecondaryMenuItem(menu, UITab.BookmarksFragment);
+        addSecondaryMenuItem(menu, UITab.OpdsFragment);
+        addSecondaryMenuItem(menu, UITab.GoogleDrive2Fragment);
+        menu.setOnMenuItemClickListener(item -> {
+            int index = item.getItemId();
+            if (index >= 0 && index < tabFragments.size()) {
+                closeSettingsPage();
+                pager.setCurrentItem(index, false);
+                updateNavigationSelection();
+                return true;
+            }
+            return false;
+        });
+        menu.show();
+    }
+
+    private void addSecondaryMenuItem(PopupMenu menu, UITab tab) {
+        int page = pageOf(tab.getClazz());
+        if (page >= 0) menu.getMenu().add(0, page, menu.getMenu().size(), getString(tab.getName()));
+    }
+
+    private void setupBottomNavigation() {
+        navigationFrame = findViewById(R.id.navigation_frame);
+        navigationItems = findViewById(R.id.navigation_items);
+        navigationFrame.setBackgroundResource(R.drawable.navigation_bar_background);
+        navigationFrame.setElevation(ThemeManager.isEink() ? 0 : Dips.dpToPx(4));
+        addNavigationButton(0, R.string.navigation_books, R.drawable.navigation_books,
+                () -> navigateTo(SearchFragment2.class));
+        addNavigationButton(1, R.string.navigation_shelves, R.drawable.navigation_shelves,
+                () -> navigateTo(BrowseFragment2.class));
+        addNavigationButton(2, R.string.navigation_favorites, R.drawable.navigation_favorites,
+                () -> navigateTo(FavoritesFragment2.class));
+        addNavigationButton(3, R.string.navigation_settings, R.drawable.navigation_settings,
+                () -> {
+                    if (isSettingsPageOpen()) closeSettingsPage();
+                    else openSettingsPage();
+                });
+        navigationButtons[1].setOnLongClickListener(v -> {
+            showSecondaryDestinations(v);
+            return true;
+        });
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.parentParent), (view, insets) -> {
+            androidx.core.graphics.Insets safe = insets.getInsets(WindowInsetsCompat.Type.systemBars()
+                    | WindowInsetsCompat.Type.displayCutout());
+            findViewById(R.id.settings_page).setPadding(safe.left, safe.top, safe.right, 0);
+            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) navigationFrame.getLayoutParams();
+            int left = Dips.dpToPx(12) + safe.left;
+            int right = Dips.dpToPx(12) + safe.right;
+            int bottom = Dips.dpToPx(12) + safe.bottom;
+            if (lp.leftMargin != left || lp.rightMargin != right || lp.bottomMargin != bottom) {
+                lp.leftMargin = left;
+                lp.rightMargin = right;
+                lp.bottomMargin = bottom;
+                navigationFrame.setLayoutParams(lp);
+            }
+            return insets;
+        });
+        updateNavigationSelection();
+    }
+
+
+    private void navigateTo(Class<?> type) {
+        int index = pageOf(type);
+        if (index >= 0) {
+            closeSettingsPage();
+            pager.setCurrentItem(index, false);
+            updateNavigationSelection();
+        }
+    }
     private DrawerLayout drawerLayout;
 
     public static boolean isPullToRefreshEnable(Context a, View swipeRefreshLayout) {
@@ -564,6 +714,7 @@ public class MainTabs2 extends ReaderFragmentActivity {
         }
         settingsPage.setVisibility(View.VISIBLE);
         settingsPage.requestFocus();
+        updateNavigationSelection();
     }
  
     public void closeSettingsPage() {
@@ -575,9 +726,8 @@ public class MainTabs2 extends ReaderFragmentActivity {
             swipeRefreshLayout.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
             swipeRefreshLayout.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         }
-        if (imageMenu != null) {
-            imageMenu.requestFocus();
-        }
+        if (navigationButtons[3] != null) navigationButtons[3].requestFocus();
+        updateNavigationSelection();
     }
 
 
@@ -627,45 +777,13 @@ public class MainTabs2 extends ReaderFragmentActivity {
         super.attachBaseContext(MyContextWrapper.wrap(context));
     }
 
-    /**
-     * Keeps the floating bar clear of the system's buttons - only by as much of them as lies
-     * under it: with an ad beneath, the ad stands between the two and nothing is kept.
-     */
-    private void placeFloatingBar() {
-        if (indicator == null || !SlidingTabLayout.isFloating()) {
-            return;
-        }
-        View holder = (View) indicator.getParent();
-        WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(indicator);
-        int below = DocumentController.keptClearOf(this, insets).bottom;
-        int[] at = new int[2];
-        holder.getLocationInWindow(at);
-        int holderBottom = at[1] + holder.getHeight();
-        int windowBottom = indicator.getRootView().getHeight();
-        int covered = Math.max(0, Math.min(below, holderBottom - (windowBottom - below)));
-
-        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) indicator.getLayoutParams();
-        int margin, bottom, padding = indicator.getPaddingTop();
-        if (SlidingTabLayout.isFlush()) {
-            // Square, the bar sits on the screen's edges, and carries the system's buttons
-            // under its own instead of leaving the page showing there.
-            margin = 0;
-            bottom = 0;
-            padding += covered;
-        } else {
-            margin = Dips.DP_10;
-            bottom = Dips.DP_8 + covered;
-        }
-        if (lp.leftMargin != margin || lp.rightMargin != margin || lp.bottomMargin != bottom) {
-            lp.leftMargin = lp.rightMargin = margin;
-            lp.bottomMargin = bottom;
-            indicator.setLayoutParams(lp);
-        }
-        if (indicator.getPaddingBottom() != padding) {
-            indicator.setPadding(indicator.getPaddingLeft(), indicator.getPaddingTop(),
-                                 indicator.getPaddingRight(), padding);
-        }
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putBoolean("redesign.settingsOpen", isSettingsPageOpen());
+        if (pager != null) state.putInt("redesign.tab", pager.getCurrentItem());
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -713,12 +831,8 @@ public class MainTabs2 extends ReaderFragmentActivity {
         // runs the whole height of the screen and they are drawn over it.
         // The page runs the whole height of the screen either way: the chrome floats over
         // it, at the head or at the foot, and carries the status bar itself.
-        DocumentController.applyEdgeToEdge(this, true,
-                                           SlidingTabLayout.floatingTint(TintUtil.color));
+        DocumentController.applyEdgeToEdge(this, true, ThemeManager.color(this, R.attr.appBackground));
 
-        imageMenu = findViewById(R.id.imageMenu1);
-        imageMenuParent = findViewById(R.id.imageParent1);
-        imageMenuParent.setBackgroundColor(SlidingTabLayout.floatingTint(TintUtil.color));
 
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(TintUtil.color);
@@ -770,32 +884,21 @@ public class MainTabs2 extends ReaderFragmentActivity {
             tabFragments.add(new RecentFragment2());
             tabFragments.add(new BookmarksFragment2());
             tabFragments.add(new OpdsFragment2());
-            tabFragments.add(new PrefFragment2());
-            //tabFragments.add(new CloudsFragment2());
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.settings_page, new PrefFragment2()).commit();
+        ensureDestination(UITab.SearchFragment);
+        ensureDestination(UITab.BrowseFragment);
+        ensureDestination(UITab.StarsFragment);
+        ensureDestination(UITab.RecentFragment);
+        ensureDestination(UITab.BookmarksFragment);
+        ensureDestination(UITab.OpdsFragment);
+        ensureDestination(UITab.GoogleDrive2Fragment);
+        if (getSupportFragmentManager().findFragmentById(R.id.settings_page) == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.settings_page, new PrefFragment2()).commit();
+        }
 
         drawerLayout = findViewById(R.id.drawer_layout);
 
-        imageMenu.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isSettingsPageOpen()) {
-                    closeSettingsPage();
-                } else {
-                    openSettingsPage();
-                }
-            }
-        });
 
-        if (UITab.isShowLibrary() || !AppState.get().tapPositionTop) {
-            imageMenu.setVisibility(View.GONE);
-        } else {
-
-            imageMenu.setVisibility(View.VISIBLE);
-        }
-
-        // ((BrigtnessDraw)
         // findViewById(R.id.brigtnessProgressView)).setActivity(this);
 
         adapter = new TabsAdapter2(this, tabFragments);
@@ -806,9 +909,15 @@ public class MainTabs2 extends ReaderFragmentActivity {
             pager.setAdapter(adapter);
        // }
 
-        if (AppState.get().appTheme == AppState.THEME_DARK_OLED) {
-            pager.setBackgroundColor(Color.BLACK);
+        pager.setBackgroundColor(ThemeManager.color(this, R.attr.appBackground));
+        if (savedInstanceState != null) {
+            pager.setCurrentItem(Math.min(savedInstanceState.getInt("redesign.tab", 0), tabFragments.size() - 1), false);
+            if (savedInstanceState.getBoolean("redesign.settingsOpen")) openSettingsPage();
+            updateNavigationSelection();
         }
+
+        syncProgress = findViewById(R.id.syncNavProgress);
+        setupBottomNavigation();
 
         pager.setOffscreenPageLimit(10);
         pager.addOnPageChangeListener(onPageChangeListener);
@@ -852,90 +961,6 @@ public class MainTabs2 extends ReaderFragmentActivity {
             }
         });
 
-        if (AppState.get().tapPositionTop) {
-            indicator = findViewById(R.id.slidingTabs1);
-        } else {
-            indicator = findViewById(R.id.slidingTabs2);
-        }
-        indicator.addSwipeRefreshLayout(swipeRefreshLayout);
-        indicator.setVisibility(View.VISIBLE);
-        syncProgress = findViewById(R.id.syncNavProgress);
-        indicator.init();
-
-        indicator.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                LOG.d("OnFocusChangeListener", hasFocus);
-            }
-        });
-
-        indicator.setViewPager(pager);
-
-        indicator.setDividerColors(ContextCompat.getColor(this, R.color.tint_divider));
-        indicator.setSelectedIndicatorColors(Color.WHITE);
-        indicator.setTabsBackground(TintUtil.color);
-
-        // The chosen tab is marked by the patch behind it, wherever the tabs sit, and the
-        // rules that used to stand between them are gone with the rest of them.
-        indicator.setDividerColors(Color.TRANSPARENT);
-        indicator.setSelectedIndicatorColors(Color.TRANSPARENT);
-
-        if (!AppState.get().tapPositionTop || !AppState.get().tabWithNames) {
-            for (int i = 0; i < indicator.getmTabStrip().getChildCount(); i++) {
-                View child = indicator.getmTabStrip().getChildAt(i);
-                child.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        imageMenu.performClick();
-                        return true;
-                    }
-                });
-            }
-        }
-        if (SlidingTabLayout.isFloating()) {
-            // The bar floats clear of the system's own buttons, which the page now runs
-            // under rather than stopping above.
-            // Placed again whenever what holds it is laid out anew - an ad coming in under the
-            // bar lifts it off the system's buttons.
-            final View barHolder = (View) indicator.getParent();
-            barHolder.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> indicator.post(this::placeFloatingBar));
-            indicator.post(this::placeFloatingBar);
-        }
-
-        if (AppState.get().tapPositionTop) {
-            // Standing over the page now, the strip carries the status bar itself, and is
-            // lifted clear of the header the page's own tab draws beneath it.
-            imageMenuParent.setElevation(Dips.DP_8);
-            imageMenuParent.setOutlineProvider(null);
-            imageMenuParent.post(() -> {
-                WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(imageMenuParent);
-                int top = DocumentController.keptClearOf(MainTabs2.this, insets).top;
-                imageMenuParent.setPadding(imageMenuParent.getPaddingLeft(), top,
-                                           imageMenuParent.getPaddingRight(),
-                                           imageMenuParent.getPaddingBottom());
-            });
-        }
-
-        indicator.setOnDoubleClickAction(index -> {
-            try {
-                tabFragments.get(index).onDoubleClick();
-            } catch (Exception e) {
-                LOG.e(e);
-            }
-
-            return false;
-        });
-
-        if (AppState.get().appTheme == AppState.THEME_INK) {
-            TintUtil.setTintImageNoAlpha(imageMenu, TintUtil.color);
-            indicator.setSelectedIndicatorColors(TintUtil.color);
-            indicator.setDividerColors(TintUtil.color);
-            indicator.setTabsBackground(Color.TRANSPARENT);
-            // At the foot the strip lies on the sheet and lets it show through. Standing over
-            // the page at the top, the books scroll beneath it, so there it is solid white,
-            // as ink paper is.
-            imageMenuParent.setBackgroundColor(AppState.get().tapPositionTop ? Color.WHITE : Color.TRANSPARENT);
-        }
 
         //Android6.checkPermissions(this, true);
         // Analytics.onStart(this);
@@ -969,7 +994,7 @@ public class MainTabs2 extends ReaderFragmentActivity {
 
         boolean showTabs = getIntent().getBooleanExtra(EXTRA_SHOW_TABS, false);
 
-        if (!showTabs && AppState.get().isOpenLastBook) {
+        if (savedInstanceState == null && !showTabs && AppState.get().isOpenLastBook) {
             LOG.d("Open lastBookPath", AppSP.get().lastBookPath);
 
             if (AppSP.get().lastBookPath == null || !new File(AppSP.get().lastBookPath).isFile()) {
@@ -1000,7 +1025,7 @@ public class MainTabs2 extends ReaderFragmentActivity {
             });
         }
 
-        checkGoToPage(getIntent());
+        if (savedInstanceState == null) checkGoToPage(getIntent());
 
         if (!AppState.get().isEnableAccessibility && once) {
             once = false;
@@ -1016,24 +1041,21 @@ public class MainTabs2 extends ReaderFragmentActivity {
 
     // Most syncs find nothing to do and are over in a moment: only one that takes a while is shown
     private final Runnable showSyncProgress = () -> {
-        final boolean tabsAtTop = AppState.get().tapPositionTop;
         final FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) syncProgress.getLayoutParams();
-        // Above the icons: the tabs at the foot sit higher or lower with the system's own bars
-        params.topMargin = tabsAtTop ? findViewById(R.id.imageParent1).getHeight()
-                                     : indicator.getTop() + Dips.dpToPx(4);
-        if (tabsAtTop) {
-            params.leftMargin = 0;
-            params.rightMargin = 0;
-        }
+        params.topMargin = 0;
+        params.leftMargin = Dips.dpToPx(20);
+        params.rightMargin = Dips.dpToPx(20);
         syncProgress.setLayoutParams(params);
         syncProgress.setVisibility(View.VISIBLE);
         syncProgress.post(() -> {
             final View bar = syncProgress.findViewById(R.id.syncNavBar);
-            syncAnimator = ObjectAnimator.ofFloat(bar, View.TRANSLATION_X, 0, syncProgress.getWidth() - bar.getWidth());
-            syncAnimator.setDuration(900);
-            syncAnimator.setRepeatCount(ValueAnimator.INFINITE);
-            syncAnimator.setRepeatMode(ValueAnimator.REVERSE);
-            syncAnimator.start();
+            if (!ThemeManager.isEink()) {
+                syncAnimator = ObjectAnimator.ofFloat(bar, View.TRANSLATION_X, 0, syncProgress.getWidth() - bar.getWidth());
+                syncAnimator.setDuration(900);
+                syncAnimator.setRepeatCount(ValueAnimator.INFINITE);
+                syncAnimator.setRepeatMode(ValueAnimator.REVERSE);
+                syncAnimator.start();
+            }
         });
     };
 
@@ -1069,17 +1091,15 @@ public class MainTabs2 extends ReaderFragmentActivity {
 
     @Subscribe
     public void goToPageMsg(SearchMetaMsg msg){
-            int index = UITab.getCurrentTabIndex(UITab.SearchFragment);
-            if(index>=0) {
-                pager.setCurrentItem(index);
-            }
+            int index = pageOf(SearchFragment2.class);
+            if (index >= 0) pager.setCurrentItem(index, !ThemeManager.isEink());
     }
 
     public void checkGoToPage(Intent intent) {
         try {
             int pos = intent.getIntExtra(EXTRA_PAGE_NUMBER, -1);
             if (pos != -1) {
-                pager.setCurrentItem(pos);
+                pager.setCurrentItem(pos, !ThemeManager.isEink());
             }
         } catch (Exception e) {
             LOG.e(e);
@@ -1241,7 +1261,7 @@ public class MainTabs2 extends ReaderFragmentActivity {
         if (pager != null) {
             int currentItem = pager.getCurrentItem();
             //pager.setAdapter(adapter); //WHY???
-            pager.setCurrentItem(currentItem);
+            pager.setCurrentItem(currentItem, false);
             IMG.clearMemoryCache();
         }
         //showBannerAds();
@@ -1269,6 +1289,8 @@ public class MainTabs2 extends ReaderFragmentActivity {
     @Override
     public void onBackPressedImpl() {
         if (isSettingsPageOpen()) {
+            PrefFragment2 settings = findPrefFragment();
+            if (settings != null && settings.isBackPressed()) return;
             closeSettingsPage();
             return;
         }
@@ -1304,28 +1326,14 @@ public class MainTabs2 extends ReaderFragmentActivity {
             int pos = intent.getIntExtra(EXTRA_PAGE_NUMBER, -1);
             if (pos != -1) {
                 if (pos >= 0) {
-                    pager.setCurrentItem(pos);
+                    pager.setCurrentItem(pos, !ThemeManager.isEink());
                 }
 
                 if (intent.getBooleanExtra(EXTRA_NOTIFY_REFRESH, false)) {
                     onResume();
                 }
             } else {
-                if (AppState.get().appTheme == AppState.THEME_INK) {
-                    TintUtil.setTintImageNoAlpha(imageMenu, TintUtil.color);
-                    indicator.setSelectedIndicatorColors(TintUtil.color);
-                    indicator.setDividerColors(TintUtil.color);
-                    indicator.updateIcons(pager.getCurrentItem());
-                } else {
-                    // Through setTabsBackground, or the pill at the foot would be flattened
-                    // into a plain rectangle of the new colour.
-                    indicator.setTabsBackground(TintUtil.color);
-                    imageMenuParent.setBackgroundColor(SlidingTabLayout.floatingTint(TintUtil.color));
-                    View statusBarHack = findViewById(R.id.systemBarHack);
-                    if (statusBarHack != null) {
-                        statusBarHack.setBackgroundColor(SlidingTabLayout.floatingTint(TintUtil.color));
-                    }
-                }
+                updateNavigationSelection();
             }
         }
     };

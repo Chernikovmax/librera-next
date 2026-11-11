@@ -744,7 +744,7 @@ public class AppState {
 
         displayPath = AppProfile.DOWNLOADS_DIR.getPath();
 
-        appTheme = Dips.isDarkThemeOn() ? AppState.THEME_DARK : com.foobnix.model.AppState.THEME_LIGHT;
+        appTheme = AppState.THEME_LIGHT;
         if (Dips.isEInk()) {
             appTheme = AppState.THEME_INK;
             isDayNotInvert = true;

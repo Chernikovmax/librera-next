@@ -62,11 +62,7 @@ public class OpenerActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppState.get().isDayNotInvert) {
-            setTheme(R.style.StyledIndicatorsWhite);
-        } else {
-            setTheme(R.style.StyledIndicatorsBlack);
-        }
+        com.foobnix.ui2.ThemeManager.apply(this);
 
         super.onCreate(savedInstanceState);
 

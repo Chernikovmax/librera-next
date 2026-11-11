@@ -2,24 +2,26 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:myseek="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:theme="@style/SettingsControlsOverlay"
     android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="2dip" >
+        android:padding="2dip">
 
         <LinearLayout
             android:id="@+id/fontSizeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:gravity="center_vertical" >
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:labelFor="@id/fontsFolder"
                 android:layout_marginLeft="5dip"
                 android:text="@string/folder_with_fonts"
                 android:textSize="14sp"
@@ -28,23 +30,26 @@
             <TextView
                 android:id="@+id/fontsFolder"
                 style="@style/textLink"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_marginLeft="10dip"
                 android:text="/sdcard/xxxx" />
 
             <ImageView
                 android:id="@+id/downloadFonts"
-                android:layout_width="@dimen/wh_button"
-                android:layout_height="@dimen/wh_button"
-                android:layout_alignParentRight="true"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginRight="4dip"
-                android:background="@drawable/bg_border_ltgray"
-                android:layout_weight="0"
-                android:padding="8dip"
+                android:background="@drawable/redesign_toolbar_button"
+                android:contentDescription="@string/folder_with_fonts"
+                android:focusable="true"
+                android:padding="12dp"
                 android:src="@drawable/glyphicons_399_import"
-                android:tint="@color/tint_gray" />
+                android:tint="?attr/appPrimary" />
         </LinearLayout>
+
 
         <com.foobnix.pdf.info.view.CustomSeek
             android:id="@+id/fontWeight"
@@ -57,20 +62,22 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="wrap_content" >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
-                android:singleLine="true"
+                android:labelFor="@id/textAlign"
                 android:text="@string/text_align"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textAlign"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:minWidth="50dip"
@@ -81,66 +88,60 @@
             android:id="@+id/documentStyleLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:labelFor="@id/documentStyle"
                 android:layout_marginLeft="5dip"
-                android:singleLine="true"
                 android:text="@string/styles"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/documentStyle"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:text="@string/user_styles" />
 
             <ImageView
                 android:id="@+id/customCSS"
-                android:layout_width="@dimen/wh_button"
-                android:layout_height="@dimen/wh_button"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="4dip"
-                android:layout_weight="0"
-                android:background="@drawable/bg_border_ltgray"
-                android:padding="8dip"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/redesign_toolbar_button"
+                android:contentDescription="@string/user_styles"
+                android:focusable="true"
+                android:padding="12dp"
                 android:src="@drawable/glyphicons_140_adjust"
-                android:tint="@color/tint_gray" />
+                android:tint="?attr/appPrimary" />
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/userStyles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:labelFor="@id/userStyleCss"
                 android:layout_marginLeft="5dip"
-                android:singleLine="true"
                 android:text="@string/user_styles"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/userStyleCss"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:text="@string/user_styles" />
-
-
         </LinearLayout>
 
         <CheckBox
@@ -165,36 +166,36 @@
             android:text="@string/parse_bbcode_tags" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/hypenLangLabel"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:labelFor="@id/hypenLang"
                 android:layout_marginLeft="5dip"
-                android:layout_weight="0"
                 android:text="@string/hyphenation_language" />
 
             <TextView
                 android:id="@+id/hypenLang"
                 style="@style/textLinkDropdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_weight="0"
+                android:singleLine="false"
+                android:ellipsize="none"
                 android:minWidth="50dip"
                 android:text="Russian" />
 
             <CheckBox
                 android:id="@+id/isDefaultHyphenLanguage"
                 android:layout_width="wrap_content"
-                android:maxLines="2"
                 android:layout_height="wrap_content"
+                android:maxLines="2"
                 android:text="@string/defaults_" />
-
         </LinearLayout>
+
 
         <CheckBox
             android:id="@+id/isAccurateFontSize"

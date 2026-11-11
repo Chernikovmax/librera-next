@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="ThemeOverlay.Librera.Base" parent="@android:style/ThemeOverlay.Material">
+        <item name="android:colorAccent">?attr/appPrimary</item>
+        <item name="android:colorControlActivated">?attr/appPrimary</item>
+        <item name="android:colorControlNormal">?attr/appOnSurfaceVariant</item>
+        <item name="android:colorControlHighlight">?attr/appSelectedContainer</item>
+        <item name="android:colorBackground">?attr/appBackground</item>
+        <item name="android:windowBackground">?attr/appShell</item>
+        <item name="android:textColorPrimary">?attr/appOnSurface</item>
+        <item name="android:textColorSecondary">?attr/appOnSurfaceVariant</item>
+        <item name="android:textColorHint">?attr/appOnSurfaceVariant</item>
+        <item name="android:textColorLink">?attr/appTertiary</item>
+        <item name="android:textColor">?attr/appOnSurface</item>
+        <item name="android:colorForeground">?attr/appOnSurface</item>
+        <item name="android:colorPrimary">?attr/appPrimary</item>
+        <item name="android:colorPrimaryDark">?attr/appShell</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:alertDialogTheme">@style/ThemeOverlay.Librera.Dialog</item>
+        <item name="android:dialogTheme">@style/ThemeOverlay.Librera.Dialog</item>
+        <item name="android:popupMenuStyle">@style/Widget.Librera.PopupMenu</item>
+        <item name="android:actionOverflowMenuStyle">@style/Widget.Librera.PopupMenu</item>
+        <item name="android:listPopupWindowStyle">@style/Widget.Librera.ListPopupWindow</item>
+        <item name="popupMenuStyle">@style/Widget.Librera.PopupMenuCompat</item>
+        <item name="listPopupWindowStyle">@style/Widget.Librera.ListPopupWindowCompat</item>
+        <item name="colorPrimary">?attr/appPrimary</item>
+        <item name="colorPrimaryDark">?attr/appShell</item>
+        <item name="colorAccent">?attr/appPrimary</item>
+        <item name="colorControlActivated">?attr/appPrimary</item>
+        <item name="colorControlNormal">?attr/appOnSurfaceVariant</item>
+        <item name="colorControlHighlight">?attr/appSelectedContainer</item>
+    </style>
+
+    <style name="ThemeOverlay.Librera.Cream" parent="ThemeOverlay.Librera.Base">
+        <item name="appShell">@color/app_cream_shell</item>
+        <item name="appBackground">@color/app_cream_background</item>
+        <item name="appSurface">@color/app_cream_surface</item>
+        <item name="appSurfaceVariant">@color/app_cream_surface_variant</item>
+        <item name="appFeaturedContainer">@color/app_cream_featured_container</item>
+        <item name="appOnSurface">@color/app_cream_on_surface</item>
+        <item name="appOnSurfaceVariant">@color/app_cream_on_surface_variant</item>
+        <item name="appPrimary">@color/app_cream_primary</item>
+        <item name="appOnPrimary">@color/app_cream_on_primary</item>
+        <item name="appTertiary">@color/app_cream_tertiary</item>
+        <item name="appSuccess">@color/app_cream_success</item>
+        <item name="appOutline">@color/app_cream_outline</item>
+        <item name="appSelectedContainer">@color/app_cream_selected_container</item>
+        <item name="appReaderBackground">@color/app_cream_reader_background</item>
+    </style>
+
+    <style name="ThemeOverlay.Librera.Oled" parent="ThemeOverlay.Librera.Base">
+        <item name="appShell">@color/app_oled_shell</item>
+        <item name="appBackground">@color/app_oled_background</item>
+        <item name="appSurface">@color/app_oled_surface</item>
+        <item name="appSurfaceVariant">@color/app_oled_surface_variant</item>
+        <item name="appFeaturedContainer">@color/app_oled_featured_container</item>
+        <item name="appOnSurface">@color/app_oled_on_surface</item>
+        <item name="appOnSurfaceVariant">@color/app_oled_on_surface_variant</item>
+        <item name="appPrimary">@color/app_oled_primary</item>
+        <item name="appOnPrimary">@color/app_oled_on_primary</item>
+        <item name="appTertiary">@color/app_oled_tertiary</item>
+        <item name="appSuccess">@color/app_oled_success</item>
+        <item name="appOutline">@color/app_oled_outline</item>
+        <item name="appSelectedContainer">@color/app_oled_selected_container</item>
+        <item name="appReaderBackground">@color/app_oled_reader_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:alertDialogTheme">@style/ThemeOverlay.Librera.Dialog.Oled</item>
+        <item name="android:dialogTheme">@style/ThemeOverlay.Librera.Dialog.Oled</item>
+    </style>
+
+    <style name="ThemeOverlay.Librera.Eink" parent="ThemeOverlay.Librera.Base">
+        <item name="appShell">@color/app_eink_shell</item>
+        <item name="appBackground">@color/app_eink_background</item>
+        <item name="appSurface">@color/app_eink_surface</item>
+        <item name="appSurfaceVariant">@color/app_eink_surface_variant</item>
+        <item name="appFeaturedContainer">@color/app_eink_featured_container</item>
+        <item name="appOnSurface">@color/app_eink_on_surface</item>
+        <item name="appOnSurfaceVariant">@color/app_eink_on_surface_variant</item>
+        <item name="appPrimary">@color/app_eink_primary</item>
+        <item name="appOnPrimary">@color/app_eink_on_primary</item>
+        <item name="appTertiary">@color/app_eink_tertiary</item>
+        <item name="appSuccess">@color/app_eink_success</item>
+        <item name="appOutline">@color/app_eink_outline</item>
+        <item name="appSelectedContainer">@color/app_eink_selected_container</item>
+        <item name="appReaderBackground">@color/app_eink_reader_background</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+        <item name="android:selectableItemBackground">@drawable/redesign_eink_selectable</item>
+        <item name="android:selectableItemBackgroundBorderless">@drawable/redesign_eink_selectable</item>
+        <item name="colorControlHighlight">@android:color/transparent</item>
+        <item name="selectableItemBackground">@drawable/redesign_eink_selectable</item>
+        <item name="selectableItemBackgroundBorderless">@drawable/redesign_eink_selectable</item>
+        <item name="android:buttonStyle">@style/Widget.Librera.Eink.ElevationFree</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowElevation">0dp</item>
+        <item name="android:popupElevation">0dp</item>
+        <item name="android:dialogTheme">@style/ThemeOverlay.Librera.Dialog.Eink</item>
+        <item name="android:alertDialogTheme">@style/ThemeOverlay.Librera.Dialog.Eink</item>
+        <item name="android:popupMenuStyle">@style/Widget.Librera.PopupMenu.Eink</item>
+        <item name="android:actionOverflowMenuStyle">@style/Widget.Librera.PopupMenu.Eink</item>
+        <item name="android:listPopupWindowStyle">@style/Widget.Librera.ListPopupWindow.Eink</item>
+        <item name="popupMenuStyle">@style/Widget.Librera.PopupMenuCompat.Eink</item>
+        <item name="listPopupWindowStyle">@style/Widget.Librera.ListPopupWindowCompat.Eink</item>
+    </style>
+
+    <style name="ThemeOverlay.Librera.Dialog" parent="@android:style/Theme.Material.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/bg_dialog_round_light</item>
+        <item name="android:colorBackground">?attr/appSurface</item>
+        <item name="android:textColor">?attr/appOnSurface</item>
+        <item name="android:textColorPrimary">?attr/appOnSurface</item>
+        <item name="android:textColorSecondary">?attr/appOnSurfaceVariant</item>
+        <item name="android:textColorHint">?attr/appOnSurfaceVariant</item>
+        <item name="android:textColorLink">?attr/appTertiary</item>
+        <item name="android:colorAccent">?attr/appPrimary</item>
+        <item name="android:colorControlActivated">?attr/appPrimary</item>
+        <item name="android:colorControlNormal">?attr/appOnSurfaceVariant</item>
+    </style>
+    <style name="ThemeOverlay.Librera.Dialog.Cream" parent="ThemeOverlay.Librera.Dialog" />
+    <style name="ThemeOverlay.Librera.Dialog.Oled" parent="@android:style/Theme.Material.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/bg_dialog_round_dark</item>
+        <item name="android:colorBackground">?attr/appSurface</item>
+        <item name="android:textColor">?attr/appOnSurface</item>
+        <item name="android:textColorPrimary">?attr/appOnSurface</item>
+        <item name="android:textColorSecondary">?attr/appOnSurfaceVariant</item>
+        <item name="android:textColorHint">?attr/appOnSurfaceVariant</item>
+        <item name="android:textColorLink">?attr/appTertiary</item>
+        <item name="android:colorAccent">?attr/appPrimary</item>
+        <item name="android:colorControlActivated">?attr/appPrimary</item>
+        <item name="android:colorControlNormal">?attr/appOnSurfaceVariant</item>
+    </style>
+    <style name="ThemeOverlay.Librera.Dialog.Eink" parent="ThemeOverlay.Librera.Dialog">
+        <item name="android:windowBackground">@drawable/bg_dialog_round_eink</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowElevation">0dp</item>
+        <item name="android:buttonStyle">@style/Widget.Librera.Eink.ElevationFree</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+        <item name="android:selectableItemBackground">@drawable/redesign_eink_selectable</item>
+        <item name="android:selectableItemBackgroundBorderless">@drawable/redesign_eink_selectable</item>
+    </style>
+
+    <style name="Widget.Librera.PopupMenu" parent="@android:style/Widget.Material.PopupMenu">
+        <item name="android:popupBackground">@drawable/redesign_popup_background</item>
+        <item name="android:dropDownSelector">?android:attr/selectableItemBackground</item>
+    </style>
+    <style name="Widget.Librera.PopupMenu.Eink" parent="Widget.Librera.PopupMenu">
+        <item name="android:popupElevation">0dp</item>
+        <item name="android:popupAnimationStyle">@null</item>
+        <item name="android:dropDownSelector">@drawable/redesign_eink_selectable</item>
+    </style>
+    <style name="Widget.Librera.PopupMenuCompat" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/redesign_popup_background</item>
+        <item name="android:dropDownSelector">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="Widget.Librera.PopupMenuCompat.Eink" parent="Widget.Librera.PopupMenuCompat">
+        <item name="android:popupElevation">0dp</item>
+        <item name="android:popupAnimationStyle">@null</item>
+        <item name="android:dropDownSelector">@drawable/redesign_eink_selectable</item>
+    </style>
+
+    <style name="Widget.Librera.ListPopupWindow" parent="@android:style/Widget.Material.ListPopupWindow">
+        <item name="android:popupBackground">?attr/appSurface</item>
+        <item name="android:dropDownSelector">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="Widget.Librera.ListPopupWindow.Eink" parent="Widget.Librera.ListPopupWindow">
+        <item name="android:popupElevation">0dp</item>
+        <item name="android:popupAnimationStyle">@null</item>
+        <item name="android:dropDownSelector">@drawable/redesign_eink_selectable</item>
+    </style>
+
+    <style name="Widget.Librera.ListPopupWindowCompat" parent="Widget.AppCompat.ListPopupWindow">
+        <item name="android:popupBackground">?attr/appSurface</item>
+        <item name="android:dropDownSelector">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="Widget.Librera.ListPopupWindowCompat.Eink" parent="Widget.Librera.ListPopupWindowCompat">
+        <item name="android:popupElevation">0dp</item>
+        <item name="android:popupAnimationStyle">@null</item>
+        <item name="android:dropDownSelector">@drawable/redesign_eink_selectable</item>
+    </style>
+
+    <style name="TextAppearance.Librera.ScreenTitle" parent="@android:style/TextAppearance.Material">
+        <item name="android:textColor">?attr/appOnSurface</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.Librera.SectionTitle" parent="@android:style/TextAppearance.Material">
+        <item name="android:textColor">?attr/appOnSurface</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.Librera.Body" parent="@android:style/TextAppearance.Material">
+        <item name="android:textColor">?attr/appOnSurface</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextAppearance.Librera.Caption" parent="@android:style/TextAppearance.Material">
+        <item name="android:textColor">?attr/appOnSurfaceVariant</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="Widget.Librera.Eink.ElevationFree" parent="@android:style/Widget.Material.Button">
+        <item name="android:elevation">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:background">@drawable/redesign_eink_selectable</item>
+    </style>
+    <style name="Widget.Librera.LibraryChip" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/appOnSurface</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+</resources>

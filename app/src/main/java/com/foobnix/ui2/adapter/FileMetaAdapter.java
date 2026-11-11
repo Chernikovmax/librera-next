@@ -3,6 +3,7 @@ package com.foobnix.ui2.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -14,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -52,6 +54,7 @@ import com.foobnix.ui2.AppDB.SORT_BY;
 import com.foobnix.ui2.AppRecycleAdapter;
 import com.foobnix.pdf.info.wrapper.MagicHelper;
 import com.foobnix.ui2.MainTabs2;
+import com.foobnix.ui2.ThemeManager;
 import com.foobnix.ui2.adapter.AuthorsAdapter2.AuthorViewHolder;
 import com.foobnix.ui2.fast.FastScroller;
 
@@ -66,6 +69,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
     public static final int DISPLAY_TYPE_DIRECTORY = 3;
     public static final int DISPALY_TYPE_LAYOUT_STARS = 4;
     public static final int DISPLAY_TYPE_PLAYLIST = 11;
+    public static final int DISPLAY_TYPE_LIBRARY_HEADER = 12;
     public static final int DISPLAY_TYPE_NONE = -1;
     public static final int DISPALY_TYPE_LAYOUT_TITLE_FOLDERS = 5;
     public static final int DISPALY_TYPE_LAYOUT_TITLE_BOOKS = 6;
@@ -88,6 +92,16 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
     public int tempValue2 = TEMP2_NONE;
 
     private int adapterType = ADAPTER_LIST;
+    private boolean libraryStyle;
+    private View libraryHeader;
+
+    public void setLibraryStyle(boolean libraryStyle) {
+        this.libraryStyle = libraryStyle;
+    }
+
+    public void setLibraryHeader(View header) {
+        libraryHeader = header;
+    }
     private ResultResponse<FileMeta> onMenuClickListener;
     private ResultResponse<FileMeta> onDeleteClickListener;
     private ResultResponse<String> onAuthorClickListener;
@@ -102,6 +116,18 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView;
+
+        if (viewType == DISPLAY_TYPE_LIBRARY_HEADER) {
+            FrameLayout container = new FrameLayout(parent.getContext());
+            container.setLayoutParams(new RecyclerView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            if (libraryHeader != null) {
+                if (libraryHeader.getParent() instanceof ViewGroup) {
+                    ((ViewGroup) libraryHeader.getParent()).removeView(libraryHeader);
+                }
+                container.addView(libraryHeader, new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            }
+            return new LibraryHeaderViewHolder(container);
+        }
 
         if (viewType == DISPALY_TYPE_SERIES) {
             return new AuthorsAdapter2().onCreateViewHolder(parent, viewType);
@@ -147,9 +173,9 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
 
         if (viewType == DISPLAY_TYPE_FILE) {
             if (adapterType == ADAPTER_LIST || adapterType == ADAPTER_LIST_COMPACT) {
-                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.browse_item_list, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(libraryStyle ? R.layout.library_item_list : R.layout.browse_item_list, parent, false);
             } else {
-                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.browse_item_grid, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(libraryStyle ? R.layout.library_item_grid : R.layout.browse_item_grid, parent, false);
                 if (tempValue == TEMP_VALUE_STAR_GRID_ITEM || tempValue == TEMP_VALUE_SERIES) {
                     itemView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
                     // itemView.getLayoutParams().height = itemView.getLayoutParams().width * 2;
@@ -175,6 +201,9 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holderAll, final int position) {
+        if (holderAll instanceof LibraryHeaderViewHolder) {
+            return;
+        }
         final FileMeta fileMeta = getItem(position);
 
 
@@ -611,11 +640,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
         }
 
         if (TxtUtils.isEmpty(fileMeta.getAuthor())) {
-            if (adapterType == ADAPTER_GRID) {
-                holder.author.setVisibility(View.INVISIBLE);
-            } else {
-                holder.author.setVisibility(View.GONE);
-            }
+            holder.author.setVisibility(View.GONE);
         } else {
             holder.author.setVisibility(View.VISIBLE);
         }
@@ -711,7 +736,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
             if (AppState.get().isDisplayAnnotation) {
                 holder.path.setText(fileMeta.getAnnotation());
                 holder.path.setSingleLine(false);
-                holder.path.setLines(3);
+                holder.path.setMaxLines(2);
             } else {
                 holder.path.setText(fileMeta.getPathTxt());
                 holder.path.setSingleLine();
@@ -739,21 +764,15 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
 
 
         if (holder.idProgressBg != null && recentProgress > 0f) {
-            LOG.d("getIsRecentProgress", recentProgress);
-            holder.progresLayout.setVisibility(View.VISIBLE);
-            holder.idPercentText.setVisibility(View.VISIBLE);
-            // The line is as wide as the row and filled by a fraction of itself, so it keeps
-            // the same air on both sides whatever the screen is.
+            if (holder.progresLayout != null) holder.progresLayout.setVisibility(View.VISIBLE);
+            if (holder.idPercentText != null) holder.idPercentText.setVisibility(View.VISIBLE);
             TintUtil.setProgressLine(holder.idProgressBg,
-                                     ContextCompat.getColor(holder.idProgressBg.getContext(),
-                                             R.color.lt_grey_dima),
-                                     TintUtil.color,
-                                     recentProgress);
+                    ContextCompat.getColor(holder.idProgressBg.getContext(), R.color.lt_grey_dima),
+                    TintUtil.color, recentProgress);
             holder.idPercentText.setText("" + Math.round(100f * recentProgress) + "%");
-
         } else if (holder.progresLayout != null) {
-            holder.progresLayout.setVisibility(View.INVISIBLE);
-            holder.idPercentText.setVisibility(View.INVISIBLE);
+            holder.progresLayout.setVisibility(View.GONE);
+            if (holder.idPercentText != null) holder.idPercentText.setVisibility(View.GONE);
         }
 
         if (adapterType == ADAPTER_GRID && recentProgress > 0f) {
@@ -856,9 +875,8 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
                 lp.height = LayoutParams.WRAP_CONTENT;
             }
 
-        } else {
-            holder.path.setVisibility(View.VISIBLE);
-            holder.size.setVisibility(View.VISIBLE);
+            if (holder.path != null) holder.path.setVisibility(View.GONE);
+            if (holder.size != null) holder.size.setVisibility(View.GONE);
 
             int coverWidth = Dips.dpToPx(AppState.get().coverSmallSize);
             int coverHeight = (int) (coverWidth * IMG.WIDTH_DK);
@@ -882,22 +900,21 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
             }
             holder.imageParent.setMinimumHeight(coverHeight);
 
-            LayoutParams lp = holder.image.getLayoutParams();
-            lp.width = coverWidth;
-            lp.height = LayoutParams.MATCH_PARENT;
+            LayoutParams coverParams = holder.image.getLayoutParams();
+            coverParams.width = coverWidth;
+            coverParams.height = LayoutParams.MATCH_PARENT;
 
             // A short row is still only as tall as the cover: without a ceiling the stretched
             // image would measure itself against the whole bitmap and drag the row out with it.
             holder.image.setAdjustViewBounds(false);
             holder.image.setMaxHeight(coverHeight);
         }
-        if (holder.date != null) {
-            holder.date.setVisibility(View.VISIBLE);
-            holder.size.setVisibility(View.VISIBLE);
-            if (adapterType == ADAPTER_LIST_COMPACT) {
-                holder.date.setVisibility(View.GONE);
-                holder.size.setVisibility(View.GONE);
-            }
+        if (adapterType == ADAPTER_LIST_COMPACT) {
+            if (holder.date != null) holder.date.setVisibility(View.GONE);
+            if (holder.size != null) holder.size.setVisibility(View.GONE);
+        } else if (adapterType == ADAPTER_LIST) {
+            if (holder.date != null) holder.date.setVisibility(View.VISIBLE);
+            if (holder.size != null) holder.size.setVisibility(View.VISIBLE);
         }
 
         if (AppState.get().isBorderAndShadow || !AppState.get().isCropBookCovers) {
@@ -1031,7 +1048,114 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
 
         Apps.accessibilityButtonSize(holder.star, holder.menu);
 
+        if (libraryStyle) {
+            applyLibraryStyle(holder, recentProgress);
+        }
+
         return fileMeta;
+    }
+
+    private void applyLibraryStyle(FileMetaViewHolder holder, double progress) {
+        Context context = holder.c;
+        int secondary = ThemeManager.color(context, R.attr.appOnSurfaceVariant);
+        holder.title.setTextColor(ThemeManager.color(context, R.attr.appOnSurface));
+        holder.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        holder.title.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        holder.title.setSingleLine(false);
+        holder.title.setMinLines(1);
+        holder.title.setMaxLines(2);
+        holder.author.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        TextView[] metadata = {holder.author, holder.path, holder.browserExt, holder.size, holder.date, holder.series};
+        for (TextView text : metadata) {
+            if (text != null) {
+                text.setTextColor(secondary);
+            }
+        }
+        if (holder.tags != null) {
+            for (int i = 0; i < holder.tags.getChildCount(); i++) {
+                View child = holder.tags.getChildAt(i);
+                if (child instanceof TextView) {
+                    TextView tag = (TextView) child;
+                    tag.setTextColor(ThemeManager.color(context, R.attr.appTertiary));
+                    if (ThemeManager.isEink()) {
+                        tag.setBackground(null);
+                    }
+                }
+            }
+        }
+        if (holder.idPercentText != null) {
+            holder.idPercentText.setTextColor(ThemeManager.color(context, R.attr.appSuccess));
+            holder.idPercentText.setText(context.getString(R.string.library_saved_progress, Math.round(progress * 100)));
+            holder.idPercentText.setVisibility(View.VISIBLE);
+        }
+        if (holder.browserExt != null && (adapterType != ADAPTER_GRID ||
+                AppState.get().coverBigSize >= IMG.TWO_LINE_COVER_SIZE)) {
+            holder.browserExt.setVisibility(View.VISIBLE);
+        }
+        holder.star.setColorFilter(ThemeManager.color(context, R.attr.appPrimary));
+        holder.star.setAlpha(1f);
+        holder.menu.setColorFilter(secondary);
+        holder.menu.setAlpha(1f);
+        if (holder.remove instanceof ImageView) {
+            ((ImageView) holder.remove).setColorFilter(secondary);
+            holder.remove.setAlpha(1f);
+        }
+        if (progress > 0 && holder.idProgressBg != null) {
+            TintUtil.setProgressLine(holder.idProgressBg,
+                    ThemeManager.color(context, R.attr.appSurfaceVariant),
+                    ThemeManager.color(context, R.attr.appSuccess), progress);
+        }
+        boolean list = adapterType == ADAPTER_LIST || adapterType == ADAPTER_LIST_COMPACT;
+        if (list) {
+            LayoutParams cover = holder.imageParent.getLayoutParams();
+            cover.width = Dips.dpToPx(64);
+            cover.height = Dips.dpToPx(94);
+            holder.imageParent.setLayoutParams(cover);
+            holder.imageParent.setMinimumHeight(0);
+        }
+        LayoutParams image = holder.image.getLayoutParams();
+        image.width = LayoutParams.MATCH_PARENT;
+        image.height = LayoutParams.MATCH_PARENT;
+        holder.image.setLayoutParams(image);
+        holder.image.setMaxHeight(Integer.MAX_VALUE);
+        holder.image.setAdjustViewBounds(false);
+        if (holder.imageParent instanceof CardView) {
+            CardView frame = (CardView) holder.imageParent;
+            frame.setRadius(Dips.dpToPx(8));
+            frame.setCardElevation(0);
+            frame.setMaxCardElevation(0);
+        }
+        if (holder.path != null && list) {
+            holder.path.setVisibility(AppState.get().isDisplayAnnotation ? View.VISIBLE : View.GONE);
+        }
+        if (holder.size != null) holder.size.setVisibility(View.GONE);
+        if (holder.date != null) holder.date.setVisibility(View.GONE);
+        if (holder.progresLayout != null && list && progress > 0) holder.progresLayout.setVisibility(View.GONE);
+        LayoutParams star = holder.star.getLayoutParams();
+        star.width = Dips.dpToPx(48);
+        star.height = Dips.dpToPx(48);
+        holder.star.setLayoutParams(star);
+        LayoutParams menu = holder.menu.getLayoutParams();
+        menu.width = Dips.dpToPx(48);
+        menu.height = Dips.dpToPx(48);
+        holder.menu.setLayoutParams(menu);
+        if (holder.parent instanceof CardView) {
+            CardView card = (CardView) holder.parent;
+            card.setRadius(Dips.dpToPx(list ? 12 : 20));
+            card.setCardBackgroundColor(list || adapterType == ADAPTER_COVERS
+                    ? Color.TRANSPARENT : ThemeManager.color(context, R.attr.appSurface));
+            card.setCardElevation(0);
+            card.setMaxCardElevation(0);
+            if (ThemeManager.isEink()) {
+                GradientDrawable outline = new GradientDrawable();
+                outline.setColor(android.graphics.Color.TRANSPARENT);
+                outline.setCornerRadius(Dips.dpToPx(list ? 12 : 20));
+                outline.setStroke(Dips.dpToPx(1), ThemeManager.color(context, R.attr.appOutline));
+                card.setForeground(outline);
+            } else {
+                card.setForeground(null);
+            }
+        }
     }
 
     @Override
@@ -1090,6 +1214,12 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
 
     public void setOnTagClickListner(ResultResponse<String> onTagClickListner) {
         this.onTagClickListner = onTagClickListner;
+    }
+
+    public class LibraryHeaderViewHolder extends ContextViewHolder {
+        public LibraryHeaderViewHolder(View view) {
+            super(view);
+        }
     }
 
     public class ContextViewHolder extends RecyclerView.ViewHolder {
@@ -1199,6 +1329,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
         if (!(row instanceof CardView)) {
             return;
         }
+        show = show && !com.foobnix.ui2.ThemeManager.isEink();
         CardView card = (CardView) row;
         Object saved = card.getTag(R.id.cardElevation);
         if (saved == null) {
@@ -1214,7 +1345,9 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
         int fill = card.getCardBackgroundColor().getDefaultColor();
         GradientDrawable border = new GradientDrawable();
         border.setCornerRadius(card.getRadius());
-        border.setStroke(Dips.DP_1, MagicHelper.isColorDark(fill) ? Color.argb(90, 255, 255, 255) : Color.argb(60, 0, 0, 0));
+        border.setStroke(Dips.DP_1, com.foobnix.ui2.ThemeManager.isEink()
+                ? com.foobnix.ui2.ThemeManager.color(row.getContext(), R.attr.appOutline)
+                : MagicHelper.isColorDark(fill) ? Color.argb(90, 255, 255, 255) : Color.argb(60, 0, 0, 0));
         card.setForeground(border);
     }
 

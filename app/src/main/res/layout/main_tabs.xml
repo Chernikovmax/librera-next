@@ -1,169 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parentParent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <View
-        android:id="@+id/systemBarHack"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.drawerlayout.widget.DrawerLayout
-                android:id="@+id/drawer_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-
-
-
-
-                    <!-- The tabs at the foot float over the pages instead of taking a
-                         strip of their own, so the books scroll on under them. -->
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <androidx.viewpager.widget.ViewPager
-                            android:id="@+id/pager"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
-                        <LinearLayout
-                            android:id="@+id/imageParent1"
-                                android:layout_gravity="top"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#0000ff"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/imageMenu1"
-
-                                android:layout_width="40dip"
-                                android:visibility="gone"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="10dip"
-                                android:background="@drawable/bg_round_press"
-                                android:contentDescription="@string/menu"
-                                android:gravity="center"
-                                android:padding="4dip"
-                                android:src="@drawable/glyphicons_600_menu"
-                                android:tint="@color/white" />
-
-                            <com.foobnix.pdf.SlidingTabLayout
-                                android:id="@+id/slidingTabs1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0"
-                                android:background="#3949ab"
-                                android:elevation="2dip"
-                                android:visibility="gone" />
-
-
-                        </LinearLayout>
-
-                        <com.foobnix.pdf.SlidingTabLayout
-                            android:id="@+id/slidingTabs2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:layout_marginLeft="10dip"
-                            android:layout_marginRight="10dip"
-                            android:layout_marginBottom="8dip"
-                            android:visibility="gone" />
-
-                        <!-- A running sync, placed over the tabs by MainTabs2. Drawn here, as the
-                             system's own bar stays thin at any height. -->
-                        <FrameLayout
-                            android:id="@+id/syncNavProgress"
-                            android:layout_width="match_parent"
-                            android:layout_height="4dip"
-                            android:layout_gravity="top"
-                            android:layout_marginLeft="34dip"
-                            android:layout_marginRight="34dip"
-                            android:background="@drawable/bg_sync_track"
-                            android:elevation="8dip"
-                            android:visibility="gone">
-
-                            <View
-                                android:id="@+id/syncNavBar"
-                                android:layout_width="72dip"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/bg_sync_bar" />
-                        </FrameLayout>
-
-                    </FrameLayout>
-                </LinearLayout>
-
-
-                <FrameLayout
-                    android:id="@+id/left_drawer"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="start"
-                    android:background="?android:attr/colorBackground" />
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parentParent" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="?attr/appBackground">
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent" android:layout_height="match_parent">
+            <androidx.drawerlayout.widget.DrawerLayout android:id="@+id/drawer_layout"
+                android:layout_width="match_parent" android:layout_height="match_parent">
+                <androidx.viewpager.widget.ViewPager android:id="@+id/pager"
+                    android:layout_width="match_parent" android:layout_height="match_parent" />
+                <FrameLayout android:id="@+id/left_drawer" android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:layout_gravity="start"
+                    android:background="?attr/appSurface" />
             </androidx.drawerlayout.widget.DrawerLayout>
-
-
-            <FrameLayout
-                android:id="@+id/overlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/toastBrightnessText"
-                android:layout_width="wrap_content"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/bg_my_toast"
-                android:drawableLeft="@drawable/glyphicons_232_sun"
-                android:drawablePadding="10dip"
-                android:drawableTint="@color/white"
-                android:padding="12dip"
-                android:text="@string/brightness"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
-            <FrameLayout
-                android:id="@+id/settings_page"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?android:attr/colorBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:visibility="gone" />
-
-
-
-
-        </RelativeLayout>
-
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-</LinearLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <FrameLayout android:id="@+id/settings_page" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:background="?attr/appBackground"
+            android:clickable="true" android:focusable="true" android:visibility="gone" />
+        <FrameLayout android:id="@+id/overlay" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:visibility="gone" />
+        <TextView android:id="@+id/toastBrightnessText" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_gravity="center"
+            android:background="@drawable/bg_my_toast" android:padding="16dp"
+            android:drawableStart="@drawable/glyphicons_232_sun" android:drawablePadding="8dp"
+            android:textColor="?attr/appOnSurface" android:visibility="gone" />
+    </FrameLayout>
+    <FrameLayout android:id="@+id/navigation_frame" android:layout_width="match_parent"
+        android:layout_height="72dp" android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginHorizontal="12dp" android:layout_marginBottom="12dp">
+        <LinearLayout android:id="@+id/navigation_items" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:orientation="horizontal"
+            android:gravity="center" android:padding="4dp" />
+        <FrameLayout android:id="@+id/syncNavProgress" android:layout_width="match_parent"
+            android:layout_height="3dp" android:layout_gravity="top"
+            android:layout_marginHorizontal="20dp" android:visibility="gone">
+            <View android:id="@+id/syncNavBar" android:layout_width="72dp" android:layout_height="match_parent" />
+        </FrameLayout>
+    </FrameLayout>
+</FrameLayout>

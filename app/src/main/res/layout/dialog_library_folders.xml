@@ -45,50 +45,53 @@
             android:layout_marginTop="24dp"
             android:gravity="end|center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp">
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
 
             <TextView
                 android:id="@+id/libraryFoldersCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:text="@string/cancel"
                 android:textSize="14sp" />
 
             <!-- A ring with the sync mark, in the theme colour, drawn by the dialog. -->
             <TextView
                 android:id="@+id/libraryFoldersUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:minWidth="88dp"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:text="@string/update_library"
-                android:textColor="@color/white"
+                android:textColor="?attr/appOnSurface"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/libraryFoldersSync"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:minWidth="88dp"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:text="@string/sync"
-                android:textColor="@color/white"
+                android:textColor="?attr/appOnSurface"
                 android:textSize="14sp"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
+

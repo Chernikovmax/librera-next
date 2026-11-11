@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Librera Next — интерактивный прототип Material 3</title>
+  <style>
+:root{font-synthesis:none}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,Roboto,"Segoe UI",system-ui,-apple-system,sans-serif}
+body{padding:16px;background:#e9e6e1}
+.studio{--shell:#F2ECE3;--paper:#F9F5EE;--surface:#FFFCF7;--surface2:#EEE5D8;--hero:#EFE2D1;--text:#352B25;--secondary:#62564B;--primary:#704B3B;--onprimary:#FFF7EE;--accent:#82503B;--progress:#486454;--outline:#D9CDBE;--selected:#E5D6C5;--reader:#F6EFE3;--shadow:0 9px 25px rgba(53,43,37,.11);--device-border:#292929;--backdrop:rgba(20,17,15,.27);max-width:1110px;margin:0 auto;color:var(--text);background:var(--shell);border-radius:25px;overflow:hidden;box-shadow:0 12px 34px #00000012}
+.studio[data-theme=oled]{--shell:#0A0A0A;--paper:#000000;--surface:#161616;--surface2:#242322;--hero:#191715;--text:#D4CEC6;--secondary:#9B938B;--primary:#C5A797;--onprimary:#211915;--accent:#C19C89;--progress:#A7B9A9;--outline:#3D3935;--selected:#302823;--reader:#000000;--shadow:0 8px 24px rgba(0,0,0,.55);--device-border:#252525;--backdrop:rgba(0,0,0,.55)}
+.studio[data-theme=eink]{--shell:#E9ECE6;--paper:#FCFCF5;--surface:#FFFFFA;--surface2:#E8ECE5;--hero:#EBEFE7;--text:#1C2820;--secondary:#49574C;--primary:#2C5048;--onprimary:#FFFFFF;--accent:#69493C;--progress:#31584B;--outline:#829187;--selected:#DEE8DF;--reader:#FFFFF6;--shadow:none;--device-border:#555B54;--backdrop:rgba(0,0,0,.3)}
+button,input{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+svg{display:block;flex-shrink:0}
+h1,h2,h3,p{margin:0}h1,h2,h3,.heading,.book-title,.book-author,.book-progress,.title-lg,.title-md{color:var(--text)}small,.muted,.subtitle{color:var(--secondary);opacity:1}
+.studio-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:13px;padding:20px 25px;border-bottom:1px solid var(--outline)}
+.brand{display:flex;gap:12px;align-items:center}.brand-icon{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:var(--primary);color:var(--onprimary)}.brand-title{font-size:18px;font-weight:850;letter-spacing:-.55px}.brand-sub{color:var(--secondary);font-size:10px;letter-spacing:1.1px;font-weight:700;margin-top:4px}
+.theme-switch{display:flex;align-items:center;background:var(--surface2);border-radius:28px;padding:5px;gap:3px}.theme-tab{border:0;background:transparent;border-radius:24px;color:var(--secondary);font-size:12px;padding:10px 14px;font-weight:750;display:flex;gap:8px;align-items:center}.theme-tab.active{color:var(--text);background:var(--surface);box-shadow:var(--shadow)}
+.content-grid{display:grid;grid-template-columns:minmax(0,1fr) 282px;min-height:810px}.stage{padding:24px 14px;min-width:0;display:flex;align-items:center;flex-direction:column;justify-content:center;gap:14px}
+.phone{width:354px;max-width:100%;height:742px;border:7px solid var(--device-border);border-radius:43px;background:var(--paper);position:relative;overflow:hidden;box-shadow:0 17px 35px #00000022;flex:none}.studio[data-theme=eink] .phone{box-shadow:0 5px 12px #00000012}
+.status-bar{height:30px;background:var(--paper);padding:6px 18px 0;display:flex;align-items:flex-start;justify-content:space-between;font-size:11px;font-weight:800;color:var(--text);position:relative;z-index:4}.status-icons{display:flex;align-items:center}
+.phone-screen{height:calc(100% - 30px);overflow:auto;overscroll-behavior:contain;scrollbar-width:none;background:var(--paper);position:relative}.phone-screen::-webkit-scrollbar{display:none}.gesture-bar{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);background:var(--text);opacity:.62;width:101px;height:4px;border-radius:9px;z-index:12;pointer-events:none}
+.phone-caption{font-size:10px;color:var(--secondary);display:flex;align-items:center;gap:7px}.status-dot{width:6px;height:6px;background:var(--progress);border-radius:50%}
+.page{padding:14px 17px 110px}.topbar{height:39px;display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:23px}.wordmark{font-size:15px;font-weight:900;letter-spacing:-.7px}.wordmark em{font-style:normal;color:var(--accent)}.icon-actions{display:flex;align-items:center;gap:3px}
+.icon-btn{border:0;background:transparent;width:39px;height:39px;border-radius:13px;color:var(--text);display:grid;place-items:center;flex:none}.icon-btn:hover,.icon-btn:focus-visible{background:var(--surface2)}.icon-btn.tinted{background:var(--selected);color:var(--primary)}
+.title-lg{font-size:29px;font-weight:810;letter-spacing:-1.2px;line-height:1.16;margin-bottom:8px}.subtitle{font-size:12px;line-height:1.6}.eyebrow{font-size:10px;letter-spacing:1.1px;font-weight:850;color:var(--progress)}.page .eyebrow{margin:25px 0 12px}
+.continue-card{border:1px solid transparent;background:var(--hero);border-radius:24px;padding:14px;display:flex;align-items:center;gap:14px;min-height:170px}.studio[data-theme=eink] .continue-card{border-color:var(--outline)}.continue-info{min-width:0;flex:1}.author-label{font-size:11px;color:var(--accent);font-weight:800;margin-bottom:7px}.continue-info h3{font-size:17px;font-weight:800;line-height:1.3;letter-spacing:-.4px}.continue-info .meta{font-size:10px;color:var(--secondary);margin-top:6px}.progress-track{height:4px;background:var(--outline);border-radius:5px;overflow:hidden;margin-top:11px}.progress-track .progress-fill{height:100%;background:var(--progress);border-radius:5px}
+.primary-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--primary);color:var(--onprimary);padding:10px 13px;border:0;border-radius:18px;font-size:11px;font-weight:800;margin-top:12px}
+.cover{display:block;width:65px;height:96px;border-radius:5px;flex:none;overflow:hidden;box-shadow:3px 5px 11px #00000025;background:var(--surface2)}.cover.big{width:94px;height:137px}.cover svg{width:100%;height:100%}.studio[data-theme=eink] .cover{box-shadow:none;border:1px solid var(--outline)}.studio[data-theme=eink] .cover svg{filter:saturate(.7) contrast(1.08)}
+.sectionbar{margin:26px 0 13px;display:flex;align-items:center;justify-content:space-between}.sectionbar h3{font-size:19px;letter-spacing:-.6px;font-weight:800}.chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px}.chip{border:1px solid var(--outline);background:transparent;color:var(--secondary);border-radius:20px;padding:9px 14px;font-size:11px;font-weight:700;white-space:nowrap}.chip.active{background:var(--selected);border-color:var(--selected);color:var(--text);font-weight:800}
+.book-list{display:flex;flex-direction:column;gap:5px}.book-row{display:flex;align-items:center;gap:11px;min-height:104px;padding:7px 0;border-radius:15px}.book-details{flex:1;min-width:0}.book-title{font-size:13px;font-weight:800;line-height:1.4}.book-author{font-size:11px;margin-top:4px;color:var(--secondary)}.book-progress{font-size:10px;font-weight:800;color:var(--progress);margin-top:7px}.book-list.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.book-list.grid .book-row{flex-direction:column;align-items:stretch;justify-content:flex-start;padding:13px;background:var(--surface);border:1px solid var(--outline)}.book-list.grid .book-row .cover{align-self:center}.book-list.grid .book-row .icon-btn{display:none}
+.bottom-nav{position:absolute;bottom:23px;left:11px;right:11px;height:68px;border:1px solid var(--outline);border-radius:25px;background:var(--surface);box-shadow:var(--shadow);z-index:6;display:flex;align-items:center;justify-content:space-around;padding:5px}.bottom-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:transparent;border:0;color:var(--secondary);border-radius:18px;height:56px;min-width:60px;font-size:9px;font-weight:750}.bottom-item.active{background:var(--selected);color:var(--primary)}
+.searchbar{background:var(--surface);border:1px solid var(--outline);border-radius:17px;display:flex;align-items:center;gap:8px;padding:3px 6px 3px 12px;margin-bottom:18px;color:var(--secondary)}.searchbar input{min-width:0;flex:1;height:36px;background:transparent;color:var(--text);border:0;outline:0;font-size:12px}.searchbar input::placeholder{color:var(--secondary)}
+.settings-list{display:flex;flex-direction:column;gap:9px;margin-top:23px}.setting-row{display:flex;align-items:center;gap:12px;width:100%;padding:13px;background:var(--surface);border:1px solid var(--outline);border-radius:18px;text-align:left;color:var(--text)}.setting-symbol{background:var(--surface2);color:var(--primary);display:grid;place-items:center;width:42px;height:42px;border-radius:14px;flex:none}.setting-copy{flex:1;min-width:0}.setting-copy strong{font-size:13px;font-weight:800;display:block}.setting-copy small{font-size:10px;line-height:1.5;color:var(--secondary);display:block;margin-top:4px}
+.backline{display:flex;align-items:center;gap:8px;margin-bottom:23px}.backline strong{font-size:15px;flex:1}.config-card{margin-top:13px;padding:16px;background:var(--surface);border:1px solid var(--outline);border-radius:19px}.config-card h3{font-size:13px;margin-bottom:14px;font-weight:800}.theme-choice{display:flex;align-items:center;gap:11px;width:100%;background:transparent;border:1px solid var(--outline);border-radius:14px;padding:10px;text-align:left;color:var(--text);margin-bottom:8px}.theme-choice.active{border-color:var(--primary);background:var(--selected)}.choice-swatch{display:flex;width:38px;height:34px;border-radius:9px;overflow:hidden;border:1px solid #8887;flex:none}.choice-swatch i{width:50%;height:100%}.setting-switchline{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--outline)}.setting-switchline:last-child{border-bottom:0}.setting-switchline strong{font-size:12px;display:block}.setting-switchline small{color:var(--secondary);display:block;font-size:10px;margin-top:5px;line-height:1.4}.toggle{width:44px;height:27px;border-radius:20px;border:1px solid var(--outline);background:var(--surface2);padding:3px;display:flex;align-items:center;flex:none}.toggle:before{content:"";width:19px;height:19px;border-radius:50%;background:var(--secondary)}.toggle.active{background:var(--primary);border-color:var(--primary);justify-content:flex-end}.toggle.active:before{background:var(--onprimary)}.slider-block{margin:17px 0}.slider-head{display:flex;justify-content:space-between;font-size:12px;font-weight:750;margin-bottom:10px}.slider-head span:last-child{color:var(--primary)}input[type=range]{width:100%;accent-color:var(--primary)}
+.info-panel{background:var(--selected);color:var(--text);border-radius:16px;padding:14px;font-size:11px;line-height:1.6;margin-top:17px}.outline-btn{width:100%;padding:12px;border:1px solid var(--outline);border-radius:16px;color:var(--primary);background:var(--surface);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:13px}
+.folder-row{display:flex;align-items:center;gap:13px;width:100%;border:1px solid var(--outline);background:var(--surface);color:var(--text);padding:14px;border-radius:18px;margin-top:9px;text-align:left}.folder-symbol{width:44px;height:44px;background:var(--selected);color:var(--primary);border-radius:14px;display:grid;place-items:center}.folder-copy{flex:1}.folder-copy strong{display:block;font-size:13px}.folder-copy small{display:block;font-size:10px;color:var(--secondary);margin-top:5px}
+.reader-page{background:var(--reader);min-height:100%;color:var(--text);padding:10px 24px 110px;position:relative;--font-size:18px;--line-height:1.7}.reader-toolbar{position:sticky;top:7px;z-index:5;margin:0 -14px;display:flex;gap:3px;align-items:center;border:1px solid var(--outline);border-radius:23px;background:var(--surface);box-shadow:var(--shadow);padding:5px}.reader-toolbar .icon-btn{width:33px;height:34px}.reader-toolbar .reader-booktitle{min-width:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px;font-weight:800}.reader-text{padding-top:51px;min-height:585px;cursor:pointer;font-family:Georgia,'Times New Roman',serif;font-size:var(--font-size);line-height:var(--line-height);letter-spacing:.01em}.reader-text .chapter-kicker{text-align:center;font-family:Inter,Roboto,system-ui,sans-serif;color:var(--secondary);font-size:10px;letter-spacing:1.25px;font-weight:750;margin-bottom:16px}.reader-text h2{font-family:Georgia,'Times New Roman',serif;text-align:center;font-weight:600;font-size:26px;line-height:1.28;letter-spacing:-.5px;margin:0 0 29px}.reader-text p{color:var(--text);margin-bottom:17px;text-indent:1.1em}.reader-text p:first-of-type{text-indent:0}.reader-progress{position:absolute;bottom:23px;left:13px;right:13px;border:1px solid var(--outline);border-radius:22px;background:var(--surface);box-shadow:var(--shadow);padding:12px 13px;z-index:6}.reader-progress-top{display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:var(--secondary);margin-bottom:8px}.reader-progress-controls{display:flex;align-items:center;gap:7px}.reader-progress-controls button{border:0;background:transparent;color:var(--text);width:33px;height:30px;display:grid;place-items:center}.reader-progress-controls .progress-track{flex:1;margin:0}.hidden-progress{position:absolute;bottom:25px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--secondary);background:var(--reader);padding:3px 9px;white-space:nowrap}
+.sheet-overlay{position:absolute;inset:0;z-index:10;background:var(--backdrop);display:flex;align-items:flex-end}.sheet-overlay[hidden]{display:none}.sheet-dismiss{position:absolute;inset:0;width:100%;border:0;background:transparent}.sheet{position:relative;width:100%;max-height:82%;overflow:auto;padding:12px 18px 32px;background:var(--surface);border:1px solid var(--outline);border-radius:26px 26px 0 0;box-shadow:var(--shadow)}.sheet-handle{height:4px;width:35px;border-radius:5px;background:var(--outline);margin:0 auto 19px}.sheet-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}.sheet-title strong{font-size:17px}.sheet-item{width:100%;display:flex;align-items:center;gap:11px;text-align:left;padding:13px 4px;border:0;background:transparent;color:var(--text);font-size:13px}.sheet-item span{flex:1}.sheet-item.active{color:var(--primary);font-weight:850}
+.inspector{background:var(--surface);border-left:1px solid var(--outline);padding:25px 19px;min-width:0}.inspector h2{font-size:20px;line-height:1.3;letter-spacing:-.7px;margin:9px 0}.inspector h3{font-size:15px;margin:10px 0}.inspector-desc{font-size:11px;line-height:1.65;color:var(--secondary);margin:7px 0 18px}.scene-link{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--outline);background:transparent;border-radius:15px;padding:12px;color:var(--text);font-size:12px;font-weight:760;margin:7px 0}.scene-link span{flex:1}.scene-link.active{background:var(--selected);color:var(--primary);border-color:var(--selected)}.divider{height:1px;background:var(--outline);margin:23px 0}.swatches{display:flex;gap:6px;margin:15px 0}.swatch{height:40px;flex:1;border-radius:10px;border:1px solid var(--outline)}.sw-paper{background:var(--paper)}.sw-text{background:var(--text)}.sw-secondary{background:var(--secondary)}.sw-primary{background:var(--primary)}.token-line{display:flex;align-items:center;justify-content:space-between;gap:9px;font-size:11px;color:var(--secondary);margin:10px 0}.token-line code{font-family:ui-monospace,SFMono-Regular,monospace;font-size:11px;color:var(--text);font-weight:800}.contrast-demo{background:var(--paper);border:1px solid var(--outline);border-radius:15px;padding:13px;margin-top:13px;display:flex;flex-direction:column;gap:5px}.contrast-demo strong{font-size:14px;color:var(--text)}.contrast-demo span{font-size:11px;color:var(--secondary)}.device-note{background:var(--surface2);padding:15px;border-radius:17px;font-size:11px;line-height:1.65}.device-note strong{display:block;font-size:12px;margin-bottom:5px}.inspector-hint{font-size:10px;line-height:1.65;color:var(--secondary);margin-top:17px}
+.studio[data-theme=eink] *, .studio[data-theme=eink] *::before,.studio[data-theme=eink] *::after{animation:none!important;transition:none!important;backdrop-filter:none!important}.studio[data-theme=eink] .continue-card,.studio[data-theme=eink] .book-row{box-shadow:none}.studio[data-theme=oled] .reader-page{background:#000}
+@media(max-width:790px){body{padding:0;background:var(--shell)}.studio{border-radius:0}.content-grid{grid-template-columns:1fr}.inspector{border-left:0;border-top:1px solid var(--outline)}.stage{padding:20px 7px}.studio-header{padding:16px}.phone{height:724px}}
+@media(max-width:385px){.phone{width:330px;height:700px;border-width:5px}.theme-tab{padding:9px 11px;font-size:11px}.brand-sub{font-size:9px}.bottom-item{min-width:55px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+</style>
+</head>
+<body>
+  <div id="app" class="studio" data-theme="cream">
+    <header class="studio-header">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 6c-2.6-2-5.8-2.4-9-1.5v14c3.2-.9 6.4-.5 9 1.5 2.6-2 5.8-2.4 9-1.5v-14C17.8 3.6 14.6 4 12 6Z"/><path d="M12 6v14"/></svg>
+        </span>
+        <div><div class="brand-title">Librera Next</div><div class="brand-sub">REDESIGN · MATERIAL 3 · 2026</div></div>
+      </div>
+      <div class="theme-switch" role="group" aria-label="Тема оформления">
+        <button data-act="theme" data-val="cream" class="theme-tab active" aria-pressed="true"><span aria-hidden="true">☀</span> Cream</button>
+        <button data-act="theme" data-val="oled" class="theme-tab" aria-pressed="false"><span aria-hidden="true">◐</span> OLED</button>
+        <button data-act="theme" data-val="eink" class="theme-tab" aria-pressed="false"><span aria-hidden="true">▤</span> E-Ink</button>
+      </div>
+    </header>
+    <div class="content-grid">
+      <main class="stage" aria-label="Интерактивный экран Android">
+        <div class="phone" id="phone">
+          <div class="status-bar"><span>9:41</span><span class="status-icons" aria-hidden="true"><svg width="52" height="15" viewBox="0 0 52 15"><path d="M0 4Q8-2 16 4L8 13Z" fill="currentColor"/><path d="M22 13 33 3v10Z" fill="currentColor"/><rect x="37" y="3" width="12" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M50 6h2v4h-2" fill="currentColor"/><rect x="39" y="5" width="8" height="6" rx="1" fill="currentColor"/></svg></span></div>
+          <div id="phone-screen" class="phone-screen"></div>
+          <div id="phone-nav"></div>
+          <div id="phone-sheet" class="sheet-overlay" hidden></div>
+          <div class="gesture-bar" aria-hidden="true"></div>
+        </div>
+        <div class="phone-caption"><span class="status-dot"></span> Рабочий HTML-прототип · Java / XML — целевая реализация</div>
+      </main>
+      <aside class="inspector" aria-label="Управление макетом">
+        <div class="eyebrow">ИНТЕРАКТИВНЫЕ ЭКРАНЫ</div>
+        <h2>Меньше интерфейса. Больше книги.</h2>
+        <p class="inspector-desc">Откройте книгу, поменяйте тему, переключите сетку, найдите настройку. Всё работает без сервера.</p>
+        <div id="scene-links"></div>
+        <div class="divider"></div>
+        <div class="eyebrow">ЦВЕТОВАЯ ПАЛИТРА</div>
+        <h3 id="palette-title">Cream / Warm Paper</h3>
+        <p id="palette-desc" class="inspector-desc">Тёплая бумага и хорошо читаемая типографика.</p>
+        <div class="swatches"><span class="swatch sw-paper"></span><span class="swatch sw-text"></span><span class="swatch sw-secondary"></span><span class="swatch sw-primary"></span></div>
+        <div class="token-line"><span>Основной текст</span><code id="primary-hex">#352B25</code></div>
+        <div class="token-line"><span>Подписи</span><code id="secondary-hex">#62564B</code></div>
+        <div class="contrast-demo"><strong>Моя библиотека</strong><span>3 книги · 2 в процессе чтения</span></div>
+        <div class="divider"></div>
+        <div class="eyebrow">РЕЖИМ УСТРОЙСТВА</div>
+        <div id="device-note" class="device-note"></div>
+        <div class="inspector-hint">Важное: HTML иллюстрирует визуальный дизайн и взаимодействия. Нативные системные действия, чтение файлов, реальный EPUB/PDF и управление обновлением E-Ink выполняются уже в Android-приложении.</div>
+      </aside>
+    </div>
+  </div>
+  <script>
+/* Librera Next design prototype. Pure HTML/CSS/JS, no external dependencies.
+   Native target: Android Java + XML layouts, not a web application. */
+(() => {
+'use strict';
+const root=document.getElementById('app');
+if(!root) return;
+const screen=document.getElementById('phone-screen');
+const nav=document.getElementById('phone-nav');
+const overlay=document.getElementById('phone-sheet');
+const keys={theme:'librera_next_demo_theme'};
+function loadTheme(){try{const t=localStorage.getItem(keys.theme);return ['cream','oled','eink'].includes(t)?t:'cream';}catch(_){return 'cream';}}
+function saveTheme(t){try{localStorage.setItem(keys.theme,t);}catch(_){}}
+const state={theme:loadTheme(),screen:'library',category:null,filter:'all',layout:'list',sort:'recent',searchOpen:false,query:'',book:'alice',page:147,toolbar:true,sheet:null,font:18,spacing:1.7,favorites:['alice','ocean'],switches:{hide:true,cache:true,autoscan:true,taps:true,progress:true}};
+const books=[
+{id:'alice',title:'Алиса в Стране чудес',author:'Льюис Кэрролл',percent:37,pages:391,format:'EPUB',category:'reading'},
+{id:'picnic',title:'Пикник на обочине',author:'Аркадий и Борис Стругацкие',percent:62,pages:248,format:'FB2',category:'reading'},
+{id:'ocean',title:'Двадцать тысяч лье под водой',author:'Жюль Верн',percent:100,pages:478,format:'EPUB',category:'done'}
+];
+const categories=[
+['appearance','Внешний вид','Темы, цвета и интерфейс','sun'],
+['reading','Чтение','Шрифт, поля, жесты и панели','type'],
+['library','Библиотека','Папки, сканирование и форматы','folder'],
+['sync','Синхронизация','Прогресс и закладки между устройствами','sync'],
+['advanced','Дополнительно','Движки, производительность и диагностика','settings']
+];
+const svgPaths={
+book:'<path d="M12 6c-2.6-2-5.8-2.4-9-1.5v14c3.2-.9 6.4-.5 9 1.5 2.6-2 5.8-2.4 9-1.5v-14C17.8 3.6 14.6 4 12 6Z"/><path d="M12 6v14"/>',
+search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',
+sort:'<path d="M4 5h12M4 10h9M4 15h6M18 10v11m-4-4 4 4 4-4"/>',
+grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+list:'<path d="M9 6h12M9 12h12M9 18h12M3 6h2M3 12h2M3 18h2"/>',
+heart:'<path d="M20.5 8.5c0 4.4-8.5 10-8.5 10S3.5 12.9 3.5 8.5a4.6 4.6 0 0 1 8.5-2.2 4.6 4.6 0 0 1 8.5 2.2Z"/>',
+folder:'<path d="M3 6h7l2.5 2.5H21V20H3Z"/>',
+settings:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2.2 2.2m9.6 9.6L19 19M19 5l-2.2 2.2m-9.6 9.6L5 19"/>',
+back:'<path d="m15 5-7 7 7 7"/>',
+right:'<path d="m9 5 7 7-7 7"/>',
+check:'<path d="m4 12 5 5L20 6"/>',
+close:'<path d="M5 5 19 19M19 5 5 19"/>',
+type:'<path d="M3 20 10 4l7 16M6 15h8M17 10l2-6 3 6"/>',
+moon:'<path d="M20 16A8.5 8.5 0 0 1 8 4a8.5 8.5 0 1 0 12 12Z"/>',
+sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l2 2m10 10 2 2M19 5l-2 2M7 17l-2 2"/>',
+sync:'<path d="M20 8V4l-3 3a8 8 0 1 0 3 8M20 8h-5"/>',
+bookmark:'<path d="M6 3h12v18l-6-4-6 4Z"/>',
+more:'<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>',
+plus:'<path d="M12 5v14M5 12h14"/>',
+cloud:'<path d="M7 19H6a4 4 0 0 1 0-8 7 7 0 0 1 13 1 3.5 3.5 0 0 1-1 7h-2"/>',
+prev:'<path d="m15 5-7 7 7 7"/>',
+next:'<path d="m9 5 7 7-7 7"/>',
+refresh:'<path d="M20 8V4l-3 3a8 8 0 1 0 3 8M20 8h-5"/>',
+file:'<path d="M6 3h8l5 5v13H6Z"/><path d="M14 3v6h5"/>',
+tick:'<path d="m4 12 5 5 11-11"/>'
+};
+const icon=(name,size=20)=>`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${svgPaths[name]||svgPaths.book}</svg>`;
+const ib=(name,action,value,cls='')=>`<button class="icon-btn ${cls}" title="${name}" aria-label="${name}" data-act="${action}" ${value!==undefined?`data-val="${value}"`:''}>${icon(name)}</button>`;
+const book=id=>books.find(b=>b.id===id)||books[0];
+function cover(id,big=false){
+  const a=id==='alice',p=id==='picnic';
+  return `<span class="cover ${big?'big':''}" aria-label="Обложка книги"><svg viewBox="0 0 100 144" role="img" aria-label="Иллюстрация обложки"><rect width="100" height="144" fill="${a?'#DDD2B9':p?'#292C2D':'#24545A'}"/><rect x="6" y="6" width="88" height="132" fill="${a?'#E9DFC8':p?'#333534':'#2F6670'}" stroke="${a?'#947A5C':'#B89B7A'}"/><text x="50" y="19" font-size="8" font-family="Georgia" text-anchor="middle" fill="${a?'#604A39':'#F0DCC0'}">${a?'ALICE':p?'ПИКНИК':'20 000 ЛЬЕ'}</text><text x="50" y="28" font-size="6" text-anchor="middle" fill="${a?'#604A39':'#F0DCC0'}">${a?'WONDERLAND':p?'НА ОБОЧИНЕ':'ПОД ВОДОЙ'}</text>${a?'<path d="M9 43 Q50 21 91 45V109H9Z" fill="#8B9E86"/><circle cx="66" cy="60" r="23" fill="#D3C4A0"/><path d="M9 90Q48 64 91 88v26H9Z" fill="#65826C"/><path d="M24 112Q46 70 60 112Z" fill="#AD654A"/><circle cx="41" cy="76" r="9" fill="#E8C6A3"/><path d="M34 75Q40 60 51 73" fill="#67493A"/><path d="M65 103V80Q75 73 80 103" fill="#F7EFE1"/><ellipse cx="73" cy="70" rx="8" ry="10" fill="#F7EFE1"/><ellipse cx="69" cy="55" rx="4" ry="15" fill="#F7EFE1"/><ellipse cx="78" cy="54" rx="4" ry="14" fill="#F7EFE1"/>':p?'<circle cx="62" cy="65" r="32" fill="#B4714B"/><circle cx="62" cy="65" r="23" fill="#D5A46E"/><path d="M7 101 30 73 48 95 78 68 93 90V137H7Z" fill="#3F514A"/><path d="M7 117 36 99 58 116 90 106v31H7Z" fill="#202D2D"/>':'<circle cx="74" cy="55" r="24" fill="#D6C08F"/><path d="M7 88Q45 62 93 91v46H7Z" fill="#53868C"/><path d="M7 111Q40 91 93 110v27H7Z" fill="#1A4A55"/><path d="M36 89 56 49 74 89Z" fill="#E5CEAB"/><path d="M34 89h43v5H34Z" fill="#E5CEAB"/>'}<text x="50" y="131" font-family="Georgia" font-size="6.5" text-anchor="middle" fill="${a?'#614C3B':'#E8D7BC'}">${a?'LEWIS CARROLL':p?'СТРУГАЦКИЕ':'ЖЮЛЬ ВЕРН'}</text></svg></span>`;
+}
+const header=()=>`<div class="topbar"><div class="wordmark">librera<em>next.</em></div><div class="icon-actions">${ib('search','search')}${ib('sort','sheet','sort')}</div></div>`;
+const search=()=>state.searchOpen?`<div class="searchbar">${icon('search',17)}<input type="search" data-input="search" value="${state.query.replaceAll('&','&amp;').replaceAll('"','&quot;')}" placeholder="Название или автор" aria-label="Поиск книг" />${ib('close','search')}</div>`:'';
+function bookRow(b){const favorite=state.favorites.includes(b.id);return `<div class="book-row" data-act="read" data-val="${b.id}" role="button" tabindex="0" aria-label="Открыть ${b.title}">${cover(b.id)}<div class="book-details"><div class="book-title">${b.title}</div><div class="book-author">${b.author}</div><div class="book-progress">${b.percent===100?'Прочитано':`${b.percent}% прочитано`} · ${b.format}</div></div><button class="icon-btn ${favorite?'tinted':''}" data-act="favorite" data-val="${b.id}" title="Избранное" aria-label="${favorite?'Удалить из избранного':'Добавить в избранное'}">${icon('heart',19)}</button></div>`;}
+function library(){
+ const fav=state.screen==='favorites';
+ let list=books.filter(b=>(!fav||state.favorites.includes(b.id))&&(fav||state.filter==='all'||(state.filter==='reading'?b.percent<100:b.percent===100))&&(!state.query||(b.title+' '+b.author).toLocaleLowerCase('ru').includes(state.query.toLocaleLowerCase('ru'))));
+ if(state.sort==='title')list.sort((a,b)=>a.title.localeCompare(b.title,'ru'));else if(state.sort==='progress')list.sort((a,b)=>b.percent-a.percent);
+ const hero=book('alice');
+ return `<div class="page">${header()}${search()}<h1 class="title-lg">${fav?'Избранное':'Моя библиотека'}</h1><p class="subtitle">${fav?'Книги, к которым хочется возвращаться':'3 книги · 2 в процессе чтения'}</p>${!fav&&!state.query?`<div class="eyebrow">ПРОДОЛЖИТЬ ЧТЕНИЕ</div><div class="continue-card">${cover('alice',true)}<div class="continue-info"><div class="author-label">Льюис Кэрролл</div><h3>${hero.title}</h3><div class="meta">Глава 4 · ${hero.percent}%</div><div class="progress-track"><div class="progress-fill" style="width:${hero.percent}%"></div></div><button class="primary-btn" data-act="read" data-val="alice">Продолжить ${icon('right',15)}</button></div></div>`:''}<div class="sectionbar"><h3>${fav?'Ваши книги':'На полке'}</h3><div class="icon-actions">${ib(state.layout==='grid'?'list':'grid','layout')}${ib('sort','sheet','sort')}</div></div>${!fav?`<div class="chips">${[['all','Все'],['reading','Читаю'],['done','Прочитано']].map(([val,label])=>`<button class="chip ${state.filter===val?'active':''}" data-act="filter" data-val="${val}">${label}</button>`).join('')}</div>`:''}<div class="book-list ${state.layout==='grid'?'grid':''}">${list.length?list.map(bookRow).join(''):'<p class="subtitle" style="padding:16px 0">Книги не найдены</p>'}</div></div>`;
+}
+function folders(){return `<div class="page">${header()}<h1 class="title-lg">Мои полки</h1><p class="subtitle">Коллекции и локальные папки</p><div class="eyebrow">КОЛЛЕКЦИИ</div>${[['Читаю сейчас','2 книги','book'],['Прочитано','1 книга','tick'],['Загрузки','/Download · 3 файла','folder']].map(([title,sub,i])=>`<button class="folder-row" data-act="folderOpen"><span class="folder-symbol">${icon(i)}</span><span class="folder-copy"><strong>${title}</strong><small>${sub}</small></span>${icon('right',17)}</button>`).join('')}<div class="eyebrow">ИСТОЧНИКИ</div><div class="info-panel">Файлы остаются локально. Управление каталогами — в разделе «Настройки → Библиотека».</div><button class="outline-btn" data-act="category" data-val="library">${icon('folder',16)} Управление папками</button></div>`;}
+const toggle=(key,title,desc)=>`<div class="setting-switchline"><div><strong>${title}</strong><small>${desc}</small></div><button class="toggle ${state.switches[key]?'active':''}" data-act="toggle" data-val="${key}" aria-label="${title}" aria-pressed="${!!state.switches[key]}"></button></div>`;
+const slider=(key,title,min,max,step,suffix)=>`<div class="slider-block"><div class="slider-head"><span>${title}</span><span data-rangelabel="${key}">${state[key]}${suffix}</span></div><input type="range" data-input="${key}" aria-label="${title}" min="${min}" max="${max}" step="${step}" value="${state[key]}" /></div>`;
+function themeOptions(){return [['cream','Тёплая Cream','Кремово-коричневая','#F9F5EE','#704B3B'],['oled','OLED Black','Мягкий тёплый серый','#000000','#D4CEC6'],['eink','E-Ink Color','Meebook M8C','#FFFFF6','#2C5048']].map(([id,title,desc,light,accent])=>`<button class="theme-choice ${state.theme===id?'active':''}" data-act="theme" data-val="${id}" aria-pressed="${state.theme===id}"><span class="choice-swatch"><i style="background:${light}"></i><i style="background:${accent}"></i></span><span class="setting-copy"><strong>${title}</strong><small>${desc}</small></span>${state.theme===id?icon('check',18):''}</button>`).join('');}
+function settings(){
+ if(!state.category)return `<div class="page">${header()}<h1 class="title-lg">Настройки</h1><p class="subtitle">Всё необходимое — без лишней сложности</p><div class="settings-list">${categories.map(([id,title,desc,i])=>`<button class="setting-row" data-act="category" data-val="${id}"><span class="setting-symbol">${icon(i)}</span><span class="setting-copy"><strong>${title}</strong><small>${desc}</small></span>${icon('right',17)}</button>`).join('')}</div><div class="info-panel">Параметры конкретной книги доступны прямо в читалке через кнопку Aa.</div></div>`;
+ const category=categories.find(c=>c[0]===state.category)||categories[0];
+ let content='';
+ switch(state.category){
+ case 'appearance':content=`<div class="config-card"><h3>Тема приложения</h3>${themeOptions()}</div><div class="config-card"><h3>Интерфейс</h3>${toggle('hide','Автоскрытие панелей','Ничего лишнего во время чтения')}${toggle('cache','Кеш обложек','Быстрая отрисовка библиотеки')}</div>`;break;
+ case 'reading':content=`<div class="config-card"><h3>Типографика по умолчанию</h3>${slider('font','Размер текста',15,27,1,' px')}${slider('spacing','Межстрочный интервал',1.3,2.1,.05,'')}</div><div class="config-card"><h3>Управление чтением</h3>${toggle('hide','Скрывать панели','Возвращать по нажатию на страницу')}${toggle('taps','Листать касанием','Зоны по краям экрана')}${toggle('progress','Показывать прогресс','Номер страницы и процент')}</div>`;break;
+ case 'library':content=`<div class="config-card"><h3>Папки библиотеки</h3><div class="setting-switchline"><div><strong>Download</strong><small>Локальное хранилище /Download</small></div>${icon('folder')}</div><button class="outline-btn" data-act="sheet" data-val="placeholder">${icon('plus',17)} Добавить папку</button></div><div class="config-card"><h3>Индексация</h3>${toggle('autoscan','Автосканирование','Находить новые книги в папках')}${toggle('cache','Кеш обложек','Сохранять миниатюры локально')}</div><div class="info-panel">Форматы EPUB, FB2, PDF, DJVU, DOCX и другие фильтруются в дополнительных параметрах. Не показывать десятки чекбоксов на главном экране.</div>`;break;
+ case 'sync':content=`<div class="config-card" style="text-align:center;padding:26px 18px"><span class="setting-symbol" style="margin:0 auto 14px;width:52px;height:52px">${icon('cloud',26)}</span><h3>Синхронизация не настроена</h3><p class="subtitle">В приложении здесь будет настройка провайдера и обмена прогрессом, закладками и позициями чтения.</p><button class="outline-btn" disabled>${icon('plus',17)} Подключить хранилище</button></div><div class="info-panel">Это экран будущей функциональности. HTML-прототип не подключается к облачным сервисам.</div>`;break;
+ case 'advanced':content=`<div class="config-card"><h3>Движки чтения</h3><div class="setting-switchline"><div><strong>EPUB</strong><small>Foliate.js / WebView</small></div>${icon('book')}</div><div class="setting-switchline"><div><strong>PDF</strong><small>MuPDF</small></div>${icon('file')}</div></div><div class="config-card"><h3>Производительность</h3><p class="subtitle">Режим E-Ink, кеш, диагностика, обработка файлов и расширенные параметры.</p><button class="outline-btn" data-act="sheet" data-val="placeholder">Подробнее ${icon('right',16)}</button></div>`;break;
+ }
+ return `<div class="page"><div class="backline">${ib('back','settingsBack')}<strong>${category[1]}</strong></div><h1 class="title-lg">${category[1]}</h1><p class="subtitle">${category[2]}</p>${content}</div>`;
+}
+function reader(){
+ const b=book(state.book);
+ const chapters=[{title:'Вниз по кроличьей норе',ps:['День стоял удивительно тихий. Алиса устроилась неподалёку от сестры и наблюдала, как лёгкий ветер шевелит траву у берега. Ей хотелось придумать какое-нибудь интересное занятие, но ничего подходящего не приходило в голову.','И вдруг среди цветов мелькнул белый кролик. Он торопился так сильно, словно опаздывал на важнейшую встречу. Алиса удивлённо подняла голову и заметила, что кролик достал из кармана маленькие часы.','Любопытство оказалось сильнее всего на свете. Девочка вскочила и отправилась следом за незнакомцем, даже не успев подумать, куда приведёт её эта неожиданная прогулка.']},{title:'Необыкновенная встреча',ps:['Коридор становился всё длиннее, а свет — всё мягче. Алиса осторожно шла вперёд, касаясь ладонью прохладной стены, и пыталась понять, как далеко она забралась.','За следующей дверью послышался шорох. Девочка остановилась и прислушалась: казалось, будто кто-то очень тихо разговаривает сам с собой.','— Какое странное место, — произнесла Алиса. И в эту минуту ей показалось, что самое удивительное ещё только начинается.']}];
+ const chapter=chapters[(Math.max(0,state.page-147))%2];
+ return `<div class="reader-page" style="--font-size:${state.font}px;--line-height:${state.spacing}">${state.toolbar?`<div class="reader-toolbar">${ib('back','goLibrary')}<div class="reader-booktitle">${b.title}</div>${ib('bookmark','sheet','bookmore')}${ib('type','sheet','type')}${ib('more','sheet','readmore')}</div>`:''}<div class="reader-text" data-act="readerToggle"><div class="chapter-kicker">${b.author.toUpperCase()}</div><h2>${chapter.title}</h2>${chapter.ps.map(p=>`<p>${p}</p>`).join('')}</div></div>`;
+}
+function bottomNav(){
+ if(state.screen==='reader'){
+ const b=book(state.book),pct=Math.min(100,Math.round(state.page/b.pages*100));
+ if(!state.toolbar)return state.switches.progress?`<div class="hidden-progress">${pct}% · ${state.page}/${b.pages}</div>`:'';
+ return `<div class="reader-progress"><div class="reader-progress-top"><span>${pct}% прочитано</span><span>${state.page} / ${b.pages}</span></div><div class="reader-progress-controls"><button data-act="prev" aria-label="Предыдущая страница">${icon('prev')}</button><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div><button data-act="next" aria-label="Следующая страница">${icon('next')}</button></div></div>`;
+ }
+ return `<div class="bottom-nav" role="navigation" aria-label="Основная навигация">${[['library','book','Книги'],['folders','folder','Полки'],['favorites','heart','Избранное'],['settings','settings','Настройки']].map(([id,i,label])=>`<button class="bottom-item ${state.screen===id?'active':''}" data-act="nav" data-val="${id}" aria-current="${state.screen===id?'page':'false'}">${icon(i)}<span>${label}</span></button>`).join('')}</div>`;
+}
+function sheetHtml(){
+ if(!state.sheet)return '';
+ let inner='',title='Дополнительные параметры';
+ if(state.sheet==='sort'){
+  title='Сортировка';inner=[['recent','Недавно открытые'],['title','По названию'],['progress','По прогрессу']].map(([id,label])=>`<button class="sheet-item ${state.sort===id?'active':''}" data-act="sort" data-val="${id}">${icon('sort',18)}<span>${label}</span>${state.sort===id?icon('check',18):''}</button>`).join('');
+ }else if(state.sheet==='type'){
+  title='Оформление текста';inner=`<h3 style="font-size:13px">Для открытой книги</h3>${slider('font','Размер текста',15,27,1,' px')}${slider('spacing','Межстрочный интервал',1.3,2.1,.05,'')}<div class="info-panel">Изменения сразу применяются к странице.</div>`;
+ }else if(state.sheet==='readmore'){
+  title='Инструменты чтения';inner=`<button class="sheet-item" data-act="readerToggle">${icon('book')}<span>Скрыть панели</span></button><button class="sheet-item" data-act="sheet" data-val="type">${icon('type')}<span>Шрифт и интервалы</span></button><button class="sheet-item" data-act="theme" data-val="${state.theme==='oled'?'cream':'oled'}">${icon('moon')}<span>Светлая / тёмная тема</span></button>`;
+ }else if(state.sheet==='bookmore'){
+  title='Действия с книгой';inner=`<button class="sheet-item" data-act="favorite" data-val="${state.book}">${icon('heart')}<span>Добавить / убрать из избранного</span></button>`;
+ }else{
+  inner='<div class="info-panel">Системная операция предусмотрена в ТЗ, но не выполняется в браузерном прототипе.</div>';
+ }
+ return `<button class="sheet-dismiss" data-act="closeSheet" aria-label="Закрыть окно"></button><div class="sheet" role="dialog" aria-modal="true" aria-label="${title}"><div class="sheet-handle"></div><div class="sheet-title"><strong>${title}</strong>${ib('close','closeSheet')}</div>${inner}</div>`;
+}
+const palettes={
+cream:{title:'Cream / Warm Paper',desc:'Спокойные кофейные оттенки и высокий контраст. Основной вариант для смартфона.',text:'#352B25',sub:'#62564B',note:'Кремовая бумага, тёплые карточки, насыщенные заголовки. Прогресс — приглушённый шалфейный.'},
+oled:{title:'OLED / Soft White',desc:'Настоящий чёрный фон страницы. Текст — мягкий тёплый серый без яркого белого.',text:'#D4CEC6',sub:'#9B938B',note:'Фон чтения #000000. Панели #161616. Никакой белой вспышки при открытии страницы.'},
+eink:{title:'E-Ink / Meebook M8C',desc:'Контрастные контуры, неброский цвет. Без анимации и полупрозрачных эффектов.',text:'#1C2820',sub:'#49574C',note:'Плоские поверхности, явные границы, минимум обновлений. Режим обновления дисплея задаётся в Android, а не CSS.'}
+};
+function draw(scrollTop=false){
+ const oldScroll=screen.scrollTop;
+ root.dataset.theme=state.theme;
+ root.querySelectorAll('.theme-tab').forEach(el=>{const active=el.dataset.val===state.theme;el.classList.toggle('active',active);el.setAttribute('aria-pressed',String(active));});
+ screen.innerHTML=(state.screen==='library'||state.screen==='favorites')?library():state.screen==='folders'?folders():state.screen==='reader'?reader():settings();
+ nav.innerHTML=bottomNav();overlay.hidden=!state.sheet;overlay.innerHTML=sheetHtml();
+ screen.scrollTop=scrollTop?0:oldScroll;
+ document.getElementById('scene-links').innerHTML=[['library','book','Библиотека'],['reader','book','Режим чтения'],['settings','settings','Настройки'],['folders','folder','Коллекции']].map(([id,i,label])=>`<button class="scene-link ${state.screen===id?'active':''}" data-act="nav" data-val="${id}">${icon(i,19)}<span>${label}</span>${icon('right',16)}</button>`).join('');
+ const p=palettes[state.theme];
+ document.getElementById('palette-title').textContent=p.title;
+ document.getElementById('palette-desc').textContent=p.desc;
+ document.getElementById('primary-hex').textContent=p.text;
+ document.getElementById('secondary-hex').textContent=p.sub;
+ document.getElementById('device-note').innerHTML=`<strong>${p.title}</strong>${p.note}`;
+}
+root.addEventListener('click',event=>{
+ const el=event.target.closest('[data-act]');if(!el||!root.contains(el))return;
+ const action=el.dataset.act,value=el.dataset.val;let reset=false;
+ if(action==='theme'){state.theme=value;state.sheet=null;saveTheme(value);}
+ else if(action==='nav'){state.screen=value;state.category=null;state.sheet=null;state.searchOpen=false;state.query='';reset=true;}
+ else if(action==='category'){state.screen='settings';state.category=value;state.sheet=null;reset=true;}
+ else if(action==='settingsBack'){state.category=null;reset=true;}
+ else if(action==='goLibrary'){state.screen='library';state.sheet=null;reset=true;}
+ else if(action==='read'){state.book=value||state.book;state.page=value==='picnic'?154:value==='ocean'?478:147;state.screen='reader';state.toolbar=true;state.sheet=null;reset=true;}
+ else if(action==='folderOpen'){state.screen='library';state.filter='all';reset=true;}
+ else if(action==='filter'){state.filter=value;reset=true;}
+ else if(action==='layout'){state.layout=state.layout==='list'?'grid':'list';}
+ else if(action==='search'){state.searchOpen=!state.searchOpen;if(!state.searchOpen)state.query='';}
+ else if(action==='sheet'){state.sheet=value;}
+ else if(action==='closeSheet'){state.sheet=null;}
+ else if(action==='sort'){state.sort=value;state.sheet=null;}
+ else if(action==='readerToggle'){state.toolbar=!state.toolbar;state.sheet=null;}
+ else if(action==='prev'){state.page=Math.max(1,state.page-1);reset=true;}
+ else if(action==='next'){state.page=Math.min(book(state.book).pages,state.page+1);reset=true;}
+ else if(action==='favorite'){state.favorites=state.favorites.includes(value)?state.favorites.filter(x=>x!==value):[...state.favorites,value];state.sheet=null;}
+ else if(action==='toggle'){state.switches[value]=!state.switches[value];}
+ else return;
+ draw(reset);
+ if(action==='search'&&state.searchOpen)screen.querySelector('[data-input=search]')?.focus();
+});
+root.addEventListener('input',event=>{
+ const key=event.target.dataset.input;if(!key)return;
+ if(key==='search'){
+  const pos=event.target.selectionStart;state.query=event.target.value;draw();const input=screen.querySelector('[data-input=search]');if(input){input.focus();try{input.setSelectionRange(pos,pos);}catch(_){}}return;
+ }
+ if(key==='font'||key==='spacing'){
+  state[key]=Number(event.target.value);root.querySelectorAll(`[data-rangelabel="${key}"]`).forEach(label=>label.textContent=state[key]+(key==='font'?' px':''));
+  const readerEl=screen.querySelector('.reader-page');if(readerEl)readerEl.style.setProperty(key==='font'?'--font-size':'--line-height',state[key]+(key==='font'?'px':''));
+ }
+});
+root.addEventListener('keydown',event=>{
+ if(event.key==='Escape'&&state.sheet){state.sheet=null;draw();return;}
+ if(event.key==='Enter'||event.key===' '){const row=event.target.closest('.book-row[role=button]');if(row){event.preventDefault();state.book=row.dataset.val;state.screen='reader';state.toolbar=true;state.sheet=null;draw(true);}}
+});
+draw(true);
+})();
+
+</script>
+</body>
+</html>
