@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import com.foobnix.model.AppBook;
+import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.R;
 import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.wrapper.DocumentController;
@@ -47,6 +48,7 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
     private BookCSS draft;
     private boolean foliate;
     private boolean defaults;
+    private int themePreset;
 
     @Override public int getTheme() {
         return ThemeManager.isEink() ? R.style.ReaderAppearanceDialog_Eink
@@ -145,75 +147,90 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
         if (settingsDefaults) draft.applyAppearanceSnapshot(BookCSS.get().defaultAppearance);
         if (state != null) draft.applyAppearanceSnapshot(state.getString("draft"));
         defaults = settingsDefaults || state != null && state.getBoolean("defaults");
-        if (!settingsDefaults && !controller.isTextFormat()) {
-            root.addView(label(R.string.reader_fixed_layout_appearance, 16));
-            Button close = new Button(c);
-            close.setText(R.string.close);
-            close.setOnClickListener(v -> dismiss());
-            root.addView(close);
-            return root;
-        }
-        RadioGroup scope = new RadioGroup(c);
-        RadioButton book = new RadioButton(c);
-        book.setId(View.generateViewId());
-        book.setText(R.string.reader_this_book);
-        book.setMinHeight(dp(48));
-        book.setTextColor(ThemeManager.color(c, R.attr.appOnSurface));
-        RadioButton all = new RadioButton(c);
-        all.setId(View.generateViewId());
-        all.setText(R.string.reader_default_books);
-        all.setMinHeight(dp(48));
-        all.setTextColor(ThemeManager.color(c, R.attr.appOnSurface));
-        scope.addView(book); scope.addView(all);
-        scope.check(defaults ? all.getId() : book.getId());
-        scope.setOnCheckedChangeListener((group, checked) -> defaults = checked == all.getId());
-        if (!settingsDefaults) root.addView(scope);
+        themePreset = state != null ? state.getInt("themePreset", AppState.get().appTheme)
+                : AppState.get().appTheme;
         ScrollView scroll = new ScrollView(c);
         LinearLayout controls = column(c);
         scroll.addView(controls);
-        controls.addView(slider(R.string.font_size, draft.fontSize(foliate), 10, 70,
-                value -> draft.setFontSize(foliate, value)));
-        controls.addView(slider(R.string.line_spacing, draft.lineHeight(foliate), 10, 30,
-                value -> draft.setLineHeight(foliate, value)));
-        controls.addView(fonts());
-        controls.addView(slider(R.string.reader_margin_top, draft.marginTop(foliate), 0, 50,
-                value -> draft.setMarginTop(foliate, value)));
-        controls.addView(slider(R.string.reader_margin_bottom, draft.marginBottom(foliate), 0, 50,
-                value -> draft.setMarginBottom(foliate, value)));
-        controls.addView(slider(R.string.reader_margin_sides, draft.marginLeft(foliate), 0, 50,
-                value -> { draft.setMarginLeft(foliate, value); draft.setMarginRight(foliate, value); }));
-        controls.addView(choice(R.string.text_align,
-                new String[]{getString(R.string.width), getString(R.string.left),
-                        getString(R.string.right), getString(R.string.center)},
-                draft.textAlign, value -> draft.textAlign = value));
-        controls.addView(slider(R.string.indent, draft.textIndent, 0, 30, value -> draft.textIndent = value));
-        controls.addView(slider(R.string.paragraph_spacing, draft.paragraphHeight, 0, 20,
-                value -> draft.paragraphHeight = value));
-        CheckBox hyphens = new CheckBox(c);
-        hyphens.setText(R.string.automatic_hyphenation);
-        hyphens.setTextColor(ThemeManager.color(c, R.attr.appOnSurface));
-        hyphens.setMinHeight(dp(48));
-        hyphens.setChecked(draft.isAutoHypens);
-        hyphens.setOnCheckedChangeListener((button, checked) -> draft.isAutoHypens = checked);
-        controls.addView(hyphens);
+        int[] presets = {AppState.THEME_LIGHT, AppState.THEME_DARK_OLED, AppState.THEME_INK};
+        int selectedPreset = themePreset == AppState.THEME_LIGHT ? 0
+                : themePreset == AppState.THEME_INK ? 2 : 1;
+        controls.addView(choice(R.string.settings_palettes,
+                new String[]{"Cream", "OLED Black", "E-Ink Color"}, selectedPreset,
+                value -> themePreset = presets[value]));
+        boolean typography = settingsDefaults || controller.isTextFormat();
+        if (!typography) {
+            controls.addView(label(R.string.reader_fixed_layout_appearance, 16));
+        } else {
+            RadioGroup scope = new RadioGroup(c);
+            RadioButton book = new RadioButton(c);
+            book.setId(View.generateViewId());
+            book.setText(R.string.reader_this_book);
+            book.setMinHeight(dp(48));
+            book.setTextColor(ThemeManager.color(c, R.attr.appOnSurface));
+            RadioButton all = new RadioButton(c);
+            all.setId(View.generateViewId());
+            all.setText(R.string.reader_default_books);
+            all.setMinHeight(dp(48));
+            all.setTextColor(ThemeManager.color(c, R.attr.appOnSurface));
+            scope.addView(book); scope.addView(all);
+            scope.check(defaults ? all.getId() : book.getId());
+            scope.setOnCheckedChangeListener((group, checked) -> defaults = checked == all.getId());
+            if (!settingsDefaults) controls.addView(scope);
+            controls.addView(slider(R.string.font_size, draft.fontSize(foliate), 10, 70,
+                    value -> draft.setFontSize(foliate, value)));
+            controls.addView(slider(R.string.line_spacing, draft.lineHeight(foliate), 10, 30,
+                    value -> draft.setLineHeight(foliate, value)));
+            controls.addView(fonts());
+            controls.addView(slider(R.string.reader_margin_top, draft.marginTop(foliate), 0, 50,
+                    value -> draft.setMarginTop(foliate, value)));
+            controls.addView(slider(R.string.reader_margin_bottom, draft.marginBottom(foliate), 0, 50,
+                    value -> draft.setMarginBottom(foliate, value)));
+            controls.addView(slider(R.string.reader_margin_sides, draft.marginLeft(foliate), 0, 50,
+                    value -> { draft.setMarginLeft(foliate, value); draft.setMarginRight(foliate, value); }));
+            controls.addView(choice(R.string.text_align,
+                    new String[]{getString(R.string.width), getString(R.string.left),
+                            getString(R.string.right), getString(R.string.center)},
+                    draft.textAlign, value -> draft.textAlign = value));
+            controls.addView(slider(R.string.indent, draft.textIndent, 0, 30, value -> draft.textIndent = value));
+            controls.addView(slider(R.string.paragraph_spacing, draft.paragraphHeight, 0, 20,
+                    value -> draft.paragraphHeight = value));
+            CheckBox hyphens = new CheckBox(c);
+            hyphens.setText(R.string.automatic_hyphenation);
+            hyphens.setTextColor(ThemeManager.color(c, R.attr.appOnSurface));
+            hyphens.setMinHeight(dp(48));
+            hyphens.setChecked(draft.isAutoHypens);
+            hyphens.setOnCheckedChangeListener((button, checked) -> draft.isAutoHypens = checked);
+            controls.addView(hyphens);
+        }
         root.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1));
         Button apply = new Button(c);
         apply.setText(R.string.apply);
         apply.setMinHeight(dp(48));
+        apply.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                ThemeManager.color(c, R.attr.appPrimary)));
+        apply.setTextColor(ThemeManager.color(c, R.attr.appOnPrimary));
         apply.setOnClickListener(v -> {
             if (settingsDefaults) {
                 BookCSS.get().updateDefaultAppearance(requireContext(), draft.appearanceSnapshot());
                 dismiss();
+                if (themePreset != AppState.get().appTheme) ThemeManager.select(requireActivity(), themePreset);
                 return;
             }
             controller.saveCurrentPageAsync();
-            AppBook settings = SettingsManager.getBookSettings();
-            BookCSS css = BookCSS.get();
-            css.applyAppearanceSnapshot(draft.appearanceSnapshot());
-            css.setAppearanceScope(settings, defaults);
-            SharedBooks.save(settings);
+            if (typography) {
+                AppBook settings = SettingsManager.getBookSettings();
+                BookCSS css = BookCSS.get();
+                css.applyAppearanceSnapshot(draft.appearanceSnapshot());
+                css.setAppearanceScope(settings, defaults);
+                SharedBooks.save(settings);
+            }
             dismiss();
-            controller.restartActivity();
+            if (themePreset != AppState.get().appTheme) {
+                ThemeManager.select(requireActivity(), themePreset);
+            } else if (typography) {
+                controller.restartActivity();
+            }
         });
         root.addView(apply);
         return root;
@@ -252,6 +269,7 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
         super.onSaveInstanceState(state);
         if (draft != null) state.putString("draft", draft.appearanceSnapshot());
         state.putBoolean("defaults", defaults);
+        state.putInt("themePreset", themePreset);
     }
 
     private interface Change { void set(int value); }

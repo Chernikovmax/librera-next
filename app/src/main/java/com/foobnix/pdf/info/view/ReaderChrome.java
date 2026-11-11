@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.accessibility.AccessibilityManager;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,7 +28,9 @@ public final class ReaderChrome {
     private final RelativeLayout root;
     private final LinearLayout top, bottom;
     private final TextView title, progress, pages;
-    private final SeekBar seek;
+    private final SeekBar seek, filterSeek;
+    private final CheckBox filterEnabled;
+    private final TextView filterAmount;
     private final java.util.List<ImageButton> buttons = new java.util.ArrayList<>();
     private final ImageButton previous, next;
     private Runnable onAutoHide;
@@ -35,7 +38,7 @@ public final class ReaderChrome {
         @Override public void run() {
             AccessibilityManager accessibility = (AccessibilityManager)
                     root.getContext().getSystemService(android.content.Context.ACCESSIBILITY_SERVICE);
-            if (!root.hasWindowFocus() || seek.isPressed() || top.hasFocus() || bottom.hasFocus()
+            if (!root.hasWindowFocus() || seek.isPressed() || filterSeek.isPressed() || top.hasFocus() || bottom.hasFocus()
                     || (accessibility != null && accessibility.isTouchExplorationEnabled())) {
                 root.postDelayed(this, 5000);
             } else if (onAutoHide != null) {
@@ -84,6 +87,45 @@ public final class ReaderChrome {
         pages.setTextSize(12);
         counts.addView(pages, new LinearLayout.LayoutParams(-2, -2));
         bottom.addView(counts);
+        LinearLayout filter = new LinearLayout(root.getContext());
+        filter.setOrientation(LinearLayout.VERTICAL);
+        filter.setPadding(dp(12), 0, dp(12), 0);
+        LinearLayout filterCaption = new LinearLayout(root.getContext());
+        filterCaption.setGravity(Gravity.CENTER_VERTICAL);
+        filterEnabled = new CheckBox(root.getContext());
+        filterEnabled.setText(R.string.bluelight_filter);
+        filterEnabled.setMinHeight(dp(48));
+        filterCaption.addView(filterEnabled, new LinearLayout.LayoutParams(0, -2, 1));
+        filterAmount = new TextView(root.getContext());
+        filterCaption.addView(filterAmount);
+        filter.addView(filterCaption);
+        filterSeek = new SeekBar(root.getContext());
+        filterSeek.setMax(99);
+        filterSeek.setMinimumHeight(dp(48));
+        filterSeek.setContentDescription(root.getContext().getString(R.string.bluelight_filter));
+        filter.addView(filterSeek, new LinearLayout.LayoutParams(-1, dp(48)));
+        filterEnabled.setOnCheckedChangeListener((button, checked) -> {
+            BrightnessHelper.isEnableBlueFilter(checked);
+            applyFilter();
+            scheduleHide();
+        });
+        filterSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override public void onProgressChanged(SeekBar bar, int value, boolean user) {
+                if (!user) return;
+                BrightnessHelper.blueLightAlpha(value);
+                BrightnessHelper.isEnableBlueFilter(value > 0);
+                filterEnabled.setChecked(value > 0);
+                filterAmount.setText(value + "%");
+                applyFilter();
+            }
+            @Override public void onStartTrackingTouch(SeekBar bar) { root.removeCallbacks(timeout); }
+            @Override public void onStopTrackingTouch(SeekBar bar) {
+                AppState.get().save(root.getContext());
+                scheduleHide();
+            }
+        });
+        filter.setVisibility(com.foobnix.android.utils.Dips.isEInk() ? View.GONE : View.VISIBLE);
+        bottom.addView(filter);
         LinearLayout row = new LinearLayout(root.getContext());
         row.setGravity(Gravity.CENTER_VERTICAL);
         previous = button(row, R.drawable.glyphicons_223_chevron_left, R.string.previous_page, v -> previousPage.run());
@@ -112,12 +154,18 @@ public final class ReaderChrome {
         setVisible(false);
     }
 
+    private void applyFilter() {
+        BrightnessHelper.updateOverlay(dc.getActivity().findViewById(R.id.overlay));
+    }
+
     private final View.OnLayoutChangeListener layoutListener = (v,l,t,r,b,ol,ot,or,ob) -> updateInsets();
 
     private int dp(int value) { return Math.round(value * root.getResources().getDisplayMetrics().density); }
     private LinearLayout panel(int orientation) {
         LinearLayout view = new LinearLayout(root.getContext());
         view.setOrientation(orientation);
+        // This panel owns its palette; legacy link tinting forces reader sliders white.
+        view.setTag("no_tint");
         view.setPadding(dp(4), dp(4), dp(4), dp(4));
         view.setClickable(true);
         // Consume page taps without becoming an empty keyboard/TalkBack stop.
@@ -164,6 +212,11 @@ public final class ReaderChrome {
     public void setVisible(boolean visible) {
         top.setVisibility(visible ? View.VISIBLE : View.GONE);
         bottom.setVisibility(visible ? View.VISIBLE : View.GONE);
+        if (visible) {
+            filterSeek.setProgress(BrightnessHelper.blueLightAlpha());
+            filterAmount.setText(BrightnessHelper.blueLightAlpha() + "%");
+            filterEnabled.setChecked(BrightnessHelper.isEnableBlueFilter());
+        }
         if (visible) { top.bringToFront(); bottom.bringToFront(); updateInsets(); scheduleHide(); }
         else root.removeCallbacks(timeout);
     }
@@ -182,6 +235,7 @@ public final class ReaderChrome {
         int surface = ThemeManager.color(root.getContext(), R.attr.appSurface);
         int outline = ThemeManager.color(root.getContext(), R.attr.appOutline);
         int success = ThemeManager.color(root.getContext(), R.attr.appSuccess);
+        int track = androidx.core.graphics.ColorUtils.blendARGB(surface, foreground, .60f);
         for (LinearLayout panel : new LinearLayout[]{top, bottom}) {
             GradientDrawable shape = new GradientDrawable();
             shape.setColor(surface);
@@ -198,8 +252,14 @@ public final class ReaderChrome {
             button.setImageDrawable(button.getDrawable().mutate());
             button.setColorFilter(foreground);
         }
+        filterEnabled.setTextColor(foreground);
+        filterEnabled.setButtonTintList(ColorStateList.valueOf(success));
+        filterAmount.setTextColor(ThemeManager.color(root.getContext(), R.attr.appOnSurfaceVariant));
+        filterSeek.setProgressTintList(ColorStateList.valueOf(success));
+        filterSeek.setProgressBackgroundTintList(ColorStateList.valueOf(track));
+        filterSeek.setThumbTintList(ColorStateList.valueOf(success));
         seek.setProgressTintList(ColorStateList.valueOf(success));
-        seek.setProgressBackgroundTintList(ColorStateList.valueOf(outline));
+        seek.setProgressBackgroundTintList(ColorStateList.valueOf(track));
         seek.setThumbTintList(ColorStateList.valueOf(success));
     }
     public void destroy() { root.removeCallbacks(timeout); root.removeOnLayoutChangeListener(layoutListener); }

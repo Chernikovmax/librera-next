@@ -6,6 +6,13 @@ Release builds: https://github.com/foobnix/LibreraReader/releases · [Unreleased
 
 ## Unreleased
 
+* Add Cream, OLED Black, and E-Ink Color presets to the Appearance sheet, including fixed-layout documents; Apply saves the selection and closing discards it.
+* Give the Appearance sheet an accent-colored Apply button with contrasting text in every palette.
+
+* Preserve palette-aware reader slider colors against legacy white tinting and increase inactive-track contrast on the floating reader controls.
+
+* Add an instant blue-light filter toggle and intensity slider to the center-tap reader controls, reusing separate day/night settings without changing screen brightness.
+
 * Add fixed Cream, OLED Black, and E-Ink Color interface palettes with persistent selection.
 * Preserve the open settings panel and scroll position when switching palettes.
 * Use semantic header foregrounds and contrast-aware status icons; remove decorative elevation from E-Ink navigation and book cards.

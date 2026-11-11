@@ -18,6 +18,10 @@ Negative brightness enables the bluelight filter and color Black by default.
 |-|-|-|
 |![](1.png)|![](2.png)|![](3.png)|
 
+**Quick reader controls**
+
+Tap the center of the page to show the reader controls. Above the page navigation, use **Bluelight Filter** to turn the filter on or off, or drag its intensity slider for an immediate preview. Moving the slider to 0% turns the filter off; the checkbox lets you disable it without losing the selected intensity. The existing filter color is retained, and day/night intensities are saved separately. These controls do not change screen brightness and are hidden on E-Ink devices.
+
 **Bluelight Filter**
 > Bluelight filter depends on your brightness setting, it turns on automatically when the brightness setting has a negative value.
 
