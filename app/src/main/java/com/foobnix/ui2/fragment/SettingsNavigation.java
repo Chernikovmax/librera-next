@@ -102,7 +102,7 @@ final class SettingsNavigation {
             choice.setBackground(shape(androidx.core.content.ContextCompat.getColor(activity, backgrounds[i]),
                     selected ? color(R.attr.appPrimary) : color(R.attr.appOutline), 18));
             choice.setSelected(selected);
-            choice.setOnClickListener(v -> ThemeManager.select(activity, preset));
+            choice.setOnClickListener(v -> ThemeManager.select(activity, preset, activity::recreate));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
             params.bottomMargin = dp(10);
             palettes.addView(choice, params);

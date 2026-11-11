@@ -82,7 +82,7 @@ Implemented:
 
 - Semantic background, surface, text, primary, outline, selection, and reader color resources, with three fixed theme overlays and shared text styles.
 - `ThemeManager` applies the palette before activity creation. The Appearance palette cards persist the choice using the existing profile storage; system dynamic colors do not override it.
-- Settings remain open at their previous scroll position after a palette change. Library navigation and reader activities use the same selected palette without changing document inversion or reading preferences.
+- Settings remain open at their previous scroll position after a palette change. Library navigation and reader activities use the same selected palette. Explicit preset selection also applies its page background/text colors and day/night mode, disabling the active background texture; typography and library contents remain unchanged.
 - Header and status-bar foregrounds follow their painted backgrounds, including the translucent floating header.
 - E-Ink uses static selectors, flat navigation/cards, and visible card borders instead of decorative elevation. Other palettes retain existing shadow preferences.
 
@@ -90,7 +90,7 @@ This completes the palette integration, not the whole design-system checklist. L
 
 Validation: debug APK and instrumentation APK built locally. `ThemePaletteContrastTest` passed for all three palettes over both legacy theme parents. A 320×640 Android 36 emulator exercised all three settings palettes, selection/scroll restoration, persistence across process restart, and opening an existing Alice EPUB in the paged MuPDF reader. OLED library header and status icons were visually checked after fixing legacy white foreground overrides. Physical Meebook/Honor devices and PDF rendering were not checked.
 
-Manual smoke: open Settings → Appearance, select each palette card, confirm the category and settings position are retained, restart the app, and open an existing book. Compare the palette with the HTML reference; document colors and library contents must remain unchanged.
+Manual smoke: open Settings → Appearance, select each palette card, confirm the category and settings position are retained, restart the app, and open an existing book. Check the matching page colors: Cream #F6EFE3/#352B25, OLED Black #000000/#D4CEC6, and E-Ink Color #FFFFF6/#1C2820 (background/text). Library contents must remain unchanged.
 
 ## Library home — implementation status
 

@@ -214,7 +214,7 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
             if (settingsDefaults) {
                 BookCSS.get().updateDefaultAppearance(requireContext(), draft.appearanceSnapshot());
                 dismiss();
-                if (themePreset != AppState.get().appTheme) ThemeManager.select(requireActivity(), themePreset);
+                ThemeManager.select(requireActivity(), themePreset, requireActivity()::recreate);
                 return;
             }
             controller.saveCurrentPageAsync();
@@ -226,11 +226,7 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
                 SharedBooks.save(settings);
             }
             dismiss();
-            if (themePreset != AppState.get().appTheme) {
-                ThemeManager.select(requireActivity(), themePreset);
-            } else if (typography) {
-                controller.restartActivity();
-            }
+            ThemeManager.select(requireActivity(), themePreset, controller::restartActivity);
         });
         root.addView(apply);
         return root;

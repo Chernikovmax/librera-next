@@ -8,8 +8,9 @@ import com.foobnix.model.AppProfile;
 import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.R;
 import com.foobnix.pdf.info.TintUtil;
+import com.foobnix.sys.ImageExtractor;
 
-/** Application chrome only; document colors, rendering and reading position stay independent. */
+/** Applies the interface palette; explicitly selecting a preset also sets reading colors. */
 public final class ThemeManager {
     private ThemeManager() {
     }
@@ -55,11 +56,31 @@ public final class ThemeManager {
         TintUtil.color = context.getResources().getColor(primary.resourceId, theme);
     }
 
-    public static void select(Activity activity, int preset) {
+    public static void select(Activity activity, int preset, Runnable reopen) {
         AppState.get().appTheme = preset;
         AppState.get().isSystemThemeColor = false;
+        // Use palette resources, not the Activity theme that still belongs to the previous preset.
+        boolean day = isLight();
+        AppState.get().isDayNotInvert = day;
+        int background = activity.getColor(isEink() ? R.color.app_eink_reader_background
+                : day ? R.color.app_cream_reader_background : R.color.app_oled_reader_background);
+        int text = activity.getColor(isEink() ? R.color.app_eink_on_surface
+                : day ? R.color.app_cream_on_surface : R.color.app_oled_on_surface);
+        if (day) {
+            AppState.get().colorDayBg = background;
+            AppState.get().colorDayText = text;
+            AppState.get().colorDayForeground = AppState.COLOR_DAY_FG;
+            AppState.get().isUseBGImageDay = false;
+        } else {
+            AppState.get().colorNigthBg = background;
+            AppState.get().colorNigthText = text;
+            AppState.get().colorNigthForeground = AppState.COLOR_NIGHT_FG;
+            AppState.get().isUseBGImageNight = false;
+        }
         initialize(activity);
         AppProfile.save(activity);
-        activity.recreate();
+        // A document cached by the library still carries the previous preset's stylesheet.
+        ImageExtractor.clearCodeDocument();
+        reopen.run();
     }
 }

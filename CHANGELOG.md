@@ -6,6 +6,8 @@ Release builds: https://github.com/foobnix/LibreraReader/releases · [Unreleased
 
 ## Unreleased
 
+* Apply matching page background/text colors when choosing an interface preset: Cream #F6EFE3/#352B25, OLED Black #000000/#D4CEC6, E-Ink Color #FFFFF6/#1C2820; disable the active background texture and reopen the document with fresh colors.
+
 * Add Cream, OLED Black, and E-Ink Color presets to the Appearance sheet, including fixed-layout documents; Apply saves the selection and closing discards it.
 * Give the Appearance sheet an accent-colored Apply button with contrasting text in every palette.
 
