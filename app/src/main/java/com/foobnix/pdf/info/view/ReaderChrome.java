@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.accessibility.AccessibilityManager;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -92,17 +93,14 @@ public final class ReaderChrome {
         LinearLayout quick = new LinearLayout(root.getContext());
         quick.setGravity(Gravity.CENTER_VERTICAL);
         quick.setPadding(dp(8), 0, dp(8), 0);
-        contents = quickText(root.getContext().getString(R.string.content_of_book));
+        contents = quickText(quick, root.getContext().getString(R.string.content_of_book));
         contents.setOnClickListener(v -> {
+            if (onAutoHide != null) onAutoHide.run();
             DragingDialogs.dialogShowContent(dc.getActivity().findViewById(R.id.anchor), dc);
-            scheduleHide();
         });
-        quick.addView(contents, new LinearLayout.LayoutParams(0, -2, 1));
         button(quick, R.drawable.reader_palette, R.string.settings_palettes, this::showThemePresets);
-        fontPreset = quickText("");
-        fontPreset.setMinWidth(dp(88));
+        fontPreset = quickText(quick, "");
         fontPreset.setOnClickListener(this::showFontPresets);
-        quick.addView(fontPreset, new LinearLayout.LayoutParams(-2, -2));
         bottom.addView(quick);
         updateFontPreset();
         LinearLayout counts = new LinearLayout(root.getContext());
@@ -182,15 +180,19 @@ public final class ReaderChrome {
         setVisible(false);
     }
 
-    private TextView quickText(String text) {
+    private TextView quickText(LinearLayout row, String text) {
         TextView view = new TextView(root.getContext());
         view.setText(text);
         view.setTextSize(14);
         view.setMinHeight(dp(48));
+        view.setMinWidth(dp(48));
         view.setGravity(Gravity.CENTER);
         view.setPadding(dp(12), dp(8), dp(12), dp(8));
         view.setFocusable(true);
-        view.setBackgroundResource(R.drawable.redesign_toolbar_button);
+        view.setBackgroundResource(R.drawable.reader_quick_button);
+        FrameLayout slot = new FrameLayout(root.getContext());
+        slot.addView(view, new FrameLayout.LayoutParams(-2, -2, Gravity.CENTER));
+        row.addView(slot, new LinearLayout.LayoutParams(0, -2, 1));
         return view;
     }
 

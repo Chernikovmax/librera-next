@@ -6,6 +6,10 @@ Release builds: https://github.com/foobnix/LibreraReader/releases · [Unreleased
 
 ## Unreleased
 
+* Hide reader quick controls before opening Contents in either reading mode, keeping the outline unobstructed and the controls visibility state synchronized.
+
+* Keep Contents and font quick actions compact and balanced around the palette button, with 48dp touch targets and fixed-radius pressed/focus backgrounds instead of stretched ovals.
+
 * Add a single quick-settings row to both reader modes: Contents, three palette presets, and font sizes 14/16/18/20/22; changes persist only for the current book. Keep the upper Aa editor with explicit book/default scope for palettes and typography.
 * Give E-Ink dropdown menus a contrasting outline and 8dp padding on every side.
 
