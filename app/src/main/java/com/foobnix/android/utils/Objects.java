@@ -164,7 +164,8 @@ public class Objects {
     }
 
     public static int appHash() {
-        return Objects.hashCode(BookCSS.get(), AppState.get(), AppSP.get().hypenLang, AppSP.get().isRTL + "");
+        return 31 * Objects.hashCode(BookCSS.get(), AppState.get(), AppSP.get().hypenLang, AppSP.get().isRTL + "")
+                + BookCSS.get().readerTheme();
     }
 
     public static int hashCode(Object... objects) {

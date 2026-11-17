@@ -79,6 +79,34 @@ public class ThemePaletteContrastTest {
         }
     }
 
+    @Test
+    public void einkSpinnerPopupHasPaddingAndVisibleBoundary() {
+        Context base = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
+            ContextThemeWrapper themed = new ContextThemeWrapper(base, R.style.StyledIndicatorsWhite);
+            themed.getTheme().applyStyle(R.style.ThemeOverlay_Librera_Eink, true);
+            android.widget.Spinner spinner = new android.widget.Spinner(themed, android.widget.Spinner.MODE_DROPDOWN);
+            android.graphics.drawable.Drawable background = spinner.getPopupBackground();
+            android.graphics.Rect padding = new android.graphics.Rect();
+            background.getPadding(padding);
+            int minimum = Math.round(8 * themed.getResources().getDisplayMetrics().density);
+            assertTrue("Menu content must be inset from every edge",
+                    padding.left >= minimum && padding.top >= minimum
+                            && padding.right >= minimum && padding.bottom >= minimum);
+            android.graphics.Bitmap bitmap = android.graphics.Bitmap.createBitmap(200, 120,
+                    android.graphics.Bitmap.Config.ARGB_8888);
+            try {
+                background.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
+                background.draw(new android.graphics.Canvas(bitmap));
+                int edge = bitmap.getPixel(0, 60);
+                assertTrue("The menu outline must be opaque", android.graphics.Color.alpha(edge) == 255);
+                assertContrast("E-Ink menu boundary", edge, bitmap.getPixel(100, 60), 3.0);
+            } finally {
+                bitmap.recycle();
+            }
+        });
+    }
+
     private static int color(Context context, int attribute) {
         TypedValue value = new TypedValue();
         assertTrue("Theme does not resolve attribute " + context.getResources().getResourceEntryName(attribute),

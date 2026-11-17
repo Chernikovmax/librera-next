@@ -118,6 +118,9 @@ import java.util.Map;
     public static int TYPE_CREATE_FILE = 3;
     public CloudStorage cloudStorage;
     FileMetaAdapter searchAdapter;
+    private final List<FileMeta> folderItems = new ArrayList<>();
+    private String folderQuery = "";
+    private android.widget.SearchView folderSearch;
     HorizontalScrollView scroller;
     Map<String, Integer> rememberPos = new HashMap<String, Integer>();
 
@@ -249,6 +252,20 @@ import java.util.Map;
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_browse2, container, false);
+
+        folderSearch = view.findViewById(R.id.folderSearch);
+        folderSearch.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+            @Override public boolean onQueryTextSubmit(String query) {
+                folderSearch.clearFocus();
+                return true;
+            }
+
+            @Override public boolean onQueryTextChange(String query) {
+                folderQuery = query.trim().toLowerCase(java.util.Locale.ROOT);
+                displayFilteredItems();
+                return true;
+            }
+        });
 
         Bundle arguments = getArguments();
 
@@ -1138,6 +1155,10 @@ import java.util.Map;
         if (TxtUtils.isEmpty(path)) {
             path = "/";
         }
+        if (folderSearch != null) {
+            folderSearch.setQuery("", false);
+            folderSearch.clearFocus();
+        }
         LOG.d("Display-path", path);
         isRestorePos = false;
         AppState.get().displayPath = path;
@@ -1185,6 +1206,25 @@ import java.util.Map;
     }
 
     public void displayItems(List<FileMeta> items) {
+        folderItems.clear();
+        folderItems.addAll(items);
+        displayFilteredItems();
+    }
+
+    private void displayFilteredItems() {
+        List<FileMeta> items = new ArrayList<>();
+        for (FileMeta item : folderItems) {
+            String name = item.getTitle();
+            if (TxtUtils.isEmpty(name)) {
+                name = item.getPathTxt();
+            }
+            if (TxtUtils.isEmpty(name)) {
+                name = new File(item.getPath()).getName();
+            }
+            if (folderQuery.isEmpty() || name.toLowerCase(java.util.Locale.ROOT).contains(folderQuery)) {
+                items.add(item);
+            }
+        }
         itemsCount = items.size();
         if (searchAdapter == null) {
             return;

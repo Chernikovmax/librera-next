@@ -102,6 +102,8 @@
         <item name="android:listPopupWindowStyle">@style/Widget.Librera.ListPopupWindow.Eink</item>
         <item name="popupMenuStyle">@style/Widget.Librera.PopupMenuCompat.Eink</item>
         <item name="listPopupWindowStyle">@style/Widget.Librera.ListPopupWindowCompat.Eink</item>
+        <item name="android:spinnerStyle">@style/Widget.Librera.Spinner.Eink</item>
+        <item name="spinnerStyle">@style/Widget.Librera.SpinnerCompat.Eink</item>
     </style>
 
     <style name="ThemeOverlay.Librera.Dialog" parent="@android:style/Theme.Material.Light.Dialog.Alert">
@@ -144,6 +146,7 @@
         <item name="android:dropDownSelector">?android:attr/selectableItemBackground</item>
     </style>
     <style name="Widget.Librera.PopupMenu.Eink" parent="Widget.Librera.PopupMenu">
+        <item name="android:popupBackground">@drawable/redesign_popup_background_eink</item>
         <item name="android:popupElevation">0dp</item>
         <item name="android:popupAnimationStyle">@null</item>
         <item name="android:dropDownSelector">@drawable/redesign_eink_selectable</item>
@@ -154,6 +157,7 @@
     </style>
 
     <style name="Widget.Librera.PopupMenuCompat.Eink" parent="Widget.Librera.PopupMenuCompat">
+        <item name="android:popupBackground">@drawable/redesign_popup_background_eink</item>
         <item name="android:popupElevation">0dp</item>
         <item name="android:popupAnimationStyle">@null</item>
         <item name="android:dropDownSelector">@drawable/redesign_eink_selectable</item>
@@ -165,6 +169,7 @@
     </style>
 
     <style name="Widget.Librera.ListPopupWindow.Eink" parent="Widget.Librera.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/redesign_popup_background_eink</item>
         <item name="android:popupElevation">0dp</item>
         <item name="android:popupAnimationStyle">@null</item>
         <item name="android:dropDownSelector">@drawable/redesign_eink_selectable</item>
@@ -176,9 +181,21 @@
     </style>
 
     <style name="Widget.Librera.ListPopupWindowCompat.Eink" parent="Widget.Librera.ListPopupWindowCompat">
+        <item name="android:popupBackground">@drawable/redesign_popup_background_eink</item>
         <item name="android:popupElevation">0dp</item>
         <item name="android:popupAnimationStyle">@null</item>
         <item name="android:dropDownSelector">@drawable/redesign_eink_selectable</item>
+    </style>
+
+    <style name="Widget.Librera.Spinner.Eink" parent="@android:style/Widget.Material.Spinner.Underlined">
+        <item name="android:popupBackground">@drawable/redesign_popup_background_eink</item>
+        <item name="android:popupElevation">0dp</item>
+        <item name="android:popupAnimationStyle">@null</item>
+    </style>
+    <style name="Widget.Librera.SpinnerCompat.Eink" parent="Widget.AppCompat.Spinner">
+        <item name="android:popupBackground">@drawable/redesign_popup_background_eink</item>
+        <item name="android:popupElevation">0dp</item>
+        <item name="android:popupAnimationStyle">@null</item>
     </style>
 
     <style name="TextAppearance.Librera.ScreenTitle" parent="@android:style/TextAppearance.Material">

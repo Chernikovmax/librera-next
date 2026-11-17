@@ -6,6 +6,14 @@ Release builds: https://github.com/foobnix/LibreraReader/releases · [Unreleased
 
 ## Unreleased
 
+* Add a single quick-settings row to both reader modes: Contents, three palette presets, and font sizes 14/16/18/20/22; changes persist only for the current book. Keep the upper Aa editor with explicit book/default scope for palettes and typography.
+* Give E-Ink dropdown menus a contrasting outline and 8dp padding on every side.
+
+* Keep the Appearance sheet’s Apply button visible in E-Ink by giving it an opaque accent background instead of tinting the transparent E-Ink selector.
+
+* Keep grid covers at their configured large size instead of applying list-row sizing.
+* Add instant, case-insensitive name search with query clearing to the current folder, including storage-provider and cloud listings.
+
 * Apply matching page background/text colors when choosing an interface preset: Cream #F6EFE3/#352B25, OLED Black #000000/#D4CEC6, E-Ink Color #FFFFF6/#1C2820; disable the active background texture and reopen the document with fresh colors.
 
 * Add Cream, OLED Black, and E-Ink Color presets to the Appearance sheet, including fixed-layout documents; Apply saves the selection and closing discards it.

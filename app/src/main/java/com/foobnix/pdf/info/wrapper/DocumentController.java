@@ -197,7 +197,7 @@ public abstract class DocumentController {
         if(c==null){
             return false;
         }
-        return Dips.isEInk() || AppState.get().appTheme == AppState.THEME_INK;
+        return Dips.isEInk() || com.foobnix.ui2.ThemeManager.isEink(c);
 
     }
 

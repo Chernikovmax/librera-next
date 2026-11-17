@@ -44,6 +44,7 @@ public class MagicHelper {
 
         builder.append(Objects.hashCode(AppState.get()));
         builder.append(Objects.hashCode(BookCSS.get()));
+        builder.append(':').append(BookCSS.get().readerTheme());
 
         return builder.toString()
                       .hashCode();
@@ -154,6 +155,7 @@ public class MagicHelper {
     }
 
     public static boolean isNeedMagic() {
+        if (BookCSS.get().readerTheme() != -1) return true;
 
         boolean isDay = AppState.get().isDayNotInvert && //
                 (AppState.get().colorDayBg != AppState.COLOR_WHITE || //
@@ -167,6 +169,7 @@ public class MagicHelper {
     }
 
     public static boolean isNeedMagicSimple() {
+        if (BookCSS.get().readerTheme() != -1) return true;
         boolean isDay = AppState.get().isDayNotInvert && //
                 (AppState.get().colorDayBg != AppState.COLOR_WHITE || //
                         AppState.get().colorDayText != AppState.COLOR_BLACK); //
@@ -174,6 +177,7 @@ public class MagicHelper {
     }
 
     public static boolean isNeedBookBackgroundImage() {
+        if (BookCSS.get().readerTheme() != -1) return false;
         return (!AppState.get().isDayNotInvert && AppState.get().isUseBGImageNight) || (AppState.get().isDayNotInvert && AppState.get().isUseBGImageDay);
     }
 
@@ -405,10 +409,14 @@ public class MagicHelper {
     }
 
     public static int getTextColor() {
+        int preset = BookCSS.get().readerTheme();
+        if (preset != -1) return LibreraApp.context.getColor(com.foobnix.ui2.ThemeManager.readerTextResource(preset));
         return AppState.get().isDayNotInvert ? AppState.get().colorDayText : AppState.get().colorNigthText;
     }
 
     public static int getBgColor() {
+        int preset = BookCSS.get().readerTheme();
+        if (preset != -1) return LibreraApp.context.getColor(com.foobnix.ui2.ThemeManager.readerBackgroundResource(preset));
         if (AppState.get().isDayNotInvert && AppState.get().isUseBGImageDay) {
             // return Color.parseColor("#EFEBDE");
         }
@@ -420,6 +428,7 @@ public class MagicHelper {
     }
 
     public static int getForegroundColor() {
+        if (BookCSS.get().readerTheme() != -1) return getBgColor();
         return AppState.get().isDayNotInvert ? AppState.get().colorDayForeground : AppState.get().colorNigthForeground;
     }
 
@@ -507,11 +516,11 @@ public class MagicHelper {
     }
 
     public static int getPageMarkColor() {
-        return AppState.get().isDayNotInvert ? AppState.get().colorDayText : AppState.get().colorNigthText;
+        return getTextColor();
     }
 
     public static int getPageMarkBgColor(int alpha) {
-        return ColorUtils.setAlphaComponent(AppState.get().isDayNotInvert ? AppState.get().colorDayBg : AppState.get().colorNigthBg, alpha);
+        return ColorUtils.setAlphaComponent(getBgColor(), alpha);
     }
 
     public static int getTextOrIconColor() {

@@ -1727,7 +1727,7 @@
                     <TextView
                         android:id="@+id/syncHeader"
                         style="@style/textSectionTitle"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/appOnPrimary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -1739,6 +1739,7 @@
                     <TextView
                         android:id="@+id/signIn"
                         style="@style/textLinkWhite"
+                        android:textColor="?attr/appOnPrimary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"

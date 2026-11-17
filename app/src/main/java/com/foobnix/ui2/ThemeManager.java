@@ -23,9 +23,42 @@ public final class ThemeManager {
         return AppState.get().appTheme == AppState.THEME_INK;
     }
 
+    public static boolean isEink(Context context) {
+        while (context instanceof android.content.ContextWrapper) {
+            if (context instanceof Activity) {
+                return com.foobnix.pdf.info.wrapper.DocumentController.isReader((Activity) context)
+                        ? readerPreset() == AppState.THEME_INK : isEink();
+            }
+            context = ((android.content.ContextWrapper) context).getBaseContext();
+        }
+        return isEink();
+    }
+
     public static int overlay() {
-        if (isEink()) return R.style.ThemeOverlay_Librera_Eink;
-        return isLight() ? R.style.ThemeOverlay_Librera_Cream : R.style.ThemeOverlay_Librera_Oled;
+        return overlay(AppState.get().appTheme);
+    }
+
+    public static int overlay(int preset) {
+        if (preset == AppState.THEME_INK) return R.style.ThemeOverlay_Librera_Eink;
+        return preset == AppState.THEME_LIGHT ? R.style.ThemeOverlay_Librera_Cream
+                : R.style.ThemeOverlay_Librera_Oled;
+    }
+
+    public static int readerPreset() {
+        int local = com.foobnix.pdf.info.model.BookCSS.get().readerTheme();
+        return local == -1 ? AppState.get().appTheme : local;
+    }
+
+    public static int readerBackgroundResource(int preset) {
+        return preset == AppState.THEME_INK ? R.color.app_eink_reader_background
+                : preset == AppState.THEME_LIGHT ? R.color.app_cream_reader_background
+                : R.color.app_oled_reader_background;
+    }
+
+    public static int readerTextResource(int preset) {
+        return preset == AppState.THEME_INK ? R.color.app_eink_on_surface
+                : preset == AppState.THEME_LIGHT ? R.color.app_cream_on_surface
+                : R.color.app_oled_on_surface;
     }
 
     public static String name() {
@@ -34,8 +67,16 @@ public final class ThemeManager {
     }
 
     public static void apply(Activity activity) {
-        activity.setTheme(isLight() ? R.style.StyledIndicatorsWhite : R.style.StyledIndicatorsBlack);
-        activity.getTheme().applyStyle(overlay(), true);
+        int preset = AppState.get().appTheme;
+        if (com.foobnix.pdf.info.wrapper.DocumentController.isReader(activity)) {
+            // Bind before inflating controls or opening a cached document, including cold starts.
+            org.ebookdroid.common.settings.SettingsManager.getBookSettings(
+                    com.foobnix.android.utils.Apps.getBookPathFromActivity(activity));
+            preset = readerPreset();
+        }
+        boolean light = preset == AppState.THEME_LIGHT || preset == AppState.THEME_INK;
+        activity.setTheme(light ? R.style.StyledIndicatorsWhite : R.style.StyledIndicatorsBlack);
+        activity.getTheme().applyStyle(overlay(preset), true);
         TintUtil.color = color(activity, R.attr.appPrimary);
     }
 
@@ -62,10 +103,8 @@ public final class ThemeManager {
         // Use palette resources, not the Activity theme that still belongs to the previous preset.
         boolean day = isLight();
         AppState.get().isDayNotInvert = day;
-        int background = activity.getColor(isEink() ? R.color.app_eink_reader_background
-                : day ? R.color.app_cream_reader_background : R.color.app_oled_reader_background);
-        int text = activity.getColor(isEink() ? R.color.app_eink_on_surface
-                : day ? R.color.app_cream_on_surface : R.color.app_oled_on_surface);
+        int background = activity.getColor(readerBackgroundResource(preset));
+        int text = activity.getColor(readerTextResource(preset));
         if (day) {
             AppState.get().colorDayBg = background;
             AppState.get().colorDayText = text;

@@ -878,6 +878,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
             if (holder.path != null) holder.path.setVisibility(View.GONE);
             if (holder.size != null) holder.size.setVisibility(View.GONE);
 
+        } else {
             int coverWidth = Dips.dpToPx(AppState.get().coverSmallSize);
             int coverHeight = (int) (coverWidth * IMG.WIDTH_DK);
 

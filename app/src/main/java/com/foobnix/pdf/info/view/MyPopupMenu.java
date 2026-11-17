@@ -147,7 +147,7 @@ public class MyPopupMenu {
                 if (TxtUtils.isNotEmpty(item.fontPath)) {
                     textView.setTypeface(BookCSS.getTypeFaceForFont(item.fontPath));
                 }
-                if (AppState.get().appTheme == AppState.THEME_INK) {
+                if (com.foobnix.ui2.ThemeManager.isEink(c)) {
                     textView.setTextColor(Color.BLACK);
                 }
 

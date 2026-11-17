@@ -10,6 +10,14 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.PopupMenu;
+import android.view.Menu;
+
+import com.foobnix.model.AppBook;
+import com.foobnix.pdf.info.model.BookCSS;
+import org.ebookdroid.common.settings.SettingsManager;
+import org.ebookdroid.common.settings.books.SharedBooks;
+import org.ebookdroid.droids.foliate.codec.FoliateDocument;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -34,11 +42,15 @@ public final class ReaderChrome {
     private final java.util.List<ImageButton> buttons = new java.util.ArrayList<>();
     private final ImageButton previous, next;
     private Runnable onAutoHide;
+    private TextView contents, fontPreset;
+    private PopupMenu presetMenu;
+    private static final int[] FONT_PRESETS = {14, 16, 18, 20, 22};
+    private static final int[] THEME_PRESETS = {AppState.THEME_LIGHT, AppState.THEME_DARK_OLED, AppState.THEME_INK};
     private final Runnable timeout = new Runnable() {
         @Override public void run() {
             AccessibilityManager accessibility = (AccessibilityManager)
                     root.getContext().getSystemService(android.content.Context.ACCESSIBILITY_SERVICE);
-            if (!root.hasWindowFocus() || seek.isPressed() || filterSeek.isPressed() || top.hasFocus() || bottom.hasFocus()
+            if (presetMenu != null || !root.hasWindowFocus() || seek.isPressed() || filterSeek.isPressed() || top.hasFocus() || bottom.hasFocus()
                     || (accessibility != null && accessibility.isTouchExplorationEnabled())) {
                 root.postDelayed(this, 5000);
             } else if (onAutoHide != null) {
@@ -77,6 +89,22 @@ public final class ReaderChrome {
         top.addView(aa, new LinearLayout.LayoutParams(dp(48), dp(48)));
         button(top, R.drawable.reader_more, R.string.menu, more);
         bottom = panel(LinearLayout.VERTICAL);
+        LinearLayout quick = new LinearLayout(root.getContext());
+        quick.setGravity(Gravity.CENTER_VERTICAL);
+        quick.setPadding(dp(8), 0, dp(8), 0);
+        contents = quickText(root.getContext().getString(R.string.content_of_book));
+        contents.setOnClickListener(v -> {
+            DragingDialogs.dialogShowContent(dc.getActivity().findViewById(R.id.anchor), dc);
+            scheduleHide();
+        });
+        quick.addView(contents, new LinearLayout.LayoutParams(0, -2, 1));
+        button(quick, R.drawable.reader_palette, R.string.settings_palettes, this::showThemePresets);
+        fontPreset = quickText("");
+        fontPreset.setMinWidth(dp(88));
+        fontPreset.setOnClickListener(this::showFontPresets);
+        quick.addView(fontPreset, new LinearLayout.LayoutParams(-2, -2));
+        bottom.addView(quick);
+        updateFontPreset();
         LinearLayout counts = new LinearLayout(root.getContext());
         counts.setPadding(dp(12), dp(8), dp(12), 0);
         progress = new TextView(root.getContext());
@@ -154,6 +182,76 @@ public final class ReaderChrome {
         setVisible(false);
     }
 
+    private TextView quickText(String text) {
+        TextView view = new TextView(root.getContext());
+        view.setText(text);
+        view.setTextSize(14);
+        view.setMinHeight(dp(48));
+        view.setGravity(Gravity.CENTER);
+        view.setPadding(dp(12), dp(8), dp(12), dp(8));
+        view.setFocusable(true);
+        view.setBackgroundResource(R.drawable.redesign_toolbar_button);
+        return view;
+    }
+
+    private void updateFontPreset() {
+        int size = BookCSS.get().fontSize(dc.getCodecDocument() instanceof FoliateDocument);
+        fontPreset.setText(size + " ▾");
+        fontPreset.setContentDescription(root.getContext().getString(R.string.font_size) + ": " + size);
+        fontPreset.setEnabled(dc.isTextFormat());
+        fontPreset.setAlpha(dc.isTextFormat() ? 1f : .5f);
+    }
+
+    private PopupMenu presetMenu(View anchor) {
+        if (presetMenu != null) presetMenu.dismiss();
+        root.removeCallbacks(timeout);
+        PopupMenu menu = new PopupMenu(root.getContext(), anchor, Gravity.END);
+        presetMenu = menu;
+        menu.setOnDismissListener(dismissed -> { presetMenu = null; scheduleHide(); });
+        return menu;
+    }
+
+    private void showThemePresets(View anchor) {
+        PopupMenu menu = presetMenu(anchor);
+        String[] labels = {"Cream", "OLED Black", "E-Ink Color"};
+        for (int i = 0; i < THEME_PRESETS.length; i++) {
+            int preset = THEME_PRESETS[i];
+            menu.getMenu().add(0, preset, i, labels[i]).setCheckable(true)
+                    .setChecked(preset == ThemeManager.readerPreset());
+        }
+        menu.getMenu().setGroupCheckable(0, true, true);
+        menu.setOnMenuItemClickListener(item -> {
+            dc.saveCurrentPageAsync();
+            AppBook book = SettingsManager.getBookSettings();
+            book.readerTheme = item.getItemId();
+            SharedBooks.save(book);
+            dc.restartActivity();
+            return true;
+        });
+        menu.show();
+    }
+
+    private void showFontPresets(View anchor) {
+        PopupMenu menu = presetMenu(anchor);
+        boolean foliate = dc.getCodecDocument() instanceof FoliateDocument;
+        for (int size : FONT_PRESETS) {
+            menu.getMenu().add(0, size, Menu.NONE, String.valueOf(size)).setCheckable(true)
+                    .setChecked(size == BookCSS.get().fontSize(foliate));
+        }
+        menu.getMenu().setGroupCheckable(0, true, true);
+        menu.setOnMenuItemClickListener(item -> {
+            dc.saveCurrentPageAsync();
+            BookCSS css = BookCSS.get();
+            AppBook book = SettingsManager.getBookSettings();
+            css.setFontSize(foliate, item.getItemId());
+            css.setAppearanceScope(book, false);
+            SharedBooks.save(book);
+            dc.restartActivity();
+            return true;
+        });
+        menu.show();
+    }
+
     private void applyFilter() {
         BrightnessHelper.updateOverlay(dc.getActivity().findViewById(R.id.overlay));
     }
@@ -213,6 +311,7 @@ public final class ReaderChrome {
         top.setVisibility(visible ? View.VISIBLE : View.GONE);
         bottom.setVisibility(visible ? View.VISIBLE : View.GONE);
         if (visible) {
+            updateFontPreset();
             filterSeek.setProgress(BrightnessHelper.blueLightAlpha());
             filterAmount.setText(BrightnessHelper.blueLightAlpha() + "%");
             filterEnabled.setChecked(BrightnessHelper.isEnableBlueFilter());
@@ -244,6 +343,8 @@ public final class ReaderChrome {
             panel.setBackground(shape);
             panel.setElevation(DocumentController.isEinkOrMode(root.getContext()) ? 0 : dp(4));
         }
+        contents.setTextColor(foreground);
+        fontPreset.setTextColor(foreground);
         title.setTextColor(foreground);
         ((TextView) top.getChildAt(3)).setTextColor(foreground);
         progress.setTextColor(success);
@@ -262,5 +363,9 @@ public final class ReaderChrome {
         seek.setProgressBackgroundTintList(ColorStateList.valueOf(track));
         seek.setThumbTintList(ColorStateList.valueOf(success));
     }
-    public void destroy() { root.removeCallbacks(timeout); root.removeOnLayoutChangeListener(layoutListener); }
+    public void destroy() {
+        if (presetMenu != null) presetMenu.dismiss();
+        root.removeCallbacks(timeout);
+        root.removeOnLayoutChangeListener(layoutListener);
+    }
 }

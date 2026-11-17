@@ -191,6 +191,10 @@ public class BookCSS {
     public String defaultAppearance;
     private transient com.foobnix.model.AppBook appearanceBook;
 
+    public int readerTheme() {
+        return appearanceBook == null ? -1 : appearanceBook.readerTheme;
+    }
+
     public void activateAppearance(com.foobnix.model.AppBook book) {
         if (appearanceBook == book) return;
         if (appearanceBook == null || appearanceBook.appearanceJson == null) {

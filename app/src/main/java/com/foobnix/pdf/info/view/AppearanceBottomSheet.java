@@ -51,7 +51,7 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
     private int themePreset;
 
     @Override public int getTheme() {
-        return ThemeManager.isEink() ? R.style.ReaderAppearanceDialog_Eink
+        return (controller != null ? ThemeManager.readerPreset() == AppState.THEME_INK : ThemeManager.isEink()) ? R.style.ReaderAppearanceDialog_Eink
                 : R.style.ReaderAppearanceDialog;
     }
 
@@ -91,7 +91,8 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent,
                              @Nullable Bundle state) {
         Context c = requireDialog().getContext();
-        c.getTheme().applyStyle(ThemeManager.overlay(), true);
+        c.getTheme().applyStyle(ThemeManager.overlay(controller == null
+                ? AppState.get().appTheme : ThemeManager.readerPreset()), true);
         LinearLayout root = column(c);
         root.setPadding(dp(20), dp(12), dp(20), dp(20));
         android.graphics.drawable.GradientDrawable surface = new android.graphics.drawable.GradientDrawable();
@@ -147,8 +148,8 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
         if (settingsDefaults) draft.applyAppearanceSnapshot(BookCSS.get().defaultAppearance);
         if (state != null) draft.applyAppearanceSnapshot(state.getString("draft"));
         defaults = settingsDefaults || state != null && state.getBoolean("defaults");
-        themePreset = state != null ? state.getInt("themePreset", AppState.get().appTheme)
-                : AppState.get().appTheme;
+        int currentTheme = settingsDefaults ? AppState.get().appTheme : ThemeManager.readerPreset();
+        themePreset = state != null ? state.getInt("themePreset", currentTheme) : currentTheme;
         ScrollView scroll = new ScrollView(c);
         LinearLayout controls = column(c);
         scroll.addView(controls);
@@ -159,9 +160,7 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
                 new String[]{"Cream", "OLED Black", "E-Ink Color"}, selectedPreset,
                 value -> themePreset = presets[value]));
         boolean typography = settingsDefaults || controller.isTextFormat();
-        if (!typography) {
-            controls.addView(label(R.string.reader_fixed_layout_appearance, 16));
-        } else {
+        {
             RadioGroup scope = new RadioGroup(c);
             RadioButton book = new RadioButton(c);
             book.setId(View.generateViewId());
@@ -177,6 +176,10 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
             scope.check(defaults ? all.getId() : book.getId());
             scope.setOnCheckedChangeListener((group, checked) -> defaults = checked == all.getId());
             if (!settingsDefaults) controls.addView(scope);
+        }
+        if (!typography) {
+            controls.addView(label(R.string.reader_fixed_layout_appearance, 16));
+        } else {
             controls.addView(slider(R.string.font_size, draft.fontSize(foliate), 10, 70,
                     value -> draft.setFontSize(foliate, value)));
             controls.addView(slider(R.string.line_spacing, draft.lineHeight(foliate), 10, 30,
@@ -207,6 +210,13 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
         Button apply = new Button(c);
         apply.setText(R.string.apply);
         apply.setMinHeight(dp(48));
+        if (currentTheme == AppState.THEME_INK) {
+            // Tint cannot fill the transparent default E-Ink button background.
+            android.graphics.drawable.GradientDrawable fill = new android.graphics.drawable.GradientDrawable();
+            fill.setColor(ThemeManager.color(c, R.attr.appPrimary));
+            fill.setCornerRadius(dp(4));
+            apply.setBackground(fill);
+        }
         apply.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
                 ThemeManager.color(c, R.attr.appPrimary)));
         apply.setTextColor(ThemeManager.color(c, R.attr.appOnPrimary));
@@ -218,15 +228,20 @@ public class AppearanceBottomSheet extends BottomSheetDialogFragment {
                 return;
             }
             controller.saveCurrentPageAsync();
+            AppBook settings = SettingsManager.getBookSettings();
+            settings.readerTheme = defaults ? -1 : themePreset;
             if (typography) {
-                AppBook settings = SettingsManager.getBookSettings();
                 BookCSS css = BookCSS.get();
                 css.applyAppearanceSnapshot(draft.appearanceSnapshot());
                 css.setAppearanceScope(settings, defaults);
-                SharedBooks.save(settings);
             }
+            SharedBooks.save(settings);
             dismiss();
-            ThemeManager.select(requireActivity(), themePreset, controller::restartActivity);
+            if (defaults) {
+                ThemeManager.select(requireActivity(), themePreset, controller::restartActivity);
+            } else {
+                controller.restartActivity();
+            }
         });
         root.addView(apply);
         return root;
