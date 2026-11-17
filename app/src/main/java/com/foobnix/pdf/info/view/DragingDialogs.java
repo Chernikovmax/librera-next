@@ -3229,6 +3229,16 @@ public class DragingDialogs {
                                                      anchor,
                                                      300,
                                                      400) {
+            @Override public void initState() {
+                View viewport = (View) anchor.getParent();
+                View popup = getView();
+                int margin = Dips.dpToPx(8);
+                popup.getLayoutParams().width = viewport.getWidth() - 2 * margin;
+                popup.getLayoutParams().height = viewport.getHeight() - 2 * margin;
+                AnchorHelper.setXY(anchor, margin, margin);
+                popup.requestLayout();
+            }
+
             @Override public View getContentView(LayoutInflater inflater) {
                 View view = inflater.inflate(R.layout.dialog_recent_books, null, false);
                 if (controller == null) {

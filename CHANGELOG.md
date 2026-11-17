@@ -6,6 +6,8 @@ Release builds: https://github.com/foobnix/LibreraReader/releases · [Unreleased
 
 ## Unreleased
 
+* Open Contents nearly fullscreen within the reader’s safe viewport on every opening, retaining corner resizing without restoring an old small popup size.
+
 * Hide reader quick controls before opening Contents in either reading mode, keeping the outline unobstructed and the controls visibility state synchronized.
 
 * Keep Contents and font quick actions compact and balanced around the palette button, with 48dp touch targets and fixed-radius pressed/focus backgrounds instead of stretched ovals.
